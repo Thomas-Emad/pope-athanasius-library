@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Forms;
+namespace App\Livewire\Forms\Dashboard;
 
 use App\Models\Author;
 use Livewire\Attributes\Validate;
@@ -19,9 +19,11 @@ class AuthorForm extends Form
         $this->validate([
             'name' => 'unique:authors,name',
         ]);
-        Author::create([
+        $author = Author::create([
             'name' => $this->name,
         ]);
+        $this->removeAttrbiutes();
+        return $author;
     }
 
     public function update()

@@ -9,6 +9,7 @@
 
 <body class="font-amiri antialiased">
     <div class="bg-gray-100">
+
         <livewire:layout.navigation />
 
         <!-- Page Content -->

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Forms;
+namespace App\Livewire\Forms\Dashboard;
 
 use App\Models\UnitShelf;
 use Livewire\Attributes\Validate;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Forms;
+namespace App\Livewire\Forms\Dashboard;
 
 use App\Models\Unit;
 use Livewire\Attributes\Validate;
@@ -24,7 +24,7 @@ class UnitForm extends Form
             'title' => 'unique:units,title',
             'number' => 'unique:units,number'
         ]);
-        Unit::create([
+        return   Unit::create([
             'title' => $this->title,
             'number' => $this->number
         ]);

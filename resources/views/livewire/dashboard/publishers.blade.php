@@ -60,7 +60,7 @@
 
                             <td class="px-6 py-4">
                                 <button wire:key="{{ $item->id }}" x-on:click="type = 'edit'"
-                                    wire:click='editpublisher({{ $item->id }})'
+                                    wire:click='editPublisher({{ $item->id }})'
                                     class="me-2 text-xl hover:text-amber-600 duration-150">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </button>
@@ -95,7 +95,7 @@
                     <i class="fa-solid fa-x hover:text-red-600 duration-150 cursor-pointer text-sm"
                         x-on:click="$dispatch('close')"></i>
                 </div>
-                <form wire:submit='savepublisher' x-show="type == 'add'" class="mt-4">
+                <form wire:submit='savePublisher' x-show="type == 'add'" class="mt-4">
                     <div class="mt-6">
                         <x-input-label for="publisher-name" value="{{ __('اسم ناشر') }}" class="sr-only" />
                         <x-text-input wire:model="publisher.name" id="publisher-name" type="text"
@@ -114,7 +114,7 @@
                         </x-button>
                     </div>
                 </form>
-                <form wire:submit='updatepublisher' x-show="type == 'edit'" class="mt-4">
+                <form wire:submit='updatePublisher' x-show="type == 'edit'" class="mt-4">
                     <div class="mt-6">
                         <x-input-label for="publisher-name" value="{{ __('اسم ناشر') }}" class="sr-only" />
                         <x-text-input wire:model="publisher.name" id="publisher-name" type="text"

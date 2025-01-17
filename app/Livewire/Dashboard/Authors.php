@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Dashboard;
 
-use App\Livewire\Forms\AuthorForm;
+use App\Livewire\Forms\Dashboard\AuthorForm;
 use App\Models\Author;
 use Livewire\Component;
 use Livewire\Attributes\Layout;

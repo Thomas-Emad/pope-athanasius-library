@@ -4,8 +4,7 @@ namespace App\Livewire\Dashboard;
 
 use Livewire\Component;
 
-use App\Livewire\Forms\ShelfForm;
-use App\Livewire\Forms\UnitForm;
+use App\Livewire\Forms\Dashboard\{UnitForm, ShelfForm};
 use App\Models\{Unit, UnitShelf};
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;

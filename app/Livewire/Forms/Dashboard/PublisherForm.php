@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Forms;
+namespace App\Livewire\Forms\Dashboard;
 
 use App\Models\Publisher;
 use Livewire\Attributes\Validate;
@@ -19,7 +19,7 @@ class PublisherForm extends Form
         $this->validate([
             'name' => 'unique:publishers,name',
         ]);
-        Publisher::create([
+        return Publisher::create([
             'name' => $this->name,
         ]);
     }

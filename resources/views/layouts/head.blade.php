@@ -10,5 +10,8 @@
 
 <link rel="stylesheet" href="{{ asset('assets/css/all.min.css') }}">
 
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
 <!-- Scripts -->
 @vite(['resources/css/app.css', 'resources/js/app.js'])

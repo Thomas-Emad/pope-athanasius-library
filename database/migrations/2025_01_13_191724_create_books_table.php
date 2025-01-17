@@ -13,10 +13,29 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('unit_id')->constrained('units')->noActionOnDelete();
+            $table->integer('code')->unique();
+
             $table->foreignId('user_id')->constrained('users')->noActionOnDelete();
+            $table->foreignId('unit_id')->constrained('units')->noActionOnDelete();
             $table->foreignId('author_id')->constrained('authors')->noActionOnDelete();
             $table->foreignId('publisher_id')->constrained('publishers')->noActionOnDelete();
+            $table->foreignId('shelf_id')->constrained('unit_shelves')->noActionOnDelete();
+
+            $table->string('title');
+            $table->text('content')->nullable();
+            $table->text('subjects')->nullable();
+
+            $table->string('series')->nullable();
+            $table->integer('copies')->default(1);
+            $table->integer('papers')->default(1);
+            $table->integer('part_number')->default(1);
+
+            $table->integer('current_unit_number')->default(1);
+            $table->integer('row')->default(1);
+            $table->integer('position_book')->default(1);
+
+            $table->string('photo')->nullable();
+            $table->string('pdf')->nullable();
 
             $table->timestamps();
         });

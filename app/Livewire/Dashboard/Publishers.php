@@ -3,7 +3,7 @@
 namespace App\Livewire\Dashboard;
 
 
-use App\Livewire\Forms\PublisherForm;
+use App\Livewire\Forms\Dashboard\PublisherForm;
 use App\Models\Publisher;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
@@ -20,21 +20,19 @@ class Publishers extends Component
 
     public $search = '';
 
-
-
-    public function savepublisher()
+    public function savePublisher()
     {
         $this->publisher->save();
         $this->dispatch('close-modal', 'publisher');
     }
 
-    public function editpublisher($id)
+    public function editPublisher($id)
     {
         $publisher = Publisher::findOrFail($id);
         $this->publisher->setAttrbiutes($id, $publisher->name);
         $this->dispatch('open-modal', 'publisher');
     }
-    public function updatepublisher()
+    public function updatePublisher()
     {
         $this->publisher->update();
         $this->dispatch('close-modal', 'publisher');
