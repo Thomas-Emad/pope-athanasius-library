@@ -63,10 +63,10 @@
                                 {{ $unit->number }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $unit->shelfs_count }}
+                                {{ $unit->books_count }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $unit->books_count }}
+                                {{ $unit->shelfs_count }}
                             </td>
                             <td class="px-6 py-4">
                                 <button wire:click='showShelfs({{ $unit->id }})'

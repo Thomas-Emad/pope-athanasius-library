@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\BookPage;
 use App\Livewire\HomePage;
 use App\Livewire\SectionsPage;
 use Illuminate\Support\Facades\Route;
@@ -14,6 +15,8 @@ Route::view('profile', 'profile')
 
 Route::get('/', HomePage::class)->name('home');
 Route::get('/sections', SectionsPage::class)->name('sections');
+Route::get('/book/{code}', BookPage::class)->name('book.show');
+
 
 Route::middleware('auth')->prefix('dashboard')->as('dashboard.')->group(function () {
     Route::get('/', Index::class)->name('index');

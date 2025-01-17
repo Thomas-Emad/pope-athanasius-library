@@ -12,6 +12,8 @@ use Livewire\Attributes\Title;
 class Books extends Component
 {
     public $search;
+    public $getMarkUpBooks = false;
+
 
     public function editBook($id)
     {
@@ -26,8 +28,14 @@ class Books extends Component
                 'author:id,name',
                 'publisher:id,name',
                 'unit:id,title'
-            ])->where('title', 'like', "%$this->search%")
-                ->orWhere('code', 'like', "%$this->search%")
+            ])
+                ->when($this->search, function ($query) {
+                    $query->where('title', 'like', "%{$this->search}%")
+                        ->orWhere('code', 'like', "%{$this->search}%");
+                })
+                ->when($this->getMarkUpBooks, function ($query) {
+                    $query->where('markup', true);
+                })
                 ->paginate(10)
         ]);
     }

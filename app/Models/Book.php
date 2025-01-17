@@ -25,6 +25,7 @@ class Book extends Model
         'position_book',
         'photo',
         'pdf',
+        'markup'
     ];
 
     public function user()

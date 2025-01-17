@@ -65,15 +65,20 @@
                     <p class="text-lg py-2"> الخلاص لم يكن ممكناً بغير الله </p>
                     <p class="text-left italic"> البابا أثناسيوس الرسولى </p>
                 </div>
-                <div class="mt-10 grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr))">
-                    <a href="#"
-                        class="bg-white shadow rounded-md overflow-hidden hover:-translate-y-2 duration-200">
-                        <img src="{{ asset('assets/images/mockup.jpg') }}" class="w-full h-56" alt="mockup book">
-                        <div class="text-center py-2">
-                            <h3 class="font-bold"> اللاهوت المقارن (الجزء الاول ) </h3>
-                            <span>البابا شنودة الثالث</span>
-                        </div>
-                    </a>
+                <div class="mt-10 grid gap-4" style="grid-template-columns: repeat(auto-fill, minmax(150px, 1fr))">
+                    @foreach ($books as $book)
+                        <a href="{{ route('book.show', $book->code) }}" wire:navigate
+                            wire:key='book-{{ $book->id }}'
+                            class="bg-white shadow rounded-md overflow-hidden hover:-translate-y-2 duration-200">
+                            <img src="{{ $book->photo ? Storage::url($book->photo) : asset('assets/images/mockup.jpg') }}"
+                                class="w-full h-56" alt="mockup book"
+                                onerror="this.onerror=null; this.src='{{ asset('assets/images/mockup.jpg') }}';">
+                            <div class="text-center px-2">
+                                <h3 class="font-bold">{{ str($book->title)->limit(20) }}</h3>
+                                <span>{{ str($book->author->name)->limit(20) }}</span>
+                            </div>
+                        </a>
+                    @endforeach
                 </div>
             </div>
             <div class="w-full md:w-1/3">
@@ -89,51 +94,15 @@
                         </button>
                     </div>
                     <div class="flex flex-col gap-4 mt-4 overflow-y-auto h-[500px] p-2 ">
-                        <a href="#"
-                            class="bg-white p-4 font-bold shadow-lg rounded-lg flex justify-between items-center hover:text-brown-max hover:-translate-y-1 duration-200">
-                            <span> البابا أثناسيوس الرسولى </span>
-                            <i class="fa-solid fa-book-bookmark"></i>
-                        </a>
-                        <a href="#"
-                            class="bg-white p-4 font-bold shadow-lg  rounded-lg flex justify-between items-center hover:text-brown-max hover:-translate-y-1 duration-200">
-                            <span> البابا أثناسيوس الرسولى </span>
-                            <i class="fa-solid fa-book-bookmark"></i>
-                        </a>
-                        <a href="#"
-                            class="bg-white p-4 font-bold shadow-lg  rounded-lg flex justify-between items-center hover:text-brown-max hover:-translate-y-1 duration-200">
-                            <span> البابا أثناسيوس الرسولى </span>
-                            <i class="fa-solid fa-book-bookmark"></i>
-                        </a>
-                        <a href="#"
-                            class="bg-white p-4 font-bold shadow-lg  rounded-lg flex justify-between items-center hover:text-brown-max hover:-translate-y-1 duration-200">
-                            <span> البابا أثناسيوس الرسولى </span>
-                            <i class="fa-solid fa-book-bookmark"></i>
-                        </a>
-                        <a href="#"
-                            class="bg-white p-4 font-bold shadow-lg  rounded-lg flex justify-between items-center hover:text-brown-max hover:-translate-y-1 duration-200">
-                            <span> البابا أثناسيوس الرسولى </span>
-                            <i class="fa-solid fa-book-bookmark"></i>
-                        </a>
-                        <a href="#"
-                            class="bg-white p-4 font-bold shadow-lg  rounded-lg flex justify-between items-center hover:text-brown-max hover:-translate-y-1 duration-200">
-                            <span> البابا أثناسيوس الرسولى </span>
-                            <i class="fa-solid fa-book-bookmark"></i>
-                        </a>
-                        <a href="#"
-                            class="bg-white p-4 font-bold shadow-lg  rounded-lg flex justify-between items-center hover:text-brown-max hover:-translate-y-1 duration-200">
-                            <span> البابا أثناسيوس الرسولى </span>
-                            <i class="fa-solid fa-book-bookmark"></i>
-                        </a>
-                        <a href="#"
-                            class="bg-white p-4 font-bold shadow-lg  rounded-lg flex justify-between items-center hover:text-brown-max hover:-translate-y-1 duration-200">
-                            <span> البابا أثناسيوس الرسولى </span>
-                            <i class="fa-solid fa-book-bookmark"></i>
-                        </a>
-                        <a href="#"
-                            class="bg-white p-4 font-bold shadow-lg   rounded-lg flex justify-between items-center hover:text-brown-max hover:-translate-y-1 duration-200">
-                            <span> البابا أثناسيوس الرسولى </span>
-                            <i class="fa-solid fa-book-bookmark"></i>
-                        </a>
+                        @forelse ($units as $unit)
+                            <a href="#" wire:key="unit-{{ $unit->id }}"
+                                class="bg-white p-4 shadow-lg rounded-lg flex justify-between items-center hover:text-brown-max hover:-translate-y-1 duration-200">
+                                <span>{{ $unit->title }}</span>
+                                <i class="fa-solid fa-book-bookmark"></i>
+                            </a>
+                        @empty
+                            <p class="italic text-center text-gray-600">لا يوجد هنا اي وحده</p>
+                        @endforelse
                     </div>
                 </div>
             </div>

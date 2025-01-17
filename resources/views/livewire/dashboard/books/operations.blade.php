@@ -192,7 +192,7 @@
                     <x-input-error :messages="$errors->get('book.photo')" class="mt-2 " />
 
                 </div>
-                <div class="mt-4">
+                <div class="mt-4 ">
                     <label class="block mb-2 text-sm font-bold text-gray-900 dark:text-white" for="pdf">ارفاق
                         نسخه من الكتاب</label>
                     <input
@@ -213,6 +213,11 @@
                         </button>
                     </div>
                 @endif
+
+                <div class="mt-4 bg-white p-2 rounded-lg border border-gray-200 shadow-lg">
+                    <x-toggle wire:model='book.markup' currentStatus="{{ $book->markup }}"
+                        label='عرض هذا الكتاب في الصفحه الرئيسيه' />
+                </div>
             </div>
         </form>
     </div>

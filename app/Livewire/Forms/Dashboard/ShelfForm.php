@@ -23,7 +23,7 @@ class ShelfForm extends Form
         $this->validate();
 
         $this->validate([
-            'title' => 'unique:units,title',
+            'title' => 'unique:unit_shelves,title',
             'number' => 'unique:unit_shelves,number'
         ]);
         UnitShelf::create([

@@ -11,7 +11,7 @@ class BookForm extends Form
 {
     public $id;
     public $code, $title, $unit, $shelf, $series, $publisher, $author, $subjects, $content, $copies, $part_number,
-        $papers, $current_unit_number, $row, $position_book;
+        $papers, $current_unit_number, $row, $position_book, $markup;
 
     public $photo, $pdf, $oldPhoto, $oldPdf;
 
@@ -38,6 +38,7 @@ class BookForm extends Form
         $this->position_book = $book->position_book;
         $this->oldPhoto = $book->photo;
         $this->oldPdf = $book->pdf;
+        $this->markup = $book->markup;
     }
 
     /**
@@ -63,6 +64,7 @@ class BookForm extends Form
             'position_book' => ['required', 'integer', 'min:1'],
             'photo' => ['nullable', 'image', 'max:2048'],
             'pdf' => ['nullable', 'file', 'mimes:pdf', 'max:10240'],
+            'markup' => ['boolean'],
         ];
     }
 
@@ -129,6 +131,7 @@ class BookForm extends Form
             'position_book' => $this->position_book,
             'photo' => $this->photo ? $this->photo->store('book/photos', 'public') : null,
             'pdf' => $this->pdf ? $this->pdf->store('book/pdfs', 'public') : null,
+            'markup' => $this->markup,
         ]);
     }
 
@@ -163,6 +166,7 @@ class BookForm extends Form
             'position_book' => $this->position_book,
             'photo' => $this->uploadAttachment($this->oldPhoto, $this->photo, 'book/photos'),
             'pdf' => $this->uploadAttachment($this->oldPdf, $this->pdf, 'book/pdfs'),
+            'markup' => $this->markup,
         ]);
     }
 
