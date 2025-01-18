@@ -20,7 +20,7 @@ new class extends Component {
         $this->redirectRoute('search', ['search' => $this->book], navigate: true);
     }
 }; ?>
-<div>
+<div class="font-serif">
     <nav x-data="{ open: false, toggleBar: false }" class="bg-brown-max rounded-bl-lg rounded-br-lg">
         <div class="container max-w-full  relative">
             <div class="py-4 px-10 flex justify-between gap-4 items-center">

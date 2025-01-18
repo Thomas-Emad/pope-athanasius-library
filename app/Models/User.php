@@ -55,6 +55,6 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return auth()->check() && in_array(auth()->user()->role->value, ['owner', 'admin']);
+        return  in_array(auth()->user()->role->value, ['owner', 'admin']);
     }
 }

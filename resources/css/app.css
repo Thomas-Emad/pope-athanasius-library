@@ -4,7 +4,7 @@
 
     @font-face {
         font-family: 'Amiri';
-        src: url('../fonts/Amiri/Amiri-Regular.ttf') format('ttf');
+        src: url('../fonts/Amiri/Amiri-Regular.ttf') format('truetype');
         font-weight: 400;
         font-style: normal;
     }
@@ -12,7 +12,7 @@
     @font-face {
         font-family: 'Amiri';
         src:
-            url('../fonts/Amiri/Amiri-Bold.ttf') format('ttf');
+            url('../fonts/Amiri/Amiri-Bold.ttf') format('truetype');
         font-weight: 700;
         font-style: normal;
     }
@@ -20,7 +20,7 @@
     @font-face {
         font-family: 'Amiri';
         src:
-            url('../fonts/Amiri/Amiri-Italic.ttf') format('ttf');
+            url('../fonts/Amiri/Amiri-Italic.ttf') format('truetype');
         font-weight: 400;
         font-style: italic;
     }
@@ -28,7 +28,7 @@
     @font-face {
         font-family: 'Amiri';
         src:
-            url('../fonts/Amiri/Amiri-BoldItalic.ttf') format('ttf');
+            url('../fonts/Amiri/Amiri-BoldItalic.ttf') format('truetype');
         font-weight: 700;
         font-style: italic;
     }

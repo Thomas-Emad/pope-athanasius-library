@@ -14,8 +14,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
-                amiri: ['Amiri', ...defaultTheme.fontFamily.sans],
+                amiri: ['Amiri',  'serif'],
             },
             colors: {
                 brown: {

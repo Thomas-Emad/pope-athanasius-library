@@ -3,9 +3,10 @@
 use Illuminate\Support\Facades\Password;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
+use Livewire\Attributes\Title;
 
-new #[Layout('layouts.guest')] class extends Component
-{
+new #[Layout('layouts.guest')] class extends Component {
+    #[Title('نسيت كلمة المرور')]
     public string $email = '';
 
     /**
@@ -20,9 +21,7 @@ new #[Layout('layouts.guest')] class extends Component
         // We will send the password reset link to this user. Once we have attempted
         // to send the link, we will examine the response then see the message we
         // need to show to the user. Finally, we'll send out a proper response.
-        $status = Password::sendResetLink(
-            $this->only('email')
-        );
+        $status = Password::sendResetLink($this->only('email'));
 
         if ($status != Password::RESET_LINK_SENT) {
             $this->addError('email', __($status));
@@ -36,26 +35,39 @@ new #[Layout('layouts.guest')] class extends Component
     }
 }; ?>
 
-<div>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
-    </div>
+<div class="w-[95%] md:w-1/2 mt-6 px-6 py-6 bg-white shadow-md rounded-lg mx-auto">
 
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <form wire:submit="sendPasswordResetLink">
+        <a href="/" class="block" wire:navigate>
+            <img src="{{ asset('assets/images/logo.png') }}" class="mx-auto w-24" alt="logo">
+        </a>
+        <h1 class="text-4xl text-center my-2">هل نسيت كلمة المرور؟!</h1>
         <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input wire:model="email" id="email" class="block mt-1 w-full" type="email" name="email" required autofocus />
+            <x-input-label for="email" :value="__('البريد الالكتروني')" />
+            <x-text-input wire:model="email" id="email" class="block mt-1 w-full" type="email" name="email"
+                required autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Email Password Reset Link') }}
-            </x-primary-button>
+        <div>
+            <x-button class="py-4 mt-4 text-center text-sm w-full bg-brown-max hover:bg-brown-lite duration-200">
+                {{ __('تعين كلمة مرور جديده') }}
+            </x-button>
         </div>
+
+        <hr class="block w-2/3 mx-auto my-4">
+
+        <p class="text-center">
+            <span>
+                اتريد تسجيل دخولك؟
+            </span>
+            <a href="{{ route('login') }}" wire:navigate class="text-brown-max">
+                هنا
+            </a>
+        </p>
     </form>
 </div>

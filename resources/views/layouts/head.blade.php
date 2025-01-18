@@ -5,14 +5,10 @@
 <!-- prettier-ignore -->
 <title>{{ ($title ) . ' | ' . config('app.name', 'Laravel') }}</title>
 
-<!-- Fonts -->
-<link rel="preconnect" href="https://fonts.bunny.net">
-<link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
 <link rel="stylesheet" href="{{ asset('assets/css/all.min.css') }}">
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
+<link rel="shortcut icon" href="{{ asset('assets/images/logo.png') }}" type="image/x-icon">
 
 <!-- Scripts -->
 @vite(['resources/css/app.css', 'resources/js/app.js'])

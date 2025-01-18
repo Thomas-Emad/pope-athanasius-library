@@ -1,9 +1,9 @@
 <div class="text-gray-900">
     <div class="bg-brown-lite flex items-center justify-center px-2 py-20 text-center">
-        <div class="w-3/4">
+        <div class="w-full md:w-3/4">
             <div class="text-gray-900">
-                <h1 class="font-bold text-4xl mb-2">مكتبة البابا أثناسيوس للاطلاع</h1>
-                <p class="italic text-2xl">كنيسة الشهيد العظيم مارمينا والبابا كيرلس السادس</p>
+                <h1 class="font-bold text-4xl mb-4">مكتبة البابا أثناسيوس للاطلاع</h1>
+                <p class="italic text-3xl">كنيسة الشهيد العظيم مارمينا والبابا كيرلس السادس</p>
             </div>
             <div class="w-full my-4 relative">
                 <div class="absolute inset-y-0 right-2 flex items-center justify-center z-10">
@@ -18,17 +18,17 @@
                     </button>
                 </div>
             </div>
-            <div class="text-white flex items-center gap-2 justify-center">
+            <div class="text-white flex flex-col md:flex-row items-center gap-2 justify-center">
                 <a href="{{ route('search', ['orderBy' => 'new']) }}" wire:navigate
-                    class="py-2 px-8 border border-white hover:bg-brown-max hover:border-transparent hover:shadow-md duration-200 rounded-lg">
+                    class="block w-full md:w-fit py-2 px-8 border border-white hover:bg-brown-max hover:border-transparent hover:shadow-md duration-200 rounded-lg">
                     أحدث الكتب
                 </a>
                 <a href="{{ route('search', ['orderBy' => 'top_views']) }}" wire:navigate
-                    class="py-2 px-8 border border-white hover:bg-brown-max hover:border-transparent hover:shadow-md duration-200 rounded-lg">
+                    class="block w-full md:w-fit py-2 px-8 border border-white hover:bg-brown-max hover:border-transparent hover:shadow-md duration-200 rounded-lg">
                     أكثر الكتب اطلاعًا
                 </a>
                 <a href="{{ route('search', ['orderBy' => 'old']) }}" wire:navigate
-                    class="py-2 px-8 border border-white hover:bg-brown-max hover:border-transparent hover:shadow-md duration-200 rounded-lg">
+                    class="block w-full md:w-fit py-2 px-8 border border-white hover:bg-brown-max hover:border-transparent hover:shadow-md duration-200 rounded-lg">
                     أقدم الكتب
                 </a>
             </div>
@@ -93,9 +93,10 @@
                             <i class="fa-solid fa-magnifying-glass text-2xl"></i>
                         </button>
                     </div>
-                    <div class="flex flex-col gap-4 mt-4 overflow-y-auto h-[500px] p-2 ">
+                    <div class="flex flex-col gap-4 mt-4 overflow-y-auto h-fit md:h-[500px] p-2 ">
                         @forelse ($units as $unit)
-                            <a href="#" wire:key="unit-{{ $unit->id }}"
+                            <a href="{{ route('search', ['search' => $unit->title]) }}" wire:navigate
+                                wire:key="unit-{{ $unit->id }}"
                                 class="bg-white p-4 shadow-lg rounded-lg flex justify-between items-center hover:text-brown-max hover:-translate-y-1 duration-200">
                                 <span>{{ $unit->title }}</span>
                                 <i class="fa-solid fa-book-bookmark"></i>

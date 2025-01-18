@@ -1,7 +1,7 @@
 <div>
     <div x-data="{ showFilter: false }"
         class="relative container px-10 py-4  max-w-full bg-brown-lite min-h-72 flex justify-center items-center flex-col">
-        <div class="text-gray-900">
+        <div class="text-gray-900 text-center">
             <h1 class="font-bold text-4xl mb-2">مكتبة البابا أثناسيوس للاطلاع</h1>
             <p class="italic text-2xl">كنيسة الشهيد العظيم مارمينا والبابا كيرلس السادس</p>
         </div>
@@ -52,7 +52,7 @@
             </div>
         </div>
     </div>
-    <div class="container px-10 max-w-full mt-2 ">
+    <div class="container px-10 max-w-full my-2 ">
         <h2 class="font-bold text-xl my-4">هذا نتيجة البحث:</h2>
         <div class="mb-4">
             <div class="grid gap-4 " style="grid-template-columns: repeat(auto-fill, minmax(150px, 1fr))">
