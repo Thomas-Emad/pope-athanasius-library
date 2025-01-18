@@ -23,7 +23,7 @@
                     class="py-2 px-8 border border-white hover:bg-brown-max hover:border-transparent hover:shadow-md duration-200 rounded-lg">
                     أحدث الكتب
                 </a>
-                <a href="{{ route('search', ['orderBy' => 'top_watches']) }}" wire:navigate
+                <a href="{{ route('search', ['orderBy' => 'top_views']) }}" wire:navigate
                     class="py-2 px-8 border border-white hover:bg-brown-max hover:border-transparent hover:shadow-md duration-200 rounded-lg">
                     أكثر الكتب اطلاعًا
                 </a>

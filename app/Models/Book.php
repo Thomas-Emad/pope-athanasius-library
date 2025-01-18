@@ -25,7 +25,8 @@ class Book extends Model
         'position_book',
         'photo',
         'pdf',
-        'markup'
+        'markup',
+        'views'
     ];
 
     public function user()
@@ -54,7 +55,7 @@ class Book extends Model
         return match ($orderBy) {
             'new' => $query->latest(),
             'old' => $query->oldest(),
-            'top_watches' => $query->orderBy('watches', 'desc'),
+            'top_views' => $query->orderBy('views', 'asc'),
         };
     }
 }

@@ -47,7 +47,7 @@
                 <x-select id="orderBy" wire:model.change='orderBy' class="mt-4 cursor-pointer">
                     <option value="new">أحدث الكتب اولا</option>
                     <option value="old">أقدم الكتب اولا</option>
-                    <option value="top_watched">الكتب ألاكثر مشاهده</option>
+                    <option value="top_views">الكتب ألاكثر مشاهده</option>
                 </x-select>
             </div>
         </div>

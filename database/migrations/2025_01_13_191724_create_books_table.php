@@ -37,6 +37,7 @@ return new class extends Migration
             $table->string('photo')->nullable();
             $table->string('pdf')->nullable();
 
+            $table->integer('views')->default(0);
             $table->boolean('markup')->default(true);
 
             $table->timestamps();
