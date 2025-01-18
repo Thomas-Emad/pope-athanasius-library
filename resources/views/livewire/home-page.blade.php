@@ -9,27 +9,27 @@
                 <div class="absolute inset-y-0 right-2 flex items-center justify-center z-10">
                     <i class="fa-solid fa-magnifying-glass text-brown-max"></i>
                 </div>
-                <input type="text" placeholder="أكتب هنا اسم الكتاب..."
+                <input wire:model='book' type="text" placeholder="أكتب هنا اسم الكتاب..."
                     class="py-4 px-8 border-none outline-none rounded-xl w-full focus:ring-brown-max">
                 <div class="absolute inset-y-0 left-2 flex items-center justify-center  z-10">
-                    <button
+                    <button type="button" wire:click='search'
                         class="text-sm py-2 px-4 bg-brown-lite rounded-md text-white duration-200 hover:bg-brown-max">
                         أبحث
                     </button>
                 </div>
             </div>
             <div class="text-white flex items-center gap-2 justify-center">
-                <a href="#"
+                <a href="{{ route('search', ['orderBy' => 'new']) }}" wire:navigate
                     class="py-2 px-8 border border-white hover:bg-brown-max hover:border-transparent hover:shadow-md duration-200 rounded-lg">
                     أحدث الكتب
                 </a>
-                <a href="#"
+                <a href="{{ route('search', ['orderBy' => 'top_watches']) }}" wire:navigate
                     class="py-2 px-8 border border-white hover:bg-brown-max hover:border-transparent hover:shadow-md duration-200 rounded-lg">
-                    أحدث الكتب
+                    أكثر الكتب اطلاعًا
                 </a>
-                <a href="#"
+                <a href="{{ route('search', ['orderBy' => 'old']) }}" wire:navigate
                     class="py-2 px-8 border border-white hover:bg-brown-max hover:border-transparent hover:shadow-md duration-200 rounded-lg">
-                    أحدث الكتب
+                    أقدم الكتب
                 </a>
             </div>
         </div>
@@ -40,7 +40,7 @@
             <div
                 class="w-full md:w-1/3 flex flex-col gap-2 items-center opacity-70 hover:opacity-100 duration-300 cursor-pointer">
                 <img src="{{ asset('assets/images/Bookshelf.png') }}" class="w-20" alt="books icon">
-                <span class="font-bold text-4xl"> 4 كتاب </span>
+                <span class="font-bold text-4xl"> {{ $counter['books'] }} كتاب </span>
                 <p>آلاف الكتب المنشورة على مكتبة البابا أثناسيوس للاطلاع</p>
             </div>
             <div class="flex flex-col gap-2 items-center my-4">
@@ -49,7 +49,7 @@
             <div
                 class="w-full md:w-1/3 flex flex-col gap-2 items-center opacity-70 hover:opacity-100 duration-300 cursor-pointer">
                 <img src="{{ asset('assets/images/books.png') }}" class="w-20" alt="books icon">
-                <span class="font-bold text-4xl"> 4 مؤلف </span>
+                <span class="font-bold text-4xl"> {{ $counter['authors'] }} مؤلف </span>
                 <p>تهدف مكتبة البابا أثناسيوس إلى نشر المعرفة والعلم الذي تورثناء الي الجميع </p>
             </div>
         </div>

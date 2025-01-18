@@ -14,6 +14,11 @@ new class extends Component {
 
         $this->redirect('/', navigate: true);
     }
+
+    public function search()
+    {
+        $this->redirectRoute('search', ['search' => $this->book], navigate: true);
+    }
 }; ?>
 <div>
     <nav x-data="{ open: false, toggleBar: false }" class="bg-brown-max rounded-bl-lg rounded-br-lg">
@@ -163,7 +168,8 @@ new class extends Component {
                     {{ __('الغاء') }}
                 </x-secondary-button>
 
-                <x-button class="ms-3 bg-brown-lite hover:bg-brown-max active:bg-brown-max focus:ring-brown-max">
+                <x-button type="button" wire:click="search"
+                    class="ms-3 bg-brown-lite hover:bg-brown-max active:bg-brown-max focus:ring-brown-max">
                     {{ __('بحث...') }}
                 </x-button>
             </div>

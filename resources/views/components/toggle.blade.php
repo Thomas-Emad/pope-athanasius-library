@@ -1,5 +1,5 @@
 @props(['label', 'currentStatus' => false])
-<label class="inline-flex items-center cursor-pointer">
+<label class="inline-flex justify-between items-center cursor-pointer">
     <span class="me-3 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $label }}</span>
     <input type="checkbox" {{ $attributes }} @checked($currentStatus) class="sr-only peer">
     <div

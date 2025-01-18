@@ -6,6 +6,7 @@ use App\Livewire\SectionsPage;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Dashboard\{Index, Units, Authors, Publishers};
 use App\Livewire\Dashboard\Books\{Books, Operations};
+use App\Livewire\SearchPage;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -16,6 +17,8 @@ Route::view('profile', 'profile')
 Route::get('/', HomePage::class)->name('home');
 Route::get('/sections', SectionsPage::class)->name('sections');
 Route::get('/book/{code}', BookPage::class)->name('book.show');
+Route::get('/search', SearchPage::class)->name('search');
+
 
 
 Route::middleware('auth')->prefix('dashboard')->as('dashboard.')->group(function () {

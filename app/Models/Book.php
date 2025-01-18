@@ -48,4 +48,13 @@ class Book extends Model
     {
         return $this->belongsTo(Publisher::class);
     }
+
+    public function scopeOrderBooksBy($query, $orderBy)
+    {
+        return match ($orderBy) {
+            'new' => $query->latest(),
+            'old' => $query->oldest(),
+            'top_watches' => $query->orderBy('watches', 'desc'),
+        };
+    }
 }
