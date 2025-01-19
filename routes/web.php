@@ -4,7 +4,7 @@ use App\Livewire\BookPage;
 use App\Livewire\HomePage;
 use App\Livewire\SectionsPage;
 use Illuminate\Support\Facades\Route;
-use App\Livewire\Dashboard\{Index, Units, Authors, Publishers};
+use App\Livewire\Dashboard\{Index, Units, Authors, Publishers, WordDaily};
 use App\Livewire\Dashboard\Books\{Books, Operations};
 use App\Livewire\SearchPage;
 use Illuminate\Support\Facades\Storage;
@@ -29,6 +29,7 @@ Route::middleware('auth')->prefix('dashboard')->as('dashboard.')->group(function
     Route::get('/books', Books::class)->name('books');
     Route::get('/books/create', Operations::class)->name('books.create');
     Route::get('/books/edit/{id}', Operations::class)->name('books.edit');
+    Route::get('/word-daily', WordDaily::class)->name('words');
 });
 
 

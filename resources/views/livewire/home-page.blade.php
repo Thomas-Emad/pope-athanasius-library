@@ -62,8 +62,12 @@
                         <i class="fa-solid fa-cross"></i>
                         <span>كلمة اليوم</span>
                     </h2>
-                    <p class="text-lg py-2"> الخلاص لم يكن ممكناً بغير الله </p>
-                    <p class="text-left italic"> البابا أثناسيوس الرسولى </p>
+                    @if (!empty($wordToday))
+                        <p class="text-lg py-2">{{ $wordToday->content }}</p>
+                        <p class="text-left italic">{{ $wordToday->said }}</p>
+                    @else
+                        <p class="text-lg text-center">ليس هناك اي كلمه لهذا اليوم</p>
+                    @endif
                 </div>
                 <div class="mt-10 grid gap-4" style="grid-template-columns: repeat(auto-fill, minmax(150px, 1fr))">
                     @foreach ($books as $book)

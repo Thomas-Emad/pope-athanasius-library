@@ -116,8 +116,8 @@
                 </form>
                 <form wire:submit='updatePublisher' x-show="type == 'edit'" class="mt-4">
                     <div class="mt-6">
-                        <x-input-label for="publisher-name" value="{{ __('اسم ناشر') }}" class="sr-only" />
-                        <x-text-input wire:model="publisher.name" id="publisher-name" type="text"
+                        <x-input-label for="edit-publisher-name" value="{{ __('اسم ناشر') }}" class="sr-only" />
+                        <x-text-input wire:model="publisher.name" id="edit-publisher-name" type="text"
                             class="mt-1 block w-full" placeholder="{{ __('اكتب هنا اسم ناشر') }}" />
                         <x-input-error :messages="$errors->get('publisher.name')" class="mt-2" />
                     </div>
