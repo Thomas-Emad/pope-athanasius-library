@@ -11,50 +11,55 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+  /** @use HasFactory<\Database\Factories\UserFactory> */
+  use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'phone',
-        'role',
-        'brith_day'
+  /**
+   * The attributes that are mass assignable.
+   *
+   * @var list<string>
+   */
+  protected $fillable = [
+    'name',
+    'email',
+    'password',
+    'phone',
+    'role',
+    'brith_day'
+  ];
+
+  /**
+   * The attributes that should be hidden for serialization.
+   *
+   * @var list<string>
+   */
+  protected $hidden = [
+    'password',
+    'remember_token',
+  ];
+
+  /**
+   * Get the attributes that should be cast.
+   *
+   * @return array<string, string>
+   */
+  protected function casts(): array
+  {
+    return [
+      'email_verified_at' => 'datetime',
+      'brith_day' => 'date',
+      'password' => 'hashed',
+      'role' => RoleUserEnum::class
     ];
+  }
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+  public function isAdmin()
+  {
+    return  in_array(auth()->user()->role->value, ['owner', 'admin']);
+  }
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'brith_day' => 'date',
-            'password' => 'hashed',
-            'role' => RoleUserEnum::class
-        ];
-    }
-
-    public function isAdmin()
-    {
-        return  in_array(auth()->user()->role->value, ['owner', 'admin']);
-    }
+  public function isOwner()
+  {
+    return  auth()->user()->role->value == 'owner';
+  }
 }
