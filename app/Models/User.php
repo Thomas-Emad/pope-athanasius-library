@@ -53,7 +53,7 @@ class User extends Authenticatable
     ];
   }
 
-  public function isAdmin()
+  public function canAccess()
   {
     return  in_array(auth()->user()->role->value, ['owner', 'admin']);
   }

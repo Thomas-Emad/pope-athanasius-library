@@ -4,8 +4,9 @@ use App\Livewire\BookPage;
 use App\Livewire\HomePage;
 use App\Livewire\SectionsPage;
 use Illuminate\Support\Facades\Route;
-use App\Livewire\Dashboard\{Index, Units, Authors, Publishers, User, WordDaily};
+use App\Livewire\Dashboard\{Index, Units, Authors, Post, Publishers, User, WordDaily};
 use App\Livewire\Dashboard\Books\{Books, Operations};
+use App\Livewire\PostPage;
 use App\Livewire\SearchPage;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,6 +19,8 @@ Route::get('/', HomePage::class)->name('home');
 Route::get('/sections', SectionsPage::class)->name('sections');
 Route::get('/book/{code}', BookPage::class)->name('book.show');
 Route::get('/search', SearchPage::class)->name('search');
+Route::get('/posts', PostPage::class)->name('posts');
+
 
 
 Route::middleware(['auth', 'canAccess:owner,admin'])->prefix('dashboard')->as('dashboard.')->group(function () {
@@ -31,6 +34,7 @@ Route::middleware(['auth', 'canAccess:owner,admin'])->prefix('dashboard')->as('d
     Route::get('/publishers', Publishers::class)->name('publishers');
     Route::get('/word-daily', WordDaily::class)->name('words');
     Route::get('/users', User::class)->name('users');
+    Route::get('/posts', Post::class)->name('posts');
   });
 });
 

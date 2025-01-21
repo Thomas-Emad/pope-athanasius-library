@@ -25,7 +25,8 @@
                         <x-link-dashboard link="{{ route('dashboard.units') }}" label="اقسام الكتب" :isActive="Route::is('dashboard.units')"
                             icon="fa-solid fa-book-bible" />
                         @if (auth()->check() && auth()->user()->isOwner())
-                            <x-link-dashboard link="#" label="المنشورات" icon="fa-solid fa-newspaper" />
+                            <x-link-dashboard link="{{ route('dashboard.posts') }}" label="المنشورات"
+                                icon="fa-solid fa-newspaper" :isActive="Route::is('dashboard.posts')" />
                             <x-link-dashboard link="{{ route('dashboard.users') }}" label="المستخدمين" :isActive="Route::is('dashboard.users')"
                                 icon="fa-solid fa-users-gear" />
                         @endif

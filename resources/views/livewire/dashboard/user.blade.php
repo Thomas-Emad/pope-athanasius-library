@@ -1,16 +1,10 @@
-<di x-data="{ id: '', username: '', email: '', role: '' }">
+<div>
     <div>
         <div class="flex justify-between items-center gap-2 mb-8">
             <h1 class="font-bold text-2xl pb-2 border-b-4 border-b-brown-max">
                 <i class="fa-solid fa-book-bible me-2"></i>
                 <span>المستخدمين</span>
             </h1>
-            <div>
-                <button x-on:click="type = 'add'" x-on:click.prevent="$dispatch('open-modal', 'word-daily')"
-                    class="text-white font-bold bg-brown-max py-2 px-4 rounded-lg hover:bg-brown-lite duration-200">
-                    <i class="fa-solid fa-plus"></i>
-                </button>
-            </div>
         </div>
 
         <div class="relative overflow-x-auto sm:rounded-lg">
@@ -148,8 +142,9 @@
                             {{ __('الغاء') }}
                         </x-secondary-button>
 
-                        <x-button
+                        <x-button wire:loading.attr="disabled"
                             class="ms-3 bg-brown-lite hover:bg-brown-max active:bg-brown-max focus:ring-brown-max">
+                            <x-loader wire:loading />
                             {{ __('تحديث') }}
                         </x-button>
                     </div>
@@ -212,4 +207,4 @@
             </div>
         </x-modal>
     </div>
-</di>
+</div>

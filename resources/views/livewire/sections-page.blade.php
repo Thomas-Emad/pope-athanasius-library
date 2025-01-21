@@ -5,7 +5,7 @@
                 <i class="fa-solid fa-book-medical"></i>
                 <span> أقسام الكتب </span>
             </h1>
-            @if (auth()->check() && auth()->user()->isAdmin())
+            @if (auth()->check() && auth()->user()->canAccess())
                 <div>
                     <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'add-units')"
                         class="text-white font-bold bg-brown-max py-2 px-4 rounded-lg hover:bg-brown-lite duration-200">
@@ -21,7 +21,7 @@
                     class="bg-white p-4  rounded-lg shadow hover:-translate-y-1 duration-200 h-fit w-full md:w-1/2 lg:w-1/3">
                     <div class="flex justify-between gap-2 items-center">
                         <span class=" text-lg flex gap-2 items-center">
-                            @if (auth()->check() && auth()->user()->isAdmin())
+                            @if (auth()->check() && auth()->user()->canAccess())
                                 <span wire:click='editUnit({{ $unit->id }})'
                                     class="me-2 hover:text-amber-600 duration-150">
                                     <i class="fa-solid fa-pen-to-square"></i>
@@ -39,7 +39,7 @@
                             <a href="{{ route('search', ['search' => $shelf->title]) }}" wire:navigate
                                 class="p-2 rounded-lg flex justify-between gap-2 items-center bg-gray-100 hover:bg-slate-200 duration-200">
                                 <span class=" text-lg flex gap-2 items-center">
-                                    @if (auth()->check() && auth()->user()->isAdmin())
+                                    @if (auth()->check() && auth()->user()->canAccess())
                                         <span wire:click='editShelf({{ $shelf->id }})'
                                             class="me-2 hover:text-amber-600 duration-150">
                                             <i class="fa-solid fa-pen-to-square"></i>

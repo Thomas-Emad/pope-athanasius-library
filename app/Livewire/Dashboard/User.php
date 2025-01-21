@@ -8,11 +8,13 @@ use App\Models\User as UserModel;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
+use Livewire\WithPagination;
 
 #[Title('المستخدمين')]
 #[Layout('layouts.dashboard')]
 class User extends Component
 {
+  use  WithPagination;
   #[Url()]
   public ?string $search = '';
   public bool $showOnlyMain = false;

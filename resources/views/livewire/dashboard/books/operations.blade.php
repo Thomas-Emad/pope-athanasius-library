@@ -190,7 +190,6 @@
                     <input type="file" id="photo" class="hidden" accept="image/png,image/jpg,image/jpeg"
                         wire:model='book.photo'>
                     <x-input-error :messages="$errors->get('book.photo')" class="mt-2 " />
-
                 </div>
                 <div class="mt-4 ">
                     <label class="block mb-2 text-sm font-bold text-gray-900 dark:text-white" for="pdf">ارفاق

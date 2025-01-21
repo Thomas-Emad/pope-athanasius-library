@@ -45,7 +45,7 @@ new class extends Component {
                             </a>
                         </li>
                         <li>
-                            <a href="#" wire:navigate
+                            <a href="{{ route('posts') }}" wire:navigate
                                 class="hover:text-gray-800 hover:border-gray-800 duration-200">
 
                                 <i class="fa-solid fa-envelopes-bulk"></i>
@@ -80,11 +80,23 @@ new class extends Component {
                                 </x-slot>
 
                                 <x-slot name="content">
-                                    @if (auth()->user()->isAdmin())
+                                    @if (auth()->user()->canAccess())
                                         <x-dropdown-link :href="route('dashboard.index')" wire:navigate>
                                             لوحة التحكم
                                         </x-dropdown-link>
+                                        <x-dropdown-link :href="route('profile')" wire:navigate>
+                                            أضافه كتاب جديد
+                                        </x-dropdown-link>
+                                        <hr class="block w-[75%] mx-auto bg-gray-600">
+                                        <x-dropdown-link :href="route('dashboard.users')" wire:navigate>
+                                            المستخدمين
+                                        </x-dropdown-link>
+                                        <hr class="block w-[75%] mx-auto bg-gray-600">
+                                        <x-dropdown-link :href="route('dashboard.words')" wire:navigate>
+                                            كلمة اليوم
+                                        </x-dropdown-link>
                                     @endif
+
                                     <x-dropdown-link :href="route('profile')" wire:navigate>
                                         الملف الشخصي
                                     </x-dropdown-link>
