@@ -8,45 +8,45 @@ use Livewire\Form;
 
 class AuthorForm extends Form
 {
-    public $id;
+  public $id;
 
-    #[Validate("required|min:3|max:255", as: 'اسم مؤلف')]
-    public $name = '';
+  #[Validate("required|min:3|max:255", as: 'اسم مؤلف')]
+  public $name = '';
 
-    public function save()
-    {
-        $this->validate();
-        $this->validate([
-            'name' => 'unique:authors,name',
-        ]);
-        $author = Author::create([
-            'name' => $this->name,
-        ]);
-        $this->removeAttrbiutes();
-        return $author;
-    }
+  public function save()
+  {
+    $this->validate();
+    $this->validate([
+      'name' => 'unique:authors,name',
+    ]);
+    $author = Author::create([
+      'name' => $this->name,
+    ]);
+    $this->removeAttrbiutes();
+    return $author;
+  }
 
-    public function update()
-    {
-        $this->validate();
+  public function update()
+  {
+    $this->validate();
 
-        $author = Author::findOrFail($this->id);
-        $this->validate([
-            'name' => 'unique:authors,name,' . $this->id,
-        ]);
-        $author->update([
-            'name' => $this->name,
-        ]);
-    }
+    $author = Author::findOrFail($this->id);
+    $this->validate([
+      'name' => 'unique:authors,name,' . $this->id,
+    ]);
+    $author->update([
+      'name' => $this->name,
+    ]);
+  }
 
-    public function setAttrbiutes($id, $name)
-    {
-        $this->id = $id;
-        $this->name = $name;
-    }
+  public function setAttrbiutes($id, $name)
+  {
+    $this->id = $id;
+    $this->name = $name;
+  }
 
-    public function removeAttrbiutes()
-    {
-        $this->reset();
-    }
+  public function removeAttrbiutes()
+  {
+    $this->reset();
+  }
 }

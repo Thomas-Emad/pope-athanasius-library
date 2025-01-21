@@ -2,14 +2,12 @@
 
 namespace App\Livewire\Forms\Dashboard;
 
-use Livewire\Attributes\Validate;
 use Livewire\Form;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
 use App\Traits\UpdateAttachmentTrait;
 use Illuminate\Support\Facades\Storage;
 
-class PostFrom extends Form
+class PostForm extends Form
 {
   use UpdateAttachmentTrait;
 

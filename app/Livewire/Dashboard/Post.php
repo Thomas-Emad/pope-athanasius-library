@@ -2,15 +2,11 @@
 
 namespace App\Livewire\Dashboard;
 
-use App\Livewire\Forms\Dashboard\PostFrom;
-use Livewire\Component;
 use App\Models\Post as PostModel;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
-use Livewire\Attributes\Url;
-use Livewire\WithFileUploads;
-use Livewire\WithPagination;
+use App\Livewire\Forms\Dashboard\PostForm;
 use App\Livewire\Forms\Dashboard\Post\UpdateForm;
+use Livewire\Attributes\{Title, Layout, Url};
+use Livewire\{Component, WithFileUploads, WithPagination};
 
 #[Title('المنشورات')]
 #[Layout('layouts.dashboard')]
@@ -21,7 +17,7 @@ class Post extends Component
   #[Url]
   public string $search = '';
   public bool $showOnlyMarkup = false;
-  public PostFrom $post;
+  public PostForm $post;
   public UpdateForm $update;
 
 

@@ -2,10 +2,10 @@
 
 namespace App\Livewire\Forms\Dashboard\Post;
 
-use Livewire\Attributes\Validate;
-use Livewire\Form;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
+use Livewire\Form;
+use Livewire\Attributes\Validate;
+use Illuminate\Support\Facades\Auth;
 use App\Traits\UpdateAttachmentTrait;
 
 class StoreForm extends Form
