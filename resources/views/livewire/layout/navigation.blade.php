@@ -84,7 +84,7 @@ new class extends Component {
                                         <x-dropdown-link :href="route('dashboard.index')" wire:navigate>
                                             لوحة التحكم
                                         </x-dropdown-link>
-                                        <x-dropdown-link :href="route('profile')" wire:navigate>
+                                        <x-dropdown-link :href="route('dashboard.books.create')" wire:navigate>
                                             أضافه كتاب جديد
                                         </x-dropdown-link>
                                         <hr class="block w-[75%] mx-auto bg-gray-600">

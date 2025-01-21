@@ -22,7 +22,7 @@
                             :isActive="Route::is('dashboard.index')" icon="fa-solid fa-chart-line" />
                         <x-link-dashboard link="{{ route('dashboard.books') }}" label="الكتب" :isActive="Route::is('dashboard.books')"
                             icon="fa-solid fa-book-open" />
-                        <x-link-dashboard link="{{ route('dashboard.units') }}" label="اقسام الكتب" :isActive="Route::is('dashboard.units')"
+                        <x-link-dashboard link="{{ route('dashboard.sections') }}" label="اقسام الكتب" :isActive="Route::is('dashboard.sections')"
                             icon="fa-solid fa-book-bible" />
                         @if (auth()->check() && auth()->user()->isOwner())
                             <x-link-dashboard link="{{ route('dashboard.posts') }}" label="المنشورات"

@@ -25,7 +25,14 @@
                             <i class="fa-solid fa-layer-group text-green-500"></i>
                             <p>
                                 <span class="font-bold">القسم:</span>
-                                <span>{{ $book->unit->title }}</span>
+                                <span>{{ $book->section->title }}</span>
+                            </p>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-layer-group text-green-500"></i>
+                            <p>
+                                <span class="font-bold">الرف:</span>
+                                <span>{{ $book->shelf->title }}</span>
                             </p>
                         </li>
                         <li class="flex items-center gap-2">

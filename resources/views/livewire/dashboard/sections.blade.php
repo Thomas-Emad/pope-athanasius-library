@@ -6,7 +6,7 @@
                 <span>اقسام الكتب</span>
             </h1>
             <div>
-                <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'add-units')"
+                <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'add-sections')"
                     class="text-white font-bold bg-brown-max py-2 px-4 rounded-lg hover:bg-brown-lite duration-200">
                     <i class="fa-solid fa-plus"></i>
                 </button>
@@ -28,7 +28,7 @@
                     </div>
                     <input type="text" id="table-search" wire:model.blur='search'
                         class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="ابحث عن اسم الوحده..">
+                        placeholder="ابحث عن اسم القسم..">
                 </div>
             </div>
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -44,7 +44,7 @@
                             مرات الاستخدام
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            عدد الوحدات
+                            عدد الرف
                         </th>
                         <th scope="col" class="px-6 py-3">
                             الاعدادت
@@ -52,28 +52,28 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($units as $unit)
+                    @forelse ($sections as $section)
                         <tr
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                             <th scope="row"
                                 class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ str($unit->title)->limit(20) }}
+                                {{ str($section->title)->limit(20) }}
                             </th>
                             <td class="px-6 py-4">
-                                {{ $unit->number }}
+                                {{ $section->number }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $unit->books_count }}
+                                {{ $section->books_count }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $unit->shelfs_count }}
+                                {{ $section->shelfs_count }}
                             </td>
                             <td class="px-6 py-4">
-                                <button wire:click='showShelfs({{ $unit->id }})'
+                                <button wire:click='showShelfs({{ $section->id }})'
                                     class="me-2 text-xl hover:text-blue-600 duration-150">
                                     <i class="fa-solid fa-eye"></i>
                                 </button>
-                                <button wire:click='editUnit({{ $unit->id }})'
+                                <button wire:click='editsection({{ $section->id }})'
                                     class="me-2 text-xl hover:text-amber-600 duration-150">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </button>
@@ -89,14 +89,14 @@
             </table>
 
             <div class="mt-4">
-                {{ $units->links() }}
+                {{ $sections->links() }}
             </div>
         </div>
 
     </div>
     <div>
-        <x-modal name="add-units" :show="$errors->isNotEmpty()" focusable>
-            <div class="p-6" x-data="{ openUnit: true }">
+        <x-modal name="add-sections" :show="$errors->isNotEmpty()" focusable>
+            <div class="p-6" x-data="{ openSection: true }">
                 <div class="flex justify-between items-center">
                     <h2 class="text-lg font-medium text-gray-900 flex gap-1 items-center">
                         <i class="fa-solid fa-magnifying-glass"></i>
@@ -109,46 +109,45 @@
                 </div>
                 <div class="mt-4">
                     <div class="flex gap-2">
-                        <button type="button" x-on:click="openUnit = true"
-                            :class="openUnit ? 'bg-amber-800' : 'bg-amber-600'"
+                        <button type="button" x-on:click="openSection = true"
+                            :class="openSection ? 'bg-amber-800' : 'bg-amber-600'"
                             class=" hover:bg-amber-800 duration-200 py-2 px-4 text-white w-full rounded-xl text-center">
-                            أضافة وحده
+                            أضافة قسم
                         </button>
-                        <button type="button" x-on:click="openUnit = false"
-                            :class="!openUnit ? 'bg-amber-800' : 'bg-amber-600'"
+                        <button type="button" x-on:click="openSection = false"
+                            :class="!openSection ? 'bg-amber-800' : 'bg-amber-600'"
                             class=" hover:bg-amber-800 duration-200 py-2 px-4 text-white w-full rounded-xl text-center">
                             أضافه راف
                         </button>
 
                     </div>
                     <div>
-                        <form wire:submit='saveUnit' x-show="openUnit">
+                        <form wire:submit='saveSection' x-show="openSection">
                             <div class="mt-6">
-                                <x-input-label for="unit-title" value="{{ __('اسم الوحده') }}" class="sr-only" />
-                                <x-text-input wire:model="unit.title" id="unit-title" type="text"
-                                    class="mt-1 block w-full" placeholder="{{ __('اكتب هنا اسم الوحده') }}" />
-                                <x-input-error :messages="$errors->get('unit.title')" class="mt-2" />
+                                <x-input-label for="section-title" value="{{ __('اسم القسم') }}" class="sr-only" />
+                                <x-text-input wire:model="section.title" id="section-title" type="text"
+                                    class="mt-1 block w-full" placeholder="{{ __('اكتب هنا اسم القسم') }}" />
+                                <x-input-error :messages="$errors->get('section.title')" class="mt-2" />
                             </div>
 
                             <div class="mt-2">
-                                <x-input-label for="unit-number" value="{{ __('رقم الوحده') }}" class="sr-only" />
-                                <x-text-input wire:model="unit.number" id="unit-number" type="text"
-                                    class="mt-1 block w-full" placeholder="{{ __('اكتب هنا رقم الوحده') }}" />
-                                <x-input-error :messages="$errors->get('unit.number')" class="mt-2" />
+                                <x-input-label for="section-number" value="{{ __('رقم القسم') }}" class="sr-only" />
+                                <x-text-input wire:model="section.number" id="section-number" type="text"
+                                    class="mt-1 block w-full" placeholder="{{ __('اكتب هنا رقم القسم') }}" />
+                                <x-input-error :messages="$errors->get('section.number')" class="mt-2" />
                             </div>
 
                             <div class="mt-6 flex justify-end">
                                 <x-secondary-button x-on:click="$dispatch('close')">
                                     {{ __('الغاء') }}
                                 </x-secondary-button>
-
-                                <x-button
+                                <x-button type="submit" wire:loading.attr="disabled" x-text="'أضافه'"
                                     class="ms-3 bg-brown-lite hover:bg-brown-max active:bg-brown-max focus:ring-brown-max">
-                                    {{ __('أضافه') }}
+                                    <x-loader wire:loading />
                                 </x-button>
                             </div>
                         </form>
-                        <form wire:submit='saveShelf' x-show="!openUnit">
+                        <form wire:submit='saveShelf' x-show="!openSection">
                             <div class="mt-6">
                                 <x-input-label for="shelf-title" value="{{ __('اسم الرف') }}" class="sr-only" />
                                 <x-text-input wire:model="shelf.title" id="shelf-title" type="text"
@@ -164,26 +163,25 @@
                             </div>
 
                             <div class="mt-2">
-                                <x-select id="units" label="اختار الوحده" wire:model="shelf.unit">
-                                    <option selected>قم باختيار اسم الوحده</option>
-                                    @foreach ($units as $unit)
-                                        <option value="{{ $unit->id }}" wire:key="unit-{{ $unit->id }}">
-                                            {{ $unit->title }}
+                                <x-select id="sections" label="اختار القسم" wire:model="shelf.section">
+                                    <option selected>قم باختيار اسم القسم</option>
+                                    @foreach ($sections as $section)
+                                        <option value="{{ $section->id }}" wire:key="section-{{ $section->id }}">
+                                            {{ $section->title }}
                                         </option>
                                     @endforeach
                                 </x-select>
-                                <x-input-error :messages="$errors->get('shelf.unit')" class="mt-2" />
+                                <x-input-error :messages="$errors->get('shelf.section')" class="mt-2" />
                             </div>
-
 
                             <div class="mt-6 flex justify-end">
                                 <x-secondary-button x-on:click="$dispatch('close')">
                                     {{ __('الغاء') }}
                                 </x-secondary-button>
 
-                                <x-button
+                                <x-button type="submit" wire:loading.attr="disabled" x-text="'أضافه'"
                                     class="ms-3 bg-brown-lite hover:bg-brown-max active:bg-brown-max focus:ring-brown-max">
-                                    {{ __('أضافه') }}
+                                    <x-loader wire:loading />
                                 </x-button>
                             </div>
                         </form>
@@ -191,7 +189,7 @@
                 </div>
             </div>
         </x-modal>
-        <x-modal name="edit-units" :show="$errors->isNotEmpty()" focusable>
+        <x-modal name="edit-sections" :show="$errors->isNotEmpty()" focusable>
             <div class="p-6">
                 <div class="flex justify-between items-center">
                     <h2 class="text-lg font-medium text-gray-900 flex gap-1 items-center">
@@ -205,29 +203,28 @@
                 </div>
                 <div class="mt-4">
                     <div>
-                        <form wire:submit='updateUnit'>
+                        <form wire:submit='updatesection'>
                             <div class="mt-6">
-                                <x-input-label for="unit-title" value="{{ __('اسم الوحده') }}" class="sr-only" />
-                                <x-text-input wire:model="unit.title" id="unit-title" type="text"
-                                    class="mt-1 block w-full" placeholder="{{ __('اكتب هنا اسم الوحده') }}" />
-                                <x-input-error :messages="$errors->get('unit.title')" class="mt-2" />
+                                <x-input-label for="section-title" value="{{ __('اسم القسم') }}" class="sr-only" />
+                                <x-text-input wire:model="section.title" id="section-title" type="text"
+                                    class="mt-1 block w-full" placeholder="{{ __('اكتب هنا اسم القسم') }}" />
+                                <x-input-error :messages="$errors->get('section.title')" class="mt-2" />
                             </div>
 
                             <div class="mt-2">
-                                <x-input-label for="unit-number" value="{{ __('رقم الوحده') }}" class="sr-only" />
-                                <x-text-input wire:model="unit.number" id="unit-number" type="text"
-                                    class="mt-1 block w-full" placeholder="{{ __('اكتب هنا رقم الوحده') }}" />
-                                <x-input-error :messages="$errors->get('unit.number')" class="mt-2" />
+                                <x-input-label for="section-number" value="{{ __('رقم القسم') }}" class="sr-only" />
+                                <x-text-input wire:model="section.number" id="section-number" type="text"
+                                    class="mt-1 block w-full" placeholder="{{ __('اكتب هنا رقم القسم') }}" />
+                                <x-input-error :messages="$errors->get('section.number')" class="mt-2" />
                             </div>
 
                             <div class="mt-6 flex justify-end">
                                 <x-secondary-button x-on:click="$dispatch('close')">
                                     {{ __('الغاء') }}
                                 </x-secondary-button>
-
-                                <x-button
+                                <x-button type="submit" wire:loading.attr="disabled" x-text="'تحديث'"
                                     class="ms-3 bg-brown-lite hover:bg-brown-max active:bg-brown-max focus:ring-brown-max">
-                                    {{ __('تحديث') }}
+                                    <x-loader wire:loading />
                                 </x-button>
                             </div>
                         </form>
@@ -265,15 +262,15 @@
                             </div>
 
                             <div class="mt-2">
-                                <x-select id="units" label="اختار الوحده" wire:model="shelf.unit">
-                                    <option selected>قم باختيار اسم الوحده</option>
-                                    @foreach ($units as $unit)
-                                        <option value="{{ $unit->id }}" wire:key="unit-{{ $unit->id }}">
-                                            {{ $unit->title }}
+                                <x-select id="sections" label="اختار القسم" wire:model="shelf.section">
+                                    <option selected>قم باختيار اسم القسم</option>
+                                    @foreach ($sections as $section)
+                                        <option value="{{ $section->id }}" wire:key="section-{{ $section->id }}">
+                                            {{ $section->title }}
                                         </option>
                                     @endforeach
                                 </x-select>
-                                <x-input-error :messages="$errors->get('shelf.unit')" class="mt-2" />
+                                <x-input-error :messages="$errors->get('shelf.section')" class="mt-2" />
                             </div>
 
 
@@ -281,10 +278,9 @@
                                 <x-secondary-button x-on:click="$dispatch('close')">
                                     {{ __('الغاء') }}
                                 </x-secondary-button>
-
-                                <x-button
+                                <x-button type="submit" wire:loading.attr="disabled" x-text="'تحديث'"
                                     class="ms-3 bg-brown-lite hover:bg-brown-max active:bg-brown-max focus:ring-brown-max">
-                                    {{ __('تحديث') }}
+                                    <x-loader wire:loading />
                                 </x-button>
                             </div>
                         </form>
@@ -298,7 +294,7 @@
                     <h2 class="text-lg font-medium text-gray-900 flex gap-1 items-center">
                         <i class="fa-solid fa-magnifying-glass"></i>
                         <span>
-                            هذا كل الروف لدي هذا الوحده
+                            هذا كل الروف لدي هذا القسم
                         </span>
                     </h2>
                     <i class="fa-solid fa-x hover:text-red-600 duration-150 cursor-pointer text-sm"

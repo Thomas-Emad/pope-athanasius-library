@@ -1,17 +1,24 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Dashboard;
 
 use Livewire\Component;
-use App\Models\{Section, SectionShelf};
-use Livewire\Attributes\Title;
+
 use App\Livewire\Forms\Dashboard\{SectionForm, ShelfForm};
+use App\Models\{Section, SectionShelf};
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
+use Livewire\WithPagination;
 
 #[Title('أقسام الكتب')]
-class SectionsPage extends Component
+#[Layout('layouts.dashboard')]
+class Sections extends Component
 {
+  use WithPagination;
   public SectionForm $section;
   public ShelfForm $shelf;
+  public $shelfs = [];
+  public $search = '';
 
 
   public function saveSection()
@@ -43,19 +50,30 @@ class SectionsPage extends Component
   {
     $shelf = SectionShelf::findOrFail($id);
     $this->shelf->setAttrbiutes($id, $shelf->title, $shelf->number, $shelf->section_id);
+    $this->dispatch('close-modal', 'show-shelfs');
     $this->dispatch('open-modal', 'edit-shelf');
   }
   public function updateShelf()
   {
     $this->shelf->update();
     $this->dispatch('close-modal', 'edit-shelf');
+    $this->dispatch('open-modal', 'show-shelfs');
     $this->shelf->removeAttrbiutes();
+  }
+  public function showShelfs($id)
+  {
+    $this->shelfs = SectionShelf::where('section_id', $id)->get();
+    $this->dispatch('open-modal', 'show-shelfs');
   }
 
   public function render()
   {
-    return view('livewire.sections-page', [
-      'sections' => Section::with('shelfs')->get()
+    return view('livewire.dashboard.sections', [
+      'sections' => Section::withCount(['shelfs', 'books'])
+        ->where('title', "like", "%$this->search%")
+        ->latest()
+        ->paginate(10),
+      'shelfs' => $this->shelfs
     ]);
   }
 }

@@ -7,7 +7,9 @@ use Livewire\Component;
 use App\Models\Post;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
+use Livewire\Attributes\Title;
 
+#[Title('الصفحة المنشورات')]
 class PostPage extends Component
 {
   use WithPagination;

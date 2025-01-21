@@ -41,7 +41,7 @@
                     <x-toggle wire:model.change='filters.book' label='اسم الكتاب' currentStatus='true' />
                     <x-toggle wire:model.change='filters.publisher' label='اسم الناشر' currentStatus='true' />
                     <x-toggle wire:model.change='filters.author' label='اسم المؤلف' currentStatus='true' />
-                    <x-toggle wire:model.change='filters.unit' label='اسم الوحده' currentStatus='true' />
+                    <x-toggle wire:model.change='filters.section' label='اسم القسم' currentStatus='true' />
                     <x-toggle wire:model.change='filters.shelf' label='اسم الرف' currentStatus='true' />
                 </div>
                 <x-select id="orderBy" wire:model.change='orderBy' class="mt-4 cursor-pointer">
@@ -52,10 +52,10 @@
             </div>
         </div>
     </div>
-    <div class="container px-10 max-w-full my-2 ">
+    <div class="container px-10 max-w-full">
         <h2 class="font-bold text-xl my-4">هذا نتيجة البحث:</h2>
-        <div class="mb-4">
-            <div class="grid gap-4 " style="grid-template-columns: repeat(auto-fill, minmax(150px, 1fr))">
+        <div>
+            <div class="grid gap-4 pb-8" style="grid-template-columns: repeat(auto-fill, minmax(150px, 1fr))">
                 @foreach ($books as $book)
                     <a href="{{ route('book.show', $book->code) }}" wire:navigate wire:key='book-{{ $book->id }}'
                         class="bg-white shadow rounded-md overflow-hidden hover:-translate-y-2 duration-200">

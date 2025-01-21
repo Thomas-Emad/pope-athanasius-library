@@ -29,23 +29,23 @@
                 </x-input-book>
 
                 <div class="flex gap-4">
-                    <x-input-book id="unit" title='القسم'>
+                    <x-input-book id="section" title='القسم'>
                         <div class="flex">
-                            <x-select id="unit" wire:model.live='book.unit' class="pt-4">
-                                <option selected>اختار اسم الوحده</option>
-                                @foreach ($units as $unit)
-                                    <option value="{{ $unit->id }}">
-                                        {{ $unit->title }} - {{ $unit->number }}
+                            <x-select id="section" wire:model.live='book.section' class="pt-4">
+                                <option selected>اختار اسم القسم</option>
+                                @foreach ($sections as $section)
+                                    <option value="{{ $section->id }}">
+                                        {{ $section->title }} - {{ $section->number }}
                                     </option>
                                 @endforeach
                             </x-select>
                             <button type="button" x-on:click="type = 'add'"
-                                x-on:click.prevent="$dispatch('open-modal', 'add-units')"
+                                x-on:click.prevent="$dispatch('open-modal', 'add-sections')"
                                 class="border border-gray-300 bg-white text-gray-900 text-sm rounded-lg focus:ring-border-brown-max focus:border-brown-max py-2 px-4 ">
                                 +
                             </button>
                         </div>
-                        <x-input-error :messages="$errors->get('book.unit')" class="mt-2 " />
+                        <x-input-error :messages="$errors->get('book.section')" class="mt-2 " />
                     </x-input-book>
                     <x-input-book id="shelf" title='الرف'>
                         <div class="flex">
@@ -161,15 +161,11 @@
                 </div>
 
                 <div>
-                    @if ($type === 'store')
-                        <button type="submit"
-                            class="py-2 px-4 w-full text-white font-bold bg-green-700 rounded-lg hover:bg-green-900 duration-200 cursor-pointer">أضافه
-                            الكتاب</button>
-                    @else
-                        <button type="submit"
-                            class="py-2 px-4 w-full text-white font-bold bg-green-700 rounded-lg hover:bg-green-900 duration-200 cursor-pointer">تحديث
-                            الكتاب</button>
-                    @endif
+                    <button wire:loading.attr="disabled" type="submit"
+                        class="py-2 px-4 w-full text-white font-bold bg-green-700 rounded-lg hover:bg-green-900 duration-200 cursor-pointer">
+                        <x-loader wire:loading />
+                        <span x-text="$wire.type !== 'store' ? 'تحديث الكتاب' : 'أضافه الكتاب'"></span>
+                    </button>
                 </div>
             </div>
             <div class="w-full md:w-1/4 pt-4">
@@ -183,8 +179,10 @@
                                 alt="">
                         @else
                             <p class="text-xl">أضغط هنا لتحديد الصورة</p>
-                            <img x-show="$wire.book.photo" src="{{ $book->photo?->temporaryUrl() }}"
-                                class="w-[95%] h-[95%] rounded-xl mt-4" alt="">
+                            @if ($book->photo)
+                                <img x-show="$wire.book.photo" src="{{ $book->photo?->temporaryUrl() }}"
+                                    class="w-[95%] h-[95%] rounded-xl mt-4" alt="صورة الغلاف">
+                            @endif
                         @endif
                     </label>
                     <input type="file" id="photo" class="hidden" accept="image/png,image/jpg,image/jpeg"
@@ -224,7 +222,7 @@
     <div>
         <livewire:dashboard.modals.add-author />
         <livewire:dashboard.modals.add-publisher />
-        <livewire:dashboard.modals.add-unit />
+        <livewire:dashboard.modals.add-section />
 
     </div>
 </div>

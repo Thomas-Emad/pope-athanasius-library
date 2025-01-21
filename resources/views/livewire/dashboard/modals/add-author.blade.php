@@ -23,8 +23,9 @@
                         {{ __('الغاء') }}
                     </x-secondary-button>
 
-                    <x-button class="ms-3 bg-brown-lite hover:bg-brown-max active:bg-brown-max focus:ring-brown-max">
-                        {{ __('أضافه') }}
+                    <x-button type="submit" wire:loading.attr="disabled" x-text="'أضافه'"
+                        class="ms-3 bg-brown-lite hover:bg-brown-max active:bg-brown-max focus:ring-brown-max">
+                        <x-loader wire:loading />
                     </x-button>
                 </div>
             </form>

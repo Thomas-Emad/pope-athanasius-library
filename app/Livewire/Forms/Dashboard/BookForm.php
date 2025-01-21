@@ -13,7 +13,7 @@ class BookForm extends Form
   use UpdateAttachmentTrait;
 
   public $id;
-  public $code, $title, $unit, $shelf, $series, $publisher, $author, $subjects, $content, $copies, $part_number,
+  public $code, $title, $section, $shelf, $series, $publisher, $author, $subjects, $content, $copies, $part_number,
     $papers, $current_unit_number, $row, $position_book, $markup;
 
   public $photo, $pdf, $oldPhoto, $oldPdf;
@@ -26,7 +26,7 @@ class BookForm extends Form
     $this->id = $book->id;
     $this->code = $book->code;
     $this->title = $book->title;
-    $this->unit = $book->unit_id;
+    $this->section = $book->section_id;
     $this->shelf = $book->shelf_id;
     $this->series = $book->series;
     $this->publisher = $book->publisher_id;
@@ -52,8 +52,8 @@ class BookForm extends Form
     return [
       'code' => ['unique:books,code,' . $this->id],
       'title' => ['required', 'string', 'min:10', 'max:255'],
-      'unit' => ['required', 'exists:units,id'],
-      'shelf' => ['required', 'exists:unit_shelves,id'],
+      'section' => ['required', 'exists:sections,id'],
+      'shelf' => ['required', 'exists:section_shelves,id'],
       'series' => ['nullable', 'string', 'max:100'],
       'publisher' => ['required', 'exists:publishers,id'],
       'author' => ['required', 'exists:authors,id'],
@@ -78,7 +78,7 @@ class BookForm extends Form
   {
     return [
       'title' => 'اسم الكتاب',
-      'unit' => 'اسم الوحدة',
+      'section' => 'اسم القسم',
       'shelf' => 'اسم الرف',
       'series' => 'السلسلة',
       'publisher' => 'الناشر',
@@ -96,7 +96,7 @@ class BookForm extends Form
   }
 
   /**
-   * Set the book's code based on the unit, row, and position.
+   * Set the book's code based on the section, row, and position.
    */
   private function setCodeBook()
   {
@@ -118,7 +118,7 @@ class BookForm extends Form
     Book::create([
       'code' => $this->code,
       'user_id' => Auth::id(),
-      'unit_id' => $this->unit,
+      'section_id' => $this->section,
       'shelf_id' => $this->shelf,
       'author_id' => $this->author,
       'publisher_id' => $this->publisher,
@@ -153,7 +153,7 @@ class BookForm extends Form
     Book::where('id', $this->id)->update([
       'code' => $this->code,
       'user_id' => Auth::id(),
-      'unit_id' => $this->unit,
+      'section_id' => $this->section,
       'shelf_id' => $this->shelf,
       'author_id' => $this->author,
       'publisher_id' => $this->publisher,

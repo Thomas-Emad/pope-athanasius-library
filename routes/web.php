@@ -4,10 +4,11 @@ use App\Livewire\BookPage;
 use App\Livewire\HomePage;
 use App\Livewire\SectionsPage;
 use Illuminate\Support\Facades\Route;
-use App\Livewire\Dashboard\{Index, Units, Authors, Post, Publishers, User, WordDaily};
+use App\Livewire\Dashboard\{Index, Sections, Authors, Post, Publishers, User, WordDaily};
 use App\Livewire\Dashboard\Books\{Books, Operations};
 use App\Livewire\PostPage;
 use App\Livewire\SearchPage;
+use App\Models\Section;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -17,7 +18,7 @@ Route::view('profile', 'profile')
 
 Route::get('/', HomePage::class)->name('home');
 Route::get('/sections', SectionsPage::class)->name('sections');
-Route::get('/book/{code}', BookPage::class)->name('book.show');
+Route::get('/book/{book:code}', BookPage::class)->name('book.show');
 Route::get('/search', SearchPage::class)->name('search');
 Route::get('/posts', PostPage::class)->name('posts');
 
@@ -25,7 +26,7 @@ Route::get('/posts', PostPage::class)->name('posts');
 
 Route::middleware(['auth', 'canAccess:owner,admin'])->prefix('dashboard')->as('dashboard.')->group(function () {
   Route::get('/', Index::class)->name('index');
-  Route::get('/units', Units::class)->name('units');
+  Route::get('/sections', Sections::class)->name('sections');
   Route::get('/authors', Authors::class)->name('authors');
   Route::get('/books', Books::class)->name('books');
   Route::get('/books/create', Operations::class)->name('books.create');

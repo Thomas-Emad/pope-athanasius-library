@@ -56,7 +56,7 @@
                                 PDF
                             </th>
                             <th scope="col" class="px-6 py-3  whitespace-nowrap">
-                                الوحده
+                                القسم
                             </th>
                             <th scope="col" class="px-6 py-3  whitespace-nowrap">
                                 الرف
@@ -115,7 +115,7 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-4  whitespace-nowrap">
-                                    {{ $item->unit->title }}
+                                    {{ $item->section->title }}
                                 </td>
 
                                 <td class="px-6 py-4  whitespace-nowrap">
@@ -132,7 +132,8 @@
                                         class="me-2 text-xl hover:text-amber-600 duration-150">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </button>
-                                    <a href="" class="me-2 text-xl hover:text-blue-600 duration-150">
+                                    <a href="{{ route('book.show', ['code' => $item->code]) }}" wire:navigate
+                                        class="me-2 text-xl hover:text-blue-600 duration-150">
                                         <i class="fa-solid fa-eye"></i>
                                     </a>
                                 </td>
