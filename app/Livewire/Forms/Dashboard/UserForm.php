@@ -38,7 +38,7 @@ class UserForm extends Form
     $this->email = $user->email;
     $this->role = $user->role;
     $this->phone = $user->phone;
-    $this->created_at = $user->created_at;
+    $this->created_at = $user->created_at->format("Y-m-d");
   }
 
   private function resetAttributes()

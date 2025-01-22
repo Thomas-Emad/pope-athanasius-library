@@ -11,10 +11,10 @@ use App\Livewire\SearchPage;
 use App\Models\Section;
 use Illuminate\Support\Facades\Storage;
 
-
-Route::view('profile', 'profile')
+Route::view('profile/{id?}', 'profile')
   ->middleware(['auth'])
   ->name('profile');
+
 
 Route::get('/', HomePage::class)->name('home');
 Route::get('/sections', SectionsPage::class)->name('sections');

@@ -3,7 +3,7 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <!-- prettier-ignore -->
-<title>{{ ($title ?? '' ) . ' | ' . config('app.name', 'Laravel') }}</title>
+<title> {{$title ?? ''}} @yield('title', '') {{' | ' . config('app.name', 'Laravel') }}</title>
 
 <link rel="stylesheet" href="{{ asset('assets/css/all.min.css') }}">
 

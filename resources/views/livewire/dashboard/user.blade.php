@@ -30,71 +30,88 @@
                     <x-toggle label='الخدام فقط' wire:model.change='showOnlyMain' />
                 </div>
             </div>
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                        <th scope="col" class="px-6 py-3">
-                            اسم المستخدم
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            نوع
-                        </th>
-                        <th scope="col" class="px-6 py-3 whitespace-nowrap">
-                            رقم الهاتف
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            البريد الالكتروني
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            تاريخ الانشاء
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            المزيد
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($users as $user)
-                        <tr wire:key='word-{{ $user->id }}'
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <th scope="row"
-                                class=" px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ str($user->name)->limit(20) }}
-                            </th>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                {{ $user->role->label() }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                {{ $user->phone ?? 'N/A' }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                {{ $user->email }}
-                            </td>
-                            <td class="px-6 py-4 ">
-                                {{ $user->created_at->format('Y-m-d') }}
-                            </td>
-                            <td class="px-6 py-4 flex gap-2 whitespace-nowrap">
-                                <button wire:key="show-{{ $user->id }}" wire:click="showUser({{ $user->id }})"
-                                    class="me-2 text-xl hover:text-blue-600 duration-150">
-                                    <i class="fa-solid fa-user"></i>
-                                </button>
-                                <button wire:key="role-{{ $user->id }}"
-                                    wire:click="changeRoleUser({{ $user->id }})"
-                                    class="me-2 text-xl hover:text-red-600 duration-150">
-                                    <i class="fa-solid fa-users-gear"></i>
-                                </button>
-
-                            </td>
-                        </tr>
-                    @empty
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <td colspan="6" class="py-2 text-center  italic text-gray-600">
-                                يبدوا انه ليس لدينا هنا اي مستخدم!!
-                            </td>
+                            <th scope="col" class="px-6 py-3">
+                                الصوره
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                اسم المستخدم
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                نوع
+                            </th>
+                            <th scope="col" class="px-6 py-3 whitespace-nowrap">
+                                رقم الهاتف
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                البريد الالكتروني
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                العمر
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                تاريخ الانشاء
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                المزيد
+                            </th>
                         </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @forelse ($users as $user)
+                            <tr wire:key='word-{{ $user->id }}'
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <img src="{{ $user->photo ? Storage::url($user->photo) : asset('assets/images/logo.png') }}"
+                                        class="w-8 h-8 rounded-full" alt="صورة المستخدم"
+                                        onerror="this.onerror=null; this.src='{{ asset('assets/images/logo.png') }}';">
+                                </td>
+                                <th scope="row"
+                                    class=" px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{ str($user->name)->limit(20) }}
+                                </th>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {{ $user->role->label() }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {{ $user->phone ?? 'N/A' }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {{ $user->email }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {{ $user->brith_day ? round($user->brith_day->diffInYears(now())) : 'N/A' }}
+
+                                </td>
+                                <td class="px-6 py-4 ">
+                                    {{ $user->created_at->format('Y-m-d') }}
+                                </td>
+                                <td class="px-6 py-4 flex gap-2 whitespace-nowrap">
+                                    <button wire:key="show-{{ $user->id }}"
+                                        wire:click="showUser({{ $user->id }})"
+                                        class="me-2 text-xl hover:text-blue-600 duration-150">
+                                        <i class="fa-solid fa-user"></i>
+                                    </button>
+                                    <button wire:key="role-{{ $user->id }}"
+                                        wire:click="changeRoleUser({{ $user->id }})"
+                                        class="me-2 text-xl hover:text-red-600 duration-150">
+                                        <i class="fa-solid fa-users-gear"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="py-2 text-center  italic text-gray-600">
+                                    يبدوا انه ليس لدينا هنا اي مستخدم!!
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
 
             <div class="mt-4">
                 {{ $users->links() }}
@@ -157,8 +174,11 @@
             <div class="p-6">
                 <div class="flex justify-between items-center">
                     <h2 class="text-lg font-medium text-gray-900 flex gap-1 items-center">
-                        <i class="fa-solid fa-user"></i>
-                        <span>
+                        <div>
+                            <img src="{{ $user->photo ? Storage::url($user->photo) : asset('assets/images/logo.png') }}"
+                                class="w-8 h-8 rounded-full" alt="صورة المستخدم"
+                                onerror="this.onerror=null; this.src='{{ asset('assets/images/logo.png') }}';">
+                        </div> <span>
                             معلومات عن هذا المستخدم
                         </span>
                     </h2>
@@ -181,7 +201,7 @@
                         </div>
                         <div class="mt-3">
                             <span>{{ __('أذونات المستخدم') }}</span>
-                            <x-text-input wire:model="user.role" id="role" type="text"
+                            <x-text-input value="{{ $user->role->label() }}" id="role" type="text"
                                 class="mt-1 block w-full disabled:bg-gray-100"
                                 placeholder="{{ __('هنا يسجل أذونات المستخدم') }}" disabled="false" />
                         </div>
@@ -190,6 +210,12 @@
                             <x-text-input wire:model="user.phone" id="phone" type="text"
                                 class="mt-1 block w-full disabled:bg-gray-100"
                                 placeholder="{{ __('هنا يسجل رقم الهاتف') }}" disabled="false" />
+                        </div>
+                        <div class="mt-3">
+                            <span>{{ __('تاريخ الميلاد') }}</span>
+                            <x-text-input wire:model="user.username" id="username" type="text"
+                                class="mt-1 block w-full disabled:bg-gray-200"
+                                placeholder="{{ __('هنا يسجل اسم المستخدم') }}" disabled="false" />
                         </div>
                         <div class="mt-3">
                             <span>{{ __('تاريخ انشاء الحساب') }}</span>
