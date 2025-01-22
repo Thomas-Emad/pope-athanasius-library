@@ -132,7 +132,7 @@
                                         class="me-2 text-xl hover:text-amber-600 duration-150">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </button>
-                                    <a href="{{ route('book.show', ['code' => $item->code]) }}" wire:navigate
+                                    <a href="{{ route('book.show', $item->code) }}" wire:navigate
                                         class="me-2 text-xl hover:text-blue-600 duration-150">
                                         <i class="fa-solid fa-eye"></i>
                                     </a>
