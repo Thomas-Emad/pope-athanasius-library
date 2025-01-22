@@ -24,7 +24,5 @@ class MoreFeaturesBookForm extends Form
     $this->validate();
     Excel::import(new BooksImport, $this->importExcel);
     $this->reset(['importExcel']);
-    $this->dispatch("close-modal", 'import-excel');
-    $this->dispatch("open-modal", 'success-excel');
   }
 }
