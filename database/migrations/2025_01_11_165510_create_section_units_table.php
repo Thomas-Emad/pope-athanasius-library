@@ -15,7 +15,7 @@ return new class extends Migration
       $table->id();
       $table->foreignId('section_id')->constrained('sections')->cascadeOnDelete();
       $table->string('title')->nullable();
-      $table->integer('number');
+      $table->integer('number')->nullable();
       $table->timestamps();
     });
   }

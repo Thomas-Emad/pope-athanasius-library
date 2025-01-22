@@ -73,7 +73,7 @@
                                     class="me-2 text-xl hover:text-blue-600 duration-150">
                                     <i class="fa-solid fa-eye"></i>
                                 </button>
-                                <button wire:click='editsection({{ $section->id }})'
+                                <button wire:click='editSection({{ $section->id }})'
                                     class="me-2 text-xl hover:text-amber-600 duration-150">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </button>
@@ -203,7 +203,7 @@
                 </div>
                 <div class="mt-4">
                     <div>
-                        <form wire:submit='updatesection'>
+                        <form wire:submit='updateSection'>
                             <div class="mt-6">
                                 <x-input-label for="section-title" value="{{ __('اسم القسم') }}" class="sr-only" />
                                 <x-text-input wire:model="section.title" id="section-title" type="text"

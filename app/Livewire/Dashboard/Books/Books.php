@@ -2,16 +2,22 @@
 
 namespace App\Livewire\Dashboard\Books;
 
+use App\Livewire\Forms\Dashboard\MoreFeaturesBookForm;
 use App\Models\Book;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 
+use Livewire\WithFileUploads;
+
+
 #[Title('الكتب')]
 #[Layout('layouts.dashboard')]
 class Books extends Component
 {
+  use WithFileUploads;
   public $search;
+  public MoreFeaturesBookForm $features;
   public $getMarkUpBooks = false;
 
 
@@ -19,6 +25,18 @@ class Books extends Component
   {
     return $this->redirectRoute('dashboard.books.edit', ['id' => $id], navigate: true);
   }
+
+  public function export()
+  {
+    $this->features->export();
+  }
+  public function import()
+  {
+    $this->features->import();
+    $this->dispatch("close-modal", 'import-excel');
+    $this->dispatch("open-modal", 'success-excel');
+  }
+
 
   public function render()
   {

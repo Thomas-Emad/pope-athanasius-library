@@ -215,6 +215,12 @@
                     <x-toggle wire:model='book.markup' currentStatus="{{ $book->markup }}"
                         label='عرض هذا الكتاب في الصفحه الرئيسيه' />
                 </div>
+                @if (auth()->check() && auth()->user()->isOwner())
+                    <x-button type="button" x-on:click="$dispatch('open-modal', 'delete-book')"
+                        class="mt-4 py-2 px-4 w-full text-white font-bold bg-red-700 rounded-lg hover:bg-red-900 duration-200 cursor-pointer">
+                        حذف الكتاب
+                    </x-button>
+                @endif
             </div>
         </form>
     </div>
@@ -223,6 +229,36 @@
         <livewire:dashboard.modals.add-author />
         <livewire:dashboard.modals.add-publisher />
         <livewire:dashboard.modals.add-section />
+        <x-modal name="delete-book">
+            <div class="p-6">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-lg font-medium text-gray-900 flex gap-1 items-center">
+                        <i class="fa-solid fa-gear"></i>
+                        <span>
+                            هل تريد حذف هذا الكتاب؟!
+                        </span>
+                    </h2>
+                    <i class="fa-solid fa-x hover:text-red-600 duration-150 cursor-pointer text-sm"
+                        x-on:click="$dispatch('close')"></i>
+                </div>
+                <div class="my-6">
+                    <p class="font-bold text-center ">
+                        هذا الاجراء نهائي ولا يمكنك التراجع عنه؟ سيتم ايضا مسح اي مرفقات تخص هذا الكتاب!!
+                    </p>
+                </div>
+                <div class="mt-6 flex justify-end">
+                    <x-secondary-button x-on:click="$dispatch('close')">
+                        {{ __('الغاء') }}
+                    </x-secondary-button>
 
+                    <x-button wire:loading.attr="disabled" wire:click="delete"
+                        class="ms-3 bg-red-700/70 hover:bg-red-700 active:bg-red-700 focus:ring-red-700/50">
+                        <x-loader wire:loading />
+                        {{ __('حذف نهائي') }}
+                    </x-button>
+
+                </div>
+            </div>
+        </x-modal>
     </div>
 </div>

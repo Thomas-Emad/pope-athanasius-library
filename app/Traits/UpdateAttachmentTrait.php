@@ -15,8 +15,18 @@ trait UpdateAttachmentTrait
     if (is_null($attachment)) {
       return $oldFile;
     } elseif (!is_null($oldFile)) {
-      Storage::delete($oldFile);
+      $this->deleteAttachment($oldFile);
     }
     return $attachment->store($path, 'public');
+  }
+
+  /**
+   * Handle Delete file for attachments (photo and pdf).
+   */
+  private function deleteAttachment($file)
+  {
+    if (Storage::exists($file)) {
+      Storage::delete($file);
+    }
   }
 }

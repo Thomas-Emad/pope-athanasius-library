@@ -61,6 +61,11 @@ class Operations extends Component
     $this->book->update();
     return $this->redirectRoute('dashboard.books', navigate: true);
   }
+  public function delete()
+  {
+    $this->book->destory();
+    return $this->redirectRoute('dashboard.books', navigate: true);
+  }
 
   #[On('added-author')]
   public function authorAdded($id)

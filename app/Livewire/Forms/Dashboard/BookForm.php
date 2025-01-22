@@ -174,20 +174,34 @@ class BookForm extends Form
   }
 
   /**
+   * Delete All Attachment For this Book, Then Delete it.
+   */
+  public function destory()
+  {
+    $book = Book::where('id', $this->id)->first();
+    if ($book->pdf) {
+      $this->deleteAttachment($book->pdf);
+    }
+    if ($book->photo) {
+      $this->deleteAttachment($book->photo);
+    }
+    $book->delete();
+  }
+
+  /**
    * Delete the PDF file of a book.
    */
   public function deletePdf($id)
   {
     $book = Book::where('id', $id)->select('pdf')->first();
-    if (Storage::exists($book->pdf)) {
-      Storage::delete($book->pdf);
-    }
+    $this->deleteAttachment($book->pdf);
     $book->update([
       'pdf' => null
     ]);
     $this->oldPdf = null;
     $this->pdf = null;
   }
+
 
   /**
    * Download the PDF of the book.
