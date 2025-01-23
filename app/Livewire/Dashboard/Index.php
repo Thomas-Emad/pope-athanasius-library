@@ -15,7 +15,7 @@ class Index extends Component
   {
     return view('livewire.dashboard.index', [
       'books' => Book::with('author:id,name')
-        ->select('id', 'code', 'photo', 'title', 'author_id')
+        ->select('id', 'code', 'views', 'photo', 'title', 'author_id')
         ->orderBy('views', 'desc')
         ->limit(4)->get(),
     ]);
