@@ -4,8 +4,6 @@ namespace App\Livewire\Forms\Dashboard;
 
 use App\Models\User;
 use Livewire\Form;
-use App\Enums\RoleUserEnum;
-use Illuminate\Support\Facades\Auth;
 
 class UserForm extends Form
 {
@@ -19,15 +17,8 @@ class UserForm extends Form
 
   public function updateRole()
   {
-    if (Auth::user()->id === $this->id) {
-      $thereIsAnyAnotherOwner = User::where('role', RoleUserEnum::OWNER)->count();
-      if ($thereIsAnyAnotherOwner < 3) {
-        return null;
-      }
-    }
-    User::where('id', $this->id)->update([
-      'role' => $this->role
-    ]);
+    $user = User::where('id', $this->id)->firstOrFail();
+    $user->syncRoles($this->role);
     $this->resetAttributes();
   }
 
@@ -36,7 +27,7 @@ class UserForm extends Form
     $this->id = $user->id;
     $this->username = $user->name;
     $this->email = $user->email;
-    $this->role = $user->role;
+    $this->role = $user->getRoleNames()->first();
     $this->phone = $user->phone;
     $this->created_at = $user->created_at->format("Y-m-d");
   }

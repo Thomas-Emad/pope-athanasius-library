@@ -14,7 +14,6 @@ class MoreFeaturesBookForm extends Form
   #[Validate('required|max:10240|file|mimes:xls,xlm,xla,xlc,xlt,xlw,xlam,xlsb,xlsm,xlsx', 'ملف الاكسيل')]
   public $importExcel;
 
-
   public function export()
   {
     return Excel::download(new BooksExport, 'books.xlsx');

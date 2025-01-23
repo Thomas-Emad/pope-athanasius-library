@@ -92,7 +92,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="py-2 text-center  italic text-gray-600">
+                            <td colspan="5" class="py-2 text-center  italic text-gray-600">
                                 يبدوا انه ليس لدينا هنا اي كلمه يوميه!!
                             </td>
                         </tr>
@@ -216,6 +216,7 @@
                         </x-secondary-button>
 
                         <x-button class="ms-3 bg-red-700 hover:bg-red-800 active:bg-red-800 focus:ring-red-800">
+                            <x-loader wire:loading />
                             {{ __('حذف نهائي') }}
                         </x-button>
                     </div>

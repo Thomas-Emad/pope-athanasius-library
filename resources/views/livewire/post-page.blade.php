@@ -2,7 +2,7 @@
     <div class="container max-w-full mt-6 px-10 text-gray-800">
         <h1 class="text-4xl text-center">المنشورات</h1>
 
-        @if (auth()->check() && auth()->user()->isOwner())
+        @can(App\Enums\PermissionEnum::POSTS->value)
             <div class="bg-white py-2 px-4 rounded-lg shadow flex justify-between items-center my-4">
                 <span class="text-lg">أضافة منشور جديد</span>
                 <x-button wire:loading.attr="disabled" x-on:click="$dispatch('open-modal', 'create-post')"
@@ -11,7 +11,7 @@
                     {{ __('أضافه') }}
                 </x-button>
             </div>
-        @endif
+        @endcan
         <hr class="block w-[95%] mx-auto my-4">
         <div class="flex flex-col gap-4 mb-4">
             @forelse ($posts as $item)

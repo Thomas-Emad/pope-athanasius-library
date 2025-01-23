@@ -74,7 +74,7 @@
                                     {{ str($user->name)->limit(20) }}
                                 </th>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    {{ $user->role->label() }}
+                                    {{ $user->getRoleNames()->first() }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     {{ $user->phone ?? 'N/A' }}
@@ -146,11 +146,11 @@
                     </div>
 
                     <div class="mt-6">
-                        <x-input-label for="role" value="{{ __('أذونات المستخدم') }}" class="sr-only" />
+                        <x-input-label for="role" value="{{ __('الدور المستخدم') }}" class="sr-only" />
                         <x-select wire:model="user.role" id="role" class="mt-1 block w-full">
-                            <option value="owner">{{ \App\Enums\RoleUserEnum::OWNER->label() }}</option>
-                            <option value="admin">{{ \App\Enums\RoleUserEnum::ADMIN->label() }}</option>
-                            <option value="user">{{ \App\Enums\RoleUserEnum::USER->label() }}</option>
+                            @foreach ($roles as $role)
+                                <option value="{{ $role->name }}">{{ $role->name }} </option>
+                            @endforeach
                         </x-select>
                     </div>
 
@@ -201,7 +201,7 @@
                         </div>
                         <div class="mt-3">
                             <span>{{ __('أذونات المستخدم') }}</span>
-                            <x-text-input value="{{ $user->role->label() }}" id="role" type="text"
+                            <x-text-input wire:model="user.role" id="role" type="text"
                                 class="mt-1 block w-full disabled:bg-gray-100"
                                 placeholder="{{ __('هنا يسجل أذونات المستخدم') }}" disabled="false" />
                         </div>
@@ -232,5 +232,6 @@
                 </form>
             </div>
         </x-modal>
+
     </div>
 </div>

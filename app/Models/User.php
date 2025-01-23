@@ -8,11 +8,12 @@ use App\Enums\RoleUserEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
   /** @use HasFactory<\Database\Factories\UserFactory> */
-  use HasFactory, Notifiable;
+  use HasRoles, HasFactory, Notifiable;
 
   /**
    * The attributes that are mass assignable.
@@ -25,7 +26,6 @@ class User extends Authenticatable
     'password',
     'phone',
     'photo',
-    'role',
     'brith_day'
   ];
 
@@ -54,13 +54,13 @@ class User extends Authenticatable
     ];
   }
 
-  public function canAccess()
-  {
-    return  in_array(auth()->user()->role->value, ['owner', 'admin']);
-  }
+  // public function canAccess()
+  // {
+  //   return  in_array(auth()->user()->role->value, ['owner', 'admin']);
+  // }
 
-  public function isOwner()
-  {
-    return  auth()->user()->role->value == 'owner';
-  }
+  // public function isOwner()
+  // {
+  //   return  auth()->user()->role->value == 'owner';
+  // }
 }

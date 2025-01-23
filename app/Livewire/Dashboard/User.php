@@ -9,6 +9,7 @@ use Livewire\Attributes\Title;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
+use Spatie\Permission\Models\Role;
 
 #[Title('المستخدمين')]
 #[Layout('layouts.dashboard')]
@@ -48,7 +49,8 @@ class User extends Component
         ->where('name', 'like', "%$this->search%")
         ->orWhere('email', 'like', "%$this->search%")
         ->latest()
-        ->paginate(10)
+        ->paginate(10),
+      'roles' => Role::get()
     ]);
   }
 }

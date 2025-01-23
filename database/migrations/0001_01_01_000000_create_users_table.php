@@ -20,7 +20,6 @@ return new class extends Migration
       $table->string('password');
       $table->string('phone')->nullable();
       $table->string('photo')->nullable();
-      $table->enum('role', ['owner', 'admin', 'user'])->default(RoleUserEnum::USER);
       $table->date("brith_day")->nullable();
       $table->rememberToken();
       $table->timestamps();

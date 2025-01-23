@@ -39,7 +39,6 @@ new class extends Component {
                         <li>
                             <a href="{{ route('sections') }}" wire:navigate
                                 class="hover:text-gray-800 hover:border-gray-800 duration-200">
-
                                 <i class="fa-solid fa-book-bible"></i>
                                 <span>أقسام الكتب</span>
                             </a>
@@ -47,7 +46,6 @@ new class extends Component {
                         <li>
                             <a href="{{ route('posts') }}" wire:navigate
                                 class="hover:text-gray-800 hover:border-gray-800 duration-200">
-
                                 <i class="fa-solid fa-envelopes-bulk"></i>
                                 <span>المنشورات</span>
                             </a>
@@ -78,24 +76,29 @@ new class extends Component {
                                             alt="Logo website">
                                     </button>
                                 </x-slot>
-
                                 <x-slot name="content">
-                                    @if (auth()->user()->canAccess())
+                                    @can(App\Enums\PermissionEnum::CONTROLR_DASHBOARD->value)
                                         <x-dropdown-link :href="route('dashboard.index')" wire:navigate>
                                             لوحة التحكم
                                         </x-dropdown-link>
+                                    @endcan
+                                    @can(App\Enums\PermissionEnum::BOOK->value)
                                         <x-dropdown-link :href="route('dashboard.books.create')" wire:navigate>
                                             أضافه كتاب جديد
                                         </x-dropdown-link>
+                                    @endcan
+                                    @can(App\Enums\PermissionEnum::USERS->value)
                                         <hr class="block w-[75%] mx-auto bg-gray-600">
                                         <x-dropdown-link :href="route('dashboard.users')" wire:navigate>
                                             المستخدمين
                                         </x-dropdown-link>
+                                    @endcan
+                                    @can(App\Enums\PermissionEnum::WORD_TODAY->value)
                                         <hr class="block w-[75%] mx-auto bg-gray-600">
                                         <x-dropdown-link :href="route('dashboard.words')" wire:navigate>
                                             كلمة اليوم
                                         </x-dropdown-link>
-                                    @endif
+                                    @endcan
 
                                     <x-dropdown-link :href="route('profile')" wire:navigate>
                                         الملف الشخصي
@@ -132,14 +135,13 @@ new class extends Component {
                 <li>
                     <a href="{{ route('sections') }}" wire:navigate
                         class="hover:text-gray-800 hover:border-gray-800 duration-200">
-
                         <i class="fa-solid fa-book-bible"></i>
                         <span>أقسام الكتب</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" wire:navigate class="hover:text-gray-800 hover:border-gray-800 duration-200">
-
+                    <a href="{{ route('posts') }}" wire:navigate
+                        class="hover:text-gray-800 hover:border-gray-800 duration-200">
                         <i class="fa-solid fa-envelopes-bulk"></i>
                         <span>المنشورات</span>
                     </a>
