@@ -6,9 +6,10 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 use Livewire\Volt\Component;
 use Livewire\WithFileUploads;
+use App\Traits\RemoveTempFilesTrait;
 
 new class extends Component {
-    use WithFileUploads;
+    use WithFileUploads, RemoveTempFilesTrait;
     public $id,
         $name = '',
         $phone = '',
@@ -17,6 +18,7 @@ new class extends Component {
         $photo,
         $oldPhoto;
     public bool $allowEdit = true;
+
     /**
      * Mount the component.
      */
@@ -24,6 +26,7 @@ new class extends Component {
     {
         $user = $id ? User::where('id', $id)->firstOrFail() : Auth::user();
         $this->setAttributes($user);
+        $this->cleanTempFiles();
         $this->allowEdit();
     }
 

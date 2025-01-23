@@ -36,5 +36,6 @@ class StoreForm extends Form
         'photo' => $this->photo ? $this->photo->store('posts', 'public') : null,
       ]);
     }
+    $this->reset(['title', 'content', 'photo']);
   }
 }

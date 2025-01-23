@@ -7,7 +7,6 @@ use App\Models\Book;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
-
 use Livewire\WithFileUploads;
 
 
@@ -28,7 +27,7 @@ class Books extends Component
 
   public function export()
   {
-    return $this->featsures->export();
+    return $this->features->export();
     $this->dispatch("close-modal", 'more');
   }
 
@@ -38,7 +37,6 @@ class Books extends Component
     $this->dispatch("close-modal", 'import-excel');
     $this->dispatch("open-modal", 'success-excel');
   }
-
 
   public function render()
   {

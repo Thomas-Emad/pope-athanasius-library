@@ -5,11 +5,19 @@ namespace App\Livewire\Dashboard\Modals;
 use Livewire\Component;
 use App\Livewire\Forms\Dashboard\Post\StoreForm;
 use Livewire\WithFileUploads;
+use App\Traits\RemoveTempFilesTrait;
+
 
 class AddPost extends Component
 {
-  use WithFileUploads;
+  use WithFileUploads, RemoveTempFilesTrait;
   public StoreForm $storeFrom;
+
+
+  public function mount()
+  {
+    $this->cleanTempFiles();
+  }
 
   public function save()
   {

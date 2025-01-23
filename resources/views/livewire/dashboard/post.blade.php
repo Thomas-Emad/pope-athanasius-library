@@ -140,7 +140,7 @@
 
                     <div class="mt-6">
                         <label for="photo"
-                            class="block minh-40 cursor-pointer flex flex-col items-center justify-center text-center rounded-xl w-full font-bold text-gray-300 p-10 border-4 border-dashed border-gray-300 hover:bg-gray-200/50 hover:text-gray-400 duration-100"
+                            class="minh-40 cursor-pointer flex flex-col items-center justify-center text-center rounded-xl w-full font-bold text-gray-300 p-10 border-4 border-dashed border-gray-300 hover:bg-gray-200/50 hover:text-gray-400 duration-100"
                             aria-label="Upload photo" title="Upload photo">
                             <span class="text-4xl">+</span>
                             @if (!is_null($this->update->oldPhoto) && is_null($this->update->photo))

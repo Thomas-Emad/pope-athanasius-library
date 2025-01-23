@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Book;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Storage;
 
 class BookPage extends Component
 {
@@ -30,6 +31,11 @@ class BookPage extends Component
     }
     RateLimiter::hit($key, 60);
     $this->book->increment('views');
+  }
+
+  public function downloadPdfBook()
+  {
+    return Storage::disk('public')->download($this->book->pdf, $this->book->title);
   }
 
   public function render()

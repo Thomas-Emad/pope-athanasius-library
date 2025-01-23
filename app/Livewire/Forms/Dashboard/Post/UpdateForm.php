@@ -50,11 +50,12 @@ class UpdateForm extends Form
   {
     if (Auth::user()->can('posts')) {
       $this->validate();
-      Post::where('id', $this->id)->update([
+      $post = Post::where('id', $this->id)->firstOrFail();
+      $post->update([
         'user_id' => Auth::id(),
         'title' => $this->title,
         'content' => $this->content,
-        'photo' => $this->photo ? $this->uploadAttachment($this->oldPhoto, $this->photo, 'posts') : null,
+        'photo' => $this->photo ? $this->uploadAttachment($this->oldPhoto, $this->photo, 'posts') : $post->photo,
       ]);
     }
   }

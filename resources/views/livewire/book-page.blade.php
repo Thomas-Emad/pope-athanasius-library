@@ -101,8 +101,8 @@
                     </ul>
 
                     <div class="mt-4">
-                        @if ($book->pdf)
-                            <button
+                        @if (!is_null($book->pdf))
+                            <button wire:click="downloadPdfBook()"
                                 class="inline-block py-2 px-4 bg-red-800 hover:bg-red-600 duration-200 text-white font-bold rounded-lg mt-4">
                                 تحميل الكتاب ك PDF
                             </button>

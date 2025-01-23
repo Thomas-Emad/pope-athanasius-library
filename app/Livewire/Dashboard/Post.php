@@ -7,12 +7,13 @@ use App\Livewire\Forms\Dashboard\PostForm;
 use App\Livewire\Forms\Dashboard\Post\UpdateForm;
 use Livewire\Attributes\{Title, Layout, Url};
 use Livewire\{Component, WithFileUploads, WithPagination};
+use App\Traits\RemoveTempFilesTrait;
 
 #[Title('المنشورات')]
 #[Layout('layouts.dashboard')]
 class Post extends Component
 {
-  use WithFileUploads, WithPagination;
+  use WithFileUploads, WithPagination, RemoveTempFilesTrait;
 
   #[Url]
   public string $search = '';
@@ -20,6 +21,10 @@ class Post extends Component
   public PostForm $post;
   public UpdateForm $update;
 
+  public function mount()
+  {
+    $this->cleanTempFiles();
+  }
 
   // Method to clear validation errors
   public function removeValidation()
