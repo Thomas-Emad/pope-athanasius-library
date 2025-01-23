@@ -5,12 +5,13 @@ namespace App\Livewire\Dashboard\Books;
 use Livewire\Component;
 use App\Livewire\Forms\Dashboard\BookForm;
 use App\Models\{Author, Book, Publisher, Section, SectionShelf};
+use App\Traits\RemoveTempFilesTrait;
 use Livewire\Attributes\On;
 use Livewire\WithFileUploads;
 
 class Operations extends Component
 {
-  use WithFileUploads;
+  use WithFileUploads, RemoveTempFilesTrait;
 
   public BookForm $book;
   public $sections, $authors, $publishers, $shelfs = [];
@@ -23,6 +24,7 @@ class Operations extends Component
     }
     $this->setMainAttributes();
     $this->loadEntities();
+    $this->cleanTempFiles();
   }
 
   private function initializeBook($id)

@@ -18,7 +18,7 @@
             @forelse ($sections as $section)
                 <button wire:key="{{ $section->id }}" type="button" x-data="{ isOpen: false }"
                     x-on:click="isOpen = !isOpen"
-                    class="bg-white p-4  rounded-lg shadow hover:-translate-y-1 duration-200 h-fit w-full md:w-1/2 lg:w-1/3">
+                    class="bg-white p-2  rounded-lg shadow hover:-translate-y-1 duration-200 h-fit w-full md:w-1/2 lg:w-1/3">
                     <div class="flex justify-between gap-2 items-center">
                         <span class=" text-lg flex gap-2 items-center">
                             @can(App\Enums\PermissionEnum::SECTIONS_BOOK->value)
@@ -27,12 +27,16 @@
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </span>
                             @endcan
-                            <i class="fa-solid fa-book-bookmark  text-xl"></i>
-                            <span>
-                                {{ $section->title }}
-                            </span>
+                            <a href="{{ route('search', ['search' => $section->title]) }}" wire:navigate
+                                class="bg-gray-100 p-2 rounded-xl">
+                                <i class="fa-solid fa-book-bookmark  text-xl"></i>
+                                <span>
+                                    {{ $section->title }}
+                                </span>
+                            </a>
                         </span>
-                        <span class="bg-brown-max text-white text-xm py-1 px-2 rounded-xl">{{ $section->number }}</span>
+                        <span
+                            class="bg-brown-max text-white text-xm py-1 px-2 rounded-xl">{{ $section->number ?? 'N/A' }}</span>
                     </div>
                     <div class="flex flex-col gap-4 mt-4" x-show="isOpen">
                         @forelse ($section->shelfs as $shelf)
@@ -51,7 +55,7 @@
                                     </a>
                                 </span>
                                 <span
-                                    class="bg-brown-max text-white text-xm py-1 px-2 rounded-xl">{{ $shelf->number }}</span>
+                                    class="bg-brown-max text-white text-xm py-1 px-2 rounded-xl">{{ $shelf->number ?? 'N/A' }}</span>
                             </div>
                         @empty
                             <p class="font-bold text-center italic w-full text-2xl text-gray-700">لا يوجد روفوف هنا..

@@ -7,7 +7,7 @@
                 <span class="text-lg">أضافة منشور جديد</span>
                 <x-button wire:loading.attr="disabled" x-on:click="$dispatch('open-modal', 'create-post')"
                     class="ms-3 bg-brown-max hover:ring-brown-max">
-                    <x-loader wire:loading />
+                    <x-loader wire:loading wire:target="save" />
                     {{ __('أضافه') }}
                 </x-button>
             </div>
@@ -42,10 +42,12 @@
                     @if ($item->photo)
                         <img src="{{ Storage::url($item->photo) }}" class="max-w-full mx-auto my-4" alt="صورة الغلاف">
                     @endif
-                    <div
-                        class="p-2 border border-gray-200 rounded-lg overflow-y-auto max-h-52  whitespace-break-spaces">
-                        {{ $item->content }}
-                    </div>
+                    @if ($item->content)
+                        <div class="p-2 border border-gray-200 rounded-lg overflow-y-auto max-h-52 ">
+                            {{ $item->content }}
+                        </div>
+                    @endif
+
                 </div>
             @empty
                 <p class="text-gray-600 text-center italic my-4">ليس لدينا هنا اي منشور عد لاحقا..</p>

@@ -3,41 +3,20 @@
 namespace App\Exports;
 
 use App\Models\Book;
-use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
 
-class BooksExport implements FromArray
+class BooksExport implements FromCollection, WithHeadings, WithMapping
 {
-
-  public function array(): array
+  public function collection()
   {
-    $lists = [];
-    $books = Book::all();
-    $lists[] = $this->titlesRow();
-    foreach ($books as $book) {
-      $lists[] = [
-        $book->code,
-        $book->title,
-        $book->author->name,
-        $book->series,
-        $book->publisher->name,
-        $book->copies,
-        $book->papers,
-        $book->part_number,
-        $book->section->title,
-        $book->shelf->title,
-        $book->current_unit_number,
-        $book->row,
-        $book->position_book,
-        $book->subjects,
-        $book->content,
-      ];
-    }
-    return $lists;
+    return Book::with(['author', 'publisher', 'section', 'shelf'])->get();
   }
 
-  private function titlesRow()
+  public function headings(): array
   {
-    return  [
+    return [
       'كود الكتاب',
       "أسم الكتاب",
       "المؤلف",
@@ -53,6 +32,27 @@ class BooksExport implements FromArray
       "الترتيب بالرف",
       "الموضوعات",
       "ملخص الكتاب"
+    ];
+  }
+
+  public function map($book): array
+  {
+    return [
+      $book->code,
+      $book->title,
+      $book->author?->name,
+      $book->series,
+      $book->publisher?->name,
+      $book->copies,
+      $book->papers,
+      $book->part_number,
+      $book->section?->title,
+      $book->shelf?->title,
+      $book->current_unit_number,
+      $book->row,
+      $book->position_book,
+      $book->subjects,
+      $book->content,
     ];
   }
 }

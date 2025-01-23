@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Livewire\Forms\Dashboard\PostFrom;
+use App\Livewire\Forms\Dashboard\PostForm;
 use Livewire\Component;
 use App\Models\Post;
 use Livewire\Attributes\On;
@@ -13,7 +13,7 @@ use Livewire\Attributes\Title;
 class PostPage extends Component
 {
   use WithPagination;
-  public PostFrom $post;
+  public PostForm $post;
 
   public function get()
   {

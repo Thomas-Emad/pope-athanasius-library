@@ -28,8 +28,10 @@ class Books extends Component
 
   public function export()
   {
-    $this->features->export();
+    return $this->featsures->export();
+    $this->dispatch("close-modal", 'more');
   }
+
   public function import()
   {
     $this->features->import();

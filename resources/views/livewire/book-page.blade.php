@@ -101,16 +101,18 @@
                     </ul>
 
                     <div class="mt-4">
-                        <button
-                            class="inline-block py-2 px-4 bg-red-800 hover:bg-red-600 duration-200 text-white font-bold rounded-lg mt-4">
-                            تحميل الكتاب ك PDF
-                        </button>
-                        @if (auth()->check() && auth()->user()->canAccess())
+                        @if ($book->pdf)
+                            <button
+                                class="inline-block py-2 px-4 bg-red-800 hover:bg-red-600 duration-200 text-white font-bold rounded-lg mt-4">
+                                تحميل الكتاب ك PDF
+                            </button>
+                        @endif
+                        @can(App\Enums\PermissionEnum::BOOK->value)
                             <a href="{{ route('dashboard.books.edit', $book->id) }}" wire:navgiate
                                 class="inline-block py-2 px-4 bg-amber-800 hover:bg-amber-600 duration-200 text-white font-bold rounded-lg mt-4">
                                 تعديل علي الكتاب
                             </a>
-                        @endif
+                        @endcan
                     </div>
                 </div>
                 <div>

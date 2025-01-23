@@ -43,6 +43,9 @@
                     <x-toggle wire:model.change='filters.author' label='اسم المؤلف' currentStatus='true' />
                     <x-toggle wire:model.change='filters.section' label='اسم القسم' currentStatus='true' />
                     <x-toggle wire:model.change='filters.shelf' label='اسم الرف' currentStatus='true' />
+                    <x-toggle wire:model.change='filters.subjects' label='الموضوعات' currentStatus='false' />
+                    <x-toggle wire:model.change='filters.series' label='السلسله' currentStatus='false' />
+
                 </div>
                 <x-select id="orderBy" wire:model.change='orderBy' class="mt-4 cursor-pointer">
                     <option value="new">أحدث الكتب اولا</option>

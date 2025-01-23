@@ -72,8 +72,9 @@ new class extends Component {
                                     <button
                                         class="border-2 border-transparent rounded-full overflow-hidden hover:border-white focus-within:border-white duration-150">
 
-                                        <img src="{{ asset('assets/images/logo.png') }}" class="w-12 h-12 rounded-full"
-                                            alt="Logo website">
+                                        <img src="{{ auth()->user()->photo ? Storage::url(auth()->user()->photo) : asset('assets/images/logo.png') }}"
+                                            class="w-12 h-12 rounded-full bg-gray-200" alt="صورة الملف الشخصي"
+                                            onerror="this.onerror=null; this.src='{{ asset('assets/images/logo.png') }}';">
                                     </button>
                                 </x-slot>
                                 <x-slot name="content">

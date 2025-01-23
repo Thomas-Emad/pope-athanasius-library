@@ -178,14 +178,16 @@ class BookForm extends Form
    */
   public function destory()
   {
-    $book = Book::where('id', $this->id)->first();
-    if ($book->pdf) {
-      $this->deleteAttachment($book->pdf);
+    if (Auth::user()->can('delete_book')) {
+      $book = Book::where('id', $this->id)->first();
+      if ($book->pdf) {
+        $this->deleteAttachment($book->pdf);
+      }
+      if ($book->photo) {
+        $this->deleteAttachment($book->photo);
+      }
+      $book->delete();
     }
-    if ($book->photo) {
-      $this->deleteAttachment($book->photo);
-    }
-    $book->delete();
   }
 
   /**

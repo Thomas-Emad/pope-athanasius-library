@@ -55,7 +55,7 @@ class Book extends Model
     return match ($orderBy) {
       'new' => $query->latest(),
       'old' => $query->oldest(),
-      'top_views' => $query->orderBy('views', 'asc'),
+      'top_views' => $query->orderBy('views', 'desc'),
     };
   }
 }

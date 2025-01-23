@@ -5,7 +5,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
-use Livewire\Attributes\Layout;
+use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 
 new #[Layout('layouts.guest')] class extends Component {
@@ -22,16 +22,28 @@ new #[Layout('layouts.guest')] class extends Component {
     #[Title('أنشاء حساب')]
     public function register(): void
     {
-        $validated = $this->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-            'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
-            'phone' => ['required', 'string'],
-        ]);
+        $validated = $this->validate(
+            [
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+                'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
+                'phone' => ['required', 'string', 'regex:/^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/'],
+            ],
+            [
+                'phone.regex' => 'رقم الهاتف يجب أن يكون بتنسيق صحيح.',
+            ],
+            [
+                'name' => 'الاسم',
+                'email' => 'البريد الالكتروني',
+                'password' => 'كلمة المرور',
+                'password_confirmation' => 'تاكيد كلمة المرور',
+                'phone' => 'رقم الهاتف',
+            ],
+        );
         $validated['password'] = Hash::make($validated['password']);
-
-        event(new Registered(($user = User::create($validated))));
-        $owner->assignRole([3]);
+        $user = User::create($validated);
+        event(new Registered($user));
+        $user->assignRole([3]);
         Auth::login($user);
 
         $this->redirect(route('home', absolute: false), navigate: true);

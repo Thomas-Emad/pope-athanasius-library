@@ -13,6 +13,7 @@
         <!-- Page Content -->
         <main class="min-h-screen">
             {{ $slot }}
+            @yield('content')
         </main>
 
         <livewire:layout.footer />
@@ -20,6 +21,7 @@
     </div>
 
     <script src="{{ asset('assets/js/all.min.js') }}"></script>
+    @livewireScripts
 </body>
 
 </html>

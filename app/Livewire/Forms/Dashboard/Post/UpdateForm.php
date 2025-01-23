@@ -17,7 +17,7 @@ class UpdateForm extends Form
   #[Validate('required|min:3|max:255|string', 'عنوان المنشور')]
   public $title;
 
-  #[Validate('required|min:10|max:2500|string', 'المحتوي')]
+  #[Validate('required|min:0|max:2500|string', 'المحتوي')]
   public $content;
 
   #[Validate('nullable|image|max:2048', 'الغلاف')]
@@ -48,12 +48,14 @@ class UpdateForm extends Form
    */
   public function updatePost()
   {
-    $this->validate();
-    Post::where('id', $this->id)->update([
-      'user_id' => Auth::id(),
-      'title' => $this->title,
-      'content' => $this->content,
-      'photo' => $this->photo ? $this->uploadAttachment($this->oldPhoto, $this->photo, 'posts') : null,
-    ]);
+    if (Auth::user()->can('posts')) {
+      $this->validate();
+      Post::where('id', $this->id)->update([
+        'user_id' => Auth::id(),
+        'title' => $this->title,
+        'content' => $this->content,
+        'photo' => $this->photo ? $this->uploadAttachment($this->oldPhoto, $this->photo, 'posts') : null,
+      ]);
+    }
   }
 }

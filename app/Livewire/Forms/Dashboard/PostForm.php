@@ -6,6 +6,7 @@ use Livewire\Form;
 use App\Models\Post;
 use App\Traits\UpdateAttachmentTrait;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class PostForm extends Form
 {
@@ -41,18 +42,22 @@ class PostForm extends Form
    */
   public function destory()
   {
-    $post = Post::where('id', $this->id)->select('photo')->first();
-    if ($post && !is_null($post?->photo) && Storage::exists($post->photo)) {
-      Storage::delete($post->photo);
+    if (Auth::user()->can('posts')) {
+      $post = Post::where('id', $this->id)->select('photo')->first();
+      if ($post && !is_null($post?->photo) && Storage::exists($post->photo)) {
+        Storage::delete($post->photo);
+      }
+      Post::where('id', $this->id)->delete();
     }
-    Post::where('id', $this->id)->delete();
   }
 
   public function markup($id)
   {
-    $post =  Post::where('id', $id)->first();
-    $post->update([
-      'markup' => !$post->markup
-    ]);
+    if (Auth::user()->can('posts')) {
+      $post =  Post::where('id', $id)->first();
+      $post->update([
+        'markup' => !$post->markup
+      ]);
+    }
   }
 }

@@ -34,7 +34,7 @@ new class extends Component {
         $this->email = $user->email;
         $this->phone = $user->phone ?? '';
         $this->oldPhoto = $user->photo ?? '';
-        $this->brith_day = $user->brith_day->format('Y-m-d') ?? '';
+        $this->brith_day = $user->brith_day?->format('Y-m-d') ?? '';
     }
 
     private function allowEdit()

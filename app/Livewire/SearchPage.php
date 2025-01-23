@@ -24,6 +24,8 @@ class SearchPage extends Component
     'author' => true,
     'section' => true,
     'shelf' => true,
+    'subjects' => false,
+    'series' => false,
   ];
 
 
@@ -43,22 +45,34 @@ class SearchPage extends Component
     return Book::query()
       ->when($this->filters['book'], fn($query) =>
       $query->orWhere('title', 'like', "%{$this->search}%"))
+
       ->when($this->filters['code'], fn($query) =>
       $query->orWhere('code', $this->search))
+
       ->when($this->filters['author'], fn($query) =>
       $query->orWhereHas('author', fn($subQuery) =>
       $subQuery->where('name', 'like', "%{$this->search}%")))
+
+      ->when($this->filters['subjects'], fn($query) =>
+      $query->orWhere('subjects', 'like', "%{$this->search}%"))
+
+      ->when($this->filters['series'], fn($query) =>
+      $query->orWhere('series', 'like', "%{$this->search}%"))
+
       ->when($this->filters['publisher'], fn($query) =>
       $query->orWhereHas('publisher', fn($subQuery) =>
       $subQuery->where('name', 'like', "%{$this->search}%")))
+
       ->when($this->filters['section'], fn($query) =>
       $query->orWhereHas('section', fn($subQuery) =>
       $subQuery->where('title', 'like', "%{$this->search}%")
         ->orWhere('number', $this->search)))
+
       ->when($this->filters['shelf'], fn($query) =>
       $query->orWhereHas('shelf', fn($subQuery) =>
       $subQuery->where('title', 'like', "%{$this->search}%")
         ->orWhere('number', $this->search)))
+
       ->orderBooksBy($this->orderBy);
   }
 

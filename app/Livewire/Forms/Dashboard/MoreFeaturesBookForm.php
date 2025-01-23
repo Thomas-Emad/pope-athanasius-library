@@ -18,6 +18,7 @@ class MoreFeaturesBookForm extends Form
   {
     return Excel::download(new BooksExport, 'books.xlsx');
   }
+
   public function import()
   {
     $this->validate();

@@ -75,6 +75,8 @@
                                 </th>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     {{ $user->getRoleNames()->first() }}
+                                    {{-- {{ $user->roles->first() }} --}}
+
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     {{ $user->phone ?? 'N/A' }}
@@ -84,7 +86,6 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     {{ $user->brith_day ? round($user->brith_day->diffInYears(now())) : 'N/A' }}
-
                                 </td>
                                 <td class="px-6 py-4 ">
                                     {{ $user->created_at->format('Y-m-d') }}
