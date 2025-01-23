@@ -6,5 +6,5 @@
         <i class="{{ $icon }}"></i>
         <p class="text-2xl font-bold">{{ $label }}</p>
     </div>
-    <p class="text-center text-green-800">{{ $value }}</p>
+    <p class="text-center text-green-800 text-lg">{{ $value }}</p>
 </div>

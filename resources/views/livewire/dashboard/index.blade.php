@@ -7,12 +7,14 @@
     </div>
     <div class="flex flex-col justify-center md:flex-row gap-4 flex-wrap text-gray-700">
         <div class="flex flex-col justify-center md:flex-row gap-4 flex-wrap text-gray-700">
-            <x-card-index-dashboard label="المستخدمين" value="2000" icon="fa-solid fa-users" />
-            <x-card-index-dashboard label="الكتب" value="2000" icon="fa-solid fa-book" />
-            <x-card-index-dashboard label="مشاهدات الكتب" value="2000" icon="fa-solid fa-book" />
-            <x-card-index-dashboard label="المنشورات" value="2000" icon="fa-solid fa-edit" />
-            <x-card-index-dashboard label="الناشرين" value="2000" icon="fa-solid fa-edit" />
-            <x-card-index-dashboard label="المؤلفين" value="2000" icon="fa-solid fa-edit" />
+            <x-card-index-dashboard label="المستخدمين" value="{{ $statistics->count_users }}" icon="fa-solid fa-users" />
+            <x-card-index-dashboard label="الكتب" value="{{ $statistics->count_books }}" icon="fa-solid fa-book" />
+            <x-card-index-dashboard label="مشاهدات الكتب" value="{{ $statistics->views_book }}"
+                icon="fa-solid fa-book" />
+            <x-card-index-dashboard label="المنشورات" value="{{ $statistics->count_posts }}" icon="fa-solid fa-edit" />
+            <x-card-index-dashboard label="الناشرين" value="{{ $statistics->count_publishers }}"
+                icon="fa-solid fa-edit" />
+            <x-card-index-dashboard label="المؤلفين" value="{{ $statistics->count_authors }}" icon="fa-solid fa-edit" />
         </div>
     </div>
     <hr class="block w-[95%] mx-auto my-4">
