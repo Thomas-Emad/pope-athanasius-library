@@ -13,7 +13,8 @@
                 <div class="absolute inset-y-0 right-2 flex items-center justify-center z-10">
                     <i class="fa-solid fa-magnifying-glass text-brown-max"></i>
                 </div>
-                <input type="text" wire:model='search' placeholder="أكتب هنا اسم الكتاب, الناشر, المؤلف..."
+                <input type="text" wire:model='search'
+                    placeholder="أكتب هنا اسم الكتاب، المؤلف، الناشر، الموضوعات، القسم، الرف، كود الكتاب..."
                     class="py-4 px-8 border-none outline-none rounded-xl w-full focus:ring-brown-max">
                 <div class="absolute inset-y-0 left-2 flex items-center justify-center  z-10">
                     <button type="button" wire:click="submit"
@@ -30,7 +31,7 @@
             z-10 flex items-center justify-center w-full md:w-fit">
             <div class="w-full md:w-fit bg-white h-fit shadow-lg px-4 py-4 rounded-lg">
                 <div class="flex items-center justify-between gap-4 pb-6">
-                    <h3 class="font-bold">اعدادات متقدمه للبحث</h3>
+                    <h3 class="font-bold">إعدادات متقدمة للبحث</h3>
                     <button x-on:click="showFilter = !showFilter" type="button"
                         class="hover:text-red-600 duration-200 cursor-pointer">
                         <i class="fa-solid fa-x"></i>
@@ -44,19 +45,19 @@
                     <x-toggle wire:model.change='filters.section' label='اسم القسم' currentStatus='true' />
                     <x-toggle wire:model.change='filters.shelf' label='اسم الرف' currentStatus='true' />
                     <x-toggle wire:model.change='filters.subjects' label='الموضوعات' currentStatus='false' />
-                    <x-toggle wire:model.change='filters.series' label='السلسله' currentStatus='false' />
+                    <x-toggle wire:model.change='filters.series' label='السلسلة' currentStatus='false' />
 
                 </div>
                 <x-select id="orderBy" wire:model.change='orderBy' class="mt-4 cursor-pointer">
-                    <option value="new">أحدث الكتب اولا</option>
-                    <option value="old">أقدم الكتب اولا</option>
-                    <option value="top_views">الكتب ألاكثر مشاهده</option>
+                    <option value="new">أحدث الكتب أولًا</option>
+                    <option value="old">أقدم الكتب أولًا</option>
+                    <option value="top_views">الكتب الأكثر مشاهدة</option>
                 </x-select>
             </div>
         </div>
     </div>
     <div class="container px-10 max-w-full">
-        <h2 class="font-bold text-xl my-4">هذا نتيجة البحث:</h2>
+        <h2 class="font-bold text-xl my-4">هذه نتيجة البحث:</h2>
         <div>
             <div class="grid gap-4 pb-8" style="grid-template-columns: repeat(auto-fill, minmax(150px, 1fr))">
                 @foreach ($books as $book)
@@ -79,7 +80,7 @@
             @endif
 
             @if (sizeOf($books) == 0)
-                <p class="text-gray-600 text-center italic my-4">لا يوجد كتاب هنا بهذا المواصفات..</p>
+                <p class="text-gray-600 text-center italic my-4">لا يوجد كتاب هنا بهذه المواصفات...</p>
             @endif
         </div>
     </div>

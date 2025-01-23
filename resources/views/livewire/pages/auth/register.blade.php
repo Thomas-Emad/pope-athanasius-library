@@ -30,13 +30,13 @@ new #[Layout('layouts.guest')] class extends Component {
                 'phone' => ['required', 'string', 'regex:/^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/'],
             ],
             [
-                'phone.regex' => 'رقم الهاتف يجب أن يكون بتنسيق صحيح.',
+                'phone.regex' => 'يجب أن يكون رقم الهاتف بتنسيق صحيح.',
             ],
             [
                 'name' => 'الاسم',
-                'email' => 'البريد الالكتروني',
+                'email' => 'البريد الإلكتروني',
                 'password' => 'كلمة المرور',
-                'password_confirmation' => 'تاكيد كلمة المرور',
+                'password_confirmation' => 'تأكيد كلمة المرور',
                 'phone' => 'رقم الهاتف',
             ],
         );
@@ -58,9 +58,9 @@ new #[Layout('layouts.guest')] class extends Component {
 
     <form wire:submit="register">
         <a href="/" class="block" wire:navigate>
-            <img src="{{ asset('assets/images/logo.png') }}" class="mx-auto w-24" alt="logo">
+            <img src="{{ asset('assets/images/logo.png') }}" class="mx-auto w-24" alt="الشعار">
         </a>
-        <h1 class="text-4xl text-center my-2">أنشاء حساب</h1>
+        <h1 class="text-4xl text-center my-2">إنشاء حساب</h1>
 
         <!-- Name -->
         <div class="mt-4">
@@ -71,7 +71,7 @@ new #[Layout('layouts.guest')] class extends Component {
         </div>
         <!-- Email Address -->
         <div class="mt-4">
-            <x-input-label for="email" :value="__('البريد الالكتروني')" />
+            <x-input-label for="email" :value="__('البريد الإلكتروني')" />
             <x-text-input wire:model="email" id="email" class="block mt-1 w-full" type="email" name="email"
                 required autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
@@ -109,7 +109,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
         <div>
             <x-button class="py-4 mt-4 text-center text-sm w-full bg-brown-max hover:bg-brown-lite duration-200">
-                {{ __('أنشاء حساب') }}
+                {{ __('إنشاء حساب') }}
             </x-button>
         </div>
 
@@ -120,7 +120,7 @@ new #[Layout('layouts.guest')] class extends Component {
                 ليس لديك حساب؟
             </span>
             <a href="{{ route('login') }}" wire:navigate class="text-brown-max">
-                انشاء حساب
+                إنشاء حساب
             </a>
         </p>
     </form>

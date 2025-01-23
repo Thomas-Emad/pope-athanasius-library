@@ -29,7 +29,7 @@
                         </div>
                         <input type="text" id="table-search" wire:model.blur='search'
                             class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="ابحث عن كلمة يوم..">
+                            placeholder="ابحث عن كلمة اليوم..">
                     </div>
                 </div>
                 <div class="me-2">
@@ -49,7 +49,7 @@
                             رقم الكلمه
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            الحاله
+                            الحالة
                         </th>
                         <th scope="col" class="px-6 py-3">
                             المزيد
@@ -74,7 +74,6 @@
                                 <x-toggle wire:click='setWordToDay({{ $item->id }})'
                                     currentStatus="{{ $item->is_today }}" />
                             </td>
-
                             <td class="px-6 py-4 flex gap-2">
                                 <button wire:key="{{ $item->id }}" x-on:click="type = 'edit'"
                                     wire:click='editWordDaily({{ $item->id }})'
@@ -93,7 +92,7 @@
                     @empty
                         <tr>
                             <td colspan="5" class="py-2 text-center  italic text-gray-600">
-                                يبدوا انه ليس لدينا هنا اي كلمه يوميه!!
+                                يبدو أنه ليس لدينا هنا أي كلمة يومية!
                             </td>
                         </tr>
                     @endforelse
@@ -113,7 +112,7 @@
                     <h2 class="text-lg font-medium text-gray-900 flex gap-1 items-center">
                         <i class="fa-solid fa-pen-to-square"></i>
                         <span
-                            x-text="type == 'add' ? 'حسنا, يبدوا انه هناك كلمه يوم جديد لدينا؟!' : 'اممم, ماذا تريد تعديله؟'">
+                            x-text="type == 'add' ? 'حسنًا، يبدو أنه هناك كلمة يوم جديدة لدينا!' : 'أممم، ماذا تريد تعديله؟'">
                         </span>
                     </h2>
                     <i class="fa-solid fa-x hover:text-red-600 duration-150 cursor-pointer text-sm"
@@ -122,23 +121,22 @@
                 <form wire:submit.prevent='saveWordDaily' x-show="type == 'add'" class="mt-4" x-data
                     x-init="$watch('type', (newValue) => { if (newValue === 'add') $wire.resetForm(); })">
                     <div class="mt-6">
-                        <x-input-label for="add-word-said" value="{{ __('من قائل هذا الكلمه؟') }}" class="sr-only" />
+                        <x-input-label for="add-word-said" value="{{ __('من قائل هذه الكلمة؟') }}" class="sr-only" />
                         <x-text-input wire:model="word.said" id="word-said" type="text" class="mt-1 block w-full"
-                            placeholder="{{ __('اكتب هنا اسم قائل هذا الكلمه') }}" />
+                            placeholder="{{ __('اكتب هنا اسم قائل هذه الكلمة') }}" />
                         <x-input-error :messages="$errors->get('word.said')" class="mt-2" />
                     </div>
 
                     <div class="mt-4">
-                        <x-input-label for="add-word-content" value="{{ __('هل يمكنك اخبار بماذا تحتوي؟') }}"
+                        <x-input-label for="add-word-content" value="{{ __('يمكنك إخباري بما تحتوي؟') }}"
                             class="sr-only" />
                         <x-textarea wire:model="word.content" id="add-word-content" type="text"
-                            class="mt-1 block w-full" placeholder="{{ __('اكتب هنا محتوي الكلمه') }}" />
+                            class="mt-1 block w-full" placeholder="{{ __('اكتب هنا محتوى الكلمة') }}" />
                         <x-input-error :messages="$errors->get('word.content')" class="mt-2" />
                     </div>
-
                     <div class="mt-4">
                         <x-text-input type='number' wire:model="word.number_show"
-                            placeholder="{{ __('ترتيب هذا الكلمه؟') }}" class="w-full" />
+                            placeholder="{{ __('ترتيب هذا الكلمة') }}" class="w-full" />
                         <x-input-error :messages="$errors->get('word.number_show')" class="mt-2" />
                     </div>
 
@@ -157,23 +155,23 @@
 
                 <form wire:submit.prevent='updateWordDaily' x-show="type == 'edit'" class="mt-4">
                     <div class="mt-6">
-                        <x-input-label for="word-said" value="{{ __('من قائل هذا الكلمه؟') }}" class="sr-only" />
+                        <x-input-label for="word-said" value="{{ __('من قائل هذه الكلمة؟') }}" class="sr-only" />
                         <x-text-input wire:model="word.said" id="word-said" type="text" class="mt-1 block w-full"
                             placeholder="{{ __('اكتب هنا اسم قائل هذا الكلمه') }}" />
                         <x-input-error :messages="$errors->get('word.said')" class="mt-2" />
                     </div>
 
                     <div class="mt-4">
-                        <x-input-label for="word-content" value="{{ __('هل يمكنك اخبار بماذا تحتوي؟') }}"
+                        <x-input-label for="word-content" value="{{ __('يمكنك إخباري بما تحتوي؟') }}"
                             class="sr-only" />
                         <x-textarea wire:model="word.content" id="word-content" type="text"
-                            class="mt-1 block w-full" placeholder="{{ __('اكتب هنا محتوي الكلمه') }}" />
+                            class="mt-1 block w-full" placeholder="{{ __('اكتب هنا محتوي الكلمة') }}" />
                         <x-input-error :messages="$errors->get('word.content')" class="mt-2" />
                     </div>
 
                     <div class="mt-4">
                         <x-text-input type='number' wire:model="word.number_show"
-                            placeholder="{{ __('ترتيب هذا الكلمه؟') }}" class="w-full" />
+                            placeholder="{{ __('ترتيب هذا الكلمة؟') }}" class="w-full" />
                         <x-input-error :messages="$errors->get('word.number_show')" class="mt-2" />
                     </div>
 
@@ -199,7 +197,7 @@
                     <h2 class="text-lg font-medium text-gray-900 flex gap-1 items-center">
                         <i class="fa-solid fa-trash-can"></i>
                         <span>
-                            هل انت متاكد من حذف هذا الكلمه؟!
+                            هل انت متاكد من حذف هذا الكلمة؟!
                         </span>
                     </h2>
                     <i class="fa-solid fa-x hover:text-red-600 duration-150 cursor-pointer text-sm"
@@ -207,7 +205,7 @@
                 </div>
                 <form wire:submit='deleteWordDaily(idDeleteWord)' class="mt-4">
                     <div>
-                        <p class="text-gray-600">هذا اجراء نهائي ولا يمكنك التراجع عنه, هذا محتوي الكلمه:</p>
+                        <p class="text-gray-600">هذا إجراء نهائي ولا يمكنك التراجع عنه، هذا محتوى الكلمة :</p>
                         <x-textarea x-text="titleDeleteWord" class="mt-2 w-full" disabled='true' />
                     </div>
                     <div class="mt-6 flex justify-end">

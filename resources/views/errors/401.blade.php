@@ -18,10 +18,9 @@
                 <img src="{{ asset('assets/images/errors/401.png') }}" class="inline-block mx-auto w-5/6 md:w-2/6"
                     alt="">
                 <div class="text-center text-gray-900">
-                    <h1 class="font-bold text-2xl">ليس لديك اذن لفتح هذا الصفحه!!</h1>
-                    <p class="text-xl">يبدوا انه ليس لديك اذن لفتح هذا الصفحه, اذا كانت تعتقد ان يجب ان يكون, اتصل ب
-                        مشرف
-                        الموقع</p>
+                    <h1 class="font-bold text-2xl">ليس لديك إذن لفتح هذه الصفحة!</h1>
+                    <p class="text-xl">يبدو أنه ليس لديك إذن لفتح هذه الصفحة. إذا كنت تعتقد أنك مُخوّل، اتصل بمشرف
+                        الموقع.</p>
                 </div>
             </div>
 

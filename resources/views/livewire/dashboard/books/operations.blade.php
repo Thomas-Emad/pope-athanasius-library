@@ -221,7 +221,7 @@
 
                 <div class="mt-4 bg-white p-2 rounded-lg border border-gray-200 shadow-lg">
                     <x-toggle wire:model='book.markup' currentStatus="{{ $book->markup }}"
-                        label='عرض هذا الكتاب في الصفحه الرئيسيه' />
+                        label='عرض هذا الكتاب في الصفحة الرئيسية' />
                 </div>
                 @if ($type !== 'store')
                     @can(App\Enums\PermissionEnum::DELETE_BOOK->value)

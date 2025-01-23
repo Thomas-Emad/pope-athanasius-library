@@ -33,7 +33,7 @@ new class extends Component {
                             <a href="{{ route('home') }}" wire:navigate
                                 class="hover:text-gray-800 hover:border-gray-800 duration-200">
                                 <i class="fa-solid fa-house"></i>
-                                <span>الصفحه الرائيسيه</span>
+                                <span>الصفحة الرئيسية</span>
                             </a>
                         </li>
                         <li>
@@ -71,7 +71,6 @@ new class extends Component {
                                 <x-slot name="trigger">
                                     <button
                                         class="border-2 border-transparent rounded-full overflow-hidden hover:border-white focus-within:border-white duration-150">
-
                                         <img src="{{ auth()->user()->photo ? Storage::url(auth()->user()->photo) : asset('assets/images/logo.png') }}"
                                             class="w-12 h-12 rounded-full bg-gray-200" alt="صورة الملف الشخصي"
                                             onerror="this.onerror=null; this.src='{{ asset('assets/images/logo.png') }}';">
@@ -85,7 +84,7 @@ new class extends Component {
                                     @endcan
                                     @can(App\Enums\PermissionEnum::BOOK->value)
                                         <x-dropdown-link :href="route('dashboard.books.create')" wire:navigate>
-                                            أضافه كتاب جديد
+                                            إضافة كتاب جديد
                                         </x-dropdown-link>
                                     @endcan
                                     @can(App\Enums\PermissionEnum::USERS->value)
@@ -130,7 +129,7 @@ new class extends Component {
                     <a href="{{ route('home') }}" wire:navigate
                         class="hover:text-gray-800 hover:border-gray-800 duration-200">
                         <i class="fa-solid fa-house"></i>
-                        <span>الصفحه الرائيسيه</span>
+                        <span>الصفحة الرئيسية</span>
                     </a>
                 </li>
                 <li>
@@ -164,7 +163,7 @@ new class extends Component {
                 <h2 class="text-lg font-medium text-gray-900 flex gap-1 items-center">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <span>
-                        هل يمكنك اخباري اسم الكتاب؟
+                        هل يمكنك إخباري باسم الكتاب؟
                     </span>
                 </h2>
                 <i class="fa-solid fa-x hover:text-red-600 duration-150 cursor-pointer text-sm"

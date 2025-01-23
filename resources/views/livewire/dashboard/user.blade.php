@@ -75,8 +75,6 @@
                                 </th>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     {{ $user->getRoleNames()->first() }}
-                                    {{-- {{ $user->roles->first() }} --}}
-
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     {{ $user->phone ?? 'N/A' }}
@@ -127,7 +125,7 @@
                     <h2 class="text-lg font-medium text-gray-900 flex gap-1 items-center">
                         <i class="fa-solid fa-users-gear"></i>
                         <span>
-                            هل تريد تغير اذونات هذا المستخدم؟!
+                            هل تريد تغيير أذونات هذا المستخدم؟!
                         </span>
                     </h2>
                     <i class="fa-solid fa-x hover:text-red-600 duration-150 cursor-pointer text-sm"
@@ -143,11 +141,11 @@
                     <div class="mt-6">
                         <x-input-label for="email" value="{{ __('البريد الالكتروني') }}" class="sr-only" />
                         <x-text-input wire:model="user.email" id="email" type="text" class="mt-1 block w-full"
-                            placeholder="{{ __('هنا يسجل البريد الالكتروني') }}" disabled="false" />
+                            placeholder="{{ __('هنا يُسجَّل البريد الإلكتروني.') }}" disabled="false" />
                     </div>
 
                     <div class="mt-6">
-                        <x-input-label for="role" value="{{ __('الدور المستخدم') }}" class="sr-only" />
+                        <x-input-label for="role" value="{{ __('دور المستخدم') }}" class="sr-only" />
                         <x-select wire:model="user.role" id="role" class="mt-1 block w-full">
                             @foreach ($roles as $role)
                                 <option value="{{ $role->name }}">{{ $role->name }} </option>
@@ -192,19 +190,19 @@
                             <span>{{ __('اسم المستخدم') }}</span>
                             <x-text-input wire:model="user.username" id="username" type="text"
                                 class="mt-1 block w-full disabled:bg-gray-200"
-                                placeholder="{{ __('هنا يسجل اسم المستخدم') }}" disabled="false" />
+                                placeholder="{{ __('هنا يُسجَّل اسم المستخدم') }}" disabled="false" />
                         </div>
                         <div class="mt-3">
                             <span>{{ __('البريد الالكتروني') }}</span>
                             <x-text-input wire:model="user.email" id="email" type="text"
                                 class="mt-1 block w-full disabled:bg-gray-100"
-                                placeholder="{{ __('هنا يسجل البريد الالكتروني') }}" disabled="false" />
+                                placeholder="{{ __('هنا يُسجَّل البريد الإلكتروني') }}" disabled="false" />
                         </div>
                         <div class="mt-3">
                             <span>{{ __('أذونات المستخدم') }}</span>
                             <x-text-input wire:model="user.role" id="role" type="text"
                                 class="mt-1 block w-full disabled:bg-gray-100"
-                                placeholder="{{ __('هنا يسجل أذونات المستخدم') }}" disabled="false" />
+                                placeholder="{{ __('هنا تُحدَّد/تُعيَّن أذونات المستخدم') }}" disabled="false" />
                         </div>
                         <div class="mt-3">
                             <span>{{ __('رقم الهاتف') }}</span>

@@ -3,10 +3,12 @@
 use App\Livewire\Actions\Logout;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-use Livewire\Attributes\Layout;
+use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
+use
 
 new #[Layout('layouts.guest')] class extends Component {
+    #[Title('تأكيد الحساب أولاً')]
     /**
      * Send an email verification notification to the user.
      */
@@ -47,15 +49,15 @@ new #[Layout('layouts.guest')] class extends Component {
         </a>
 
         <div>
-            <h1 class="text-4xl text-center my-2">يجب عليك تاكيد بريدك الالكتروني اولا</h1>
-            <p class="text-center">هذا الاجراء مهمه جدا حتي تتمكن من متابعة تصفحك مكتبة البابا أثناسيوس للاطلاع </p>
+            <h1 class="text-4xl text-center my-2">يجب عليك تأكيد بريدك الإلكتروني أولاً</h1>
+            <p class="text-center">هذا الإجراء مهم جدًا حتى تتمكن من متابعة تصفحك لمكتبة البابا أثناسيوس للاطلاع</p>
 
         </div>
 
         <div>
             <x-button wire:click="sendVerification"
                 class="py-4 mt-4 text-center text-sm w-full bg-green-700 hover:bg-green-700 duration-200">
-                {{ __('اعادة ارسال الرساله') }}
+                {{ __('إعادة إرسال الرسالة') }}
             </x-button>
             <x-button wire:click="logout" type="submit"
                 class="py-4 mt-4 text-center text-sm w-full bg-red-700 hover:bg-red-800 duration-200">

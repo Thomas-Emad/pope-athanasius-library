@@ -4,7 +4,7 @@
             <h1 class="flex items-center gap-2 font-bold text-2xl pb-2 border-b-4 mb-2 border-b-brown-max w-fit">
                 @if ($book->markup)
                     <i class="fa-solid fa-star text-amber-600"
-                        title="هذا تعني ان هذا الكتاب يتم عرضه في الصفحة الرئيسيه"></i>
+                        title="هذا يعني أن هذا الكتاب يتم عرضه في الصفحة الرئيسية"></i>
                 @endif
                 <div>
                     <i class="fa-solid fa-book-open-reader"></i>
@@ -104,13 +104,13 @@
                         @if (!is_null($book->pdf))
                             <button wire:click="downloadPdfBook()"
                                 class="inline-block py-2 px-4 bg-red-800 hover:bg-red-600 duration-200 text-white font-bold rounded-lg mt-4">
-                                تحميل الكتاب ك PDF
+                                تحميل الكتاب بصيغة PDF
                             </button>
                         @endif
                         @can(App\Enums\PermissionEnum::BOOK->value)
                             <a href="{{ route('dashboard.books.edit', $book->id) }}" wire:navgiate
                                 class="inline-block py-2 px-4 bg-amber-800 hover:bg-amber-600 duration-200 text-white font-bold rounded-lg mt-4">
-                                تعديل علي الكتاب
+                                التعديل على الكتاب
                             </a>
                         @endcan
                     </div>
@@ -126,7 +126,7 @@
             <h1 class="flex items-center gap-2 font-bold text-2xl pb-2 border-b-4 mb-2 border-b-brown-max w-fit">
                 <div>
                     <i class="fa-solid fa-clipboard-list"></i>
-                    <span> مواضيع الكتاب</span>
+                    <span>مواضيع الكتاب</span>
                 </div>
             </h1>
             <div>
@@ -148,7 +148,7 @@
                 <h1 class="flex items-center gap-2 font-bold text-2xl pb-2 border-b-4 mb-2 border-b-brown-max w-fit">
                     <div>
                         <i class="fa-solid fa-context"></i>
-                        <span> ملخص الكتاب</span>
+                        <span>ملخص الكتاب</span>
                     </div>
                 </h1>
                 <p class="whitespace-pre">{{ $book->content }}</p>

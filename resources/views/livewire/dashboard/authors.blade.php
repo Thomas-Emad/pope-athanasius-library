@@ -88,8 +88,7 @@
                 <div class="flex justify-between items-center">
                     <h2 class="text-lg font-medium text-gray-900 flex gap-1 items-center">
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        <span
-                            x-text="type == 'add' ? 'حسنا, يبدوا انه هناك مؤلف جديد لدينا؟!' : 'اممم, ماذا تريد تعديله؟'">
+                        <span x-text="type == 'add' ? 'حسنًا، يبدو أنه لدينا مؤلف جديد!' : 'ما الذي تريد تعديله؟'">
                         </span>
                     </h2>
                     <i class="fa-solid fa-x hover:text-red-600 duration-150 cursor-pointer text-sm"
@@ -97,9 +96,9 @@
                 </div>
                 <form wire:submit='saveAuthor' x-show="type == 'add'" class="mt-4">
                     <div class="mt-6">
-                        <x-input-label for="author-name" value="{{ __('اسم مؤلف') }}" class="sr-only" />
+                        <x-input-label for="author-name" value="{{ __('اسم المؤلف') }}" class="sr-only" />
                         <x-text-input wire:model="author.name" id="author-name" type="text" class="mt-1 block w-full"
-                            placeholder="{{ __('اكتب هنا اسم مؤلف') }}" />
+                            placeholder="{{ __('اكتب هنا اسم المؤلف') }}" />
                         <x-input-error :messages="$errors->get('author.name')" class="mt-2" />
                     </div>
 
@@ -117,9 +116,9 @@
                 </form>
                 <form wire:submit='updateAuthor' x-show="type == 'edit'" class="mt-4">
                     <div class="mt-6">
-                        <x-input-label for="author-name" value="{{ __('اسم مؤلف') }}" class="sr-only" />
+                        <x-input-label for="author-name" value="{{ __('اسم المؤلف') }}" class="sr-only" />
                         <x-text-input wire:model="author.name" id="author-name" type="text" class="mt-1 block w-full"
-                            placeholder="{{ __('اكتب هنا اسم مؤلف') }}" />
+                            placeholder="{{ __('اكتب هنا اسم المؤلف') }}" />
                         <x-input-error :messages="$errors->get('author.name')" class="mt-2" />
                     </div>
 

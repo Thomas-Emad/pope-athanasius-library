@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center gap-2">
             <h1 class="w-fit font-bold pb-2 text-4xl border-b-4 border-b-brown-max ">
                 <i class="fa-solid fa-book-medical"></i>
-                <span> أقسام الكتب </span>
+                <span>أقسام الكتب</span>
             </h1>
             @can(App\Enums\PermissionEnum::SECTIONS_BOOK->value)
                 <div>
@@ -58,13 +58,14 @@
                                     class="bg-brown-max text-white text-xm py-1 px-2 rounded-xl">{{ $shelf->number ?? 'N/A' }}</span>
                             </div>
                         @empty
-                            <p class="font-bold text-center italic w-full text-2xl text-gray-700">لا يوجد روفوف هنا..
+                            <p class="font-bold text-center italic w-full text-2xl text-gray-700">
+                                لا يوجد رفوف هنا..
                             </p>
                         @endforelse
                     </div>
                 </button>
             @empty
-                <p class="font-bold text-center italic w-full text-2xl text-gray-700">لا يوجد اقسام هنا..</p>
+                <p class="font-bold text-center italic w-full text-2xl text-gray-700">لا يوجد أقسام هنا..</p>
             @endforelse
 
         </div>
@@ -77,7 +78,7 @@
                 <h2 class="text-lg font-medium text-gray-900 flex gap-1 items-center">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <span>
-                        هل تريد اضافه شئ جديد؟!
+                        هل تريد إضافة شيء جديد؟
                     </span>
                 </h2>
                 <i class="fa-solid fa-x hover:text-red-600 duration-150 cursor-pointer text-sm"
@@ -88,12 +89,12 @@
                     <button type="button" x-on:click="openSection = true"
                         :class="openSection ? 'bg-amber-800' : 'bg-amber-600'"
                         class=" hover:bg-amber-800 duration-200 py-2 px-4 text-white w-full rounded-xl text-center">
-                        أضافة قسم
+                        إضافة قسم
                     </button>
                     <button type="button" x-on:click="openSection = false"
                         :class="!openSection ? 'bg-amber-800' : 'bg-amber-600'"
                         class=" hover:bg-amber-800 duration-200 py-2 px-4 text-white w-full rounded-xl text-center">
-                        أضافه راف
+                        إضافة رف
                     </button>
 
                 </div>
@@ -115,12 +116,12 @@
 
                         <div class="mt-6 flex justify-end">
                             <x-secondary-button x-on:click="$dispatch('close')">
-                                {{ __('الغاء') }}
+                                {{ __('إلغاء') }}
                             </x-secondary-button>
 
                             <x-button
                                 class="ms-3 bg-brown-lite hover:bg-brown-max active:bg-brown-max focus:ring-brown-max">
-                                {{ __('أضافه') }}
+                                {{ __('إضافة') }}
                             </x-button>
                         </div>
                     </form>
@@ -141,7 +142,7 @@
 
                         <div class="mt-2">
                             <x-select id="sections" label="اختار القسم" wire:model="shelf.section">
-                                <option selected>قم باختيار اسم القسم</option>
+                                <option selected>اختار اسم القسم</option>
                                 @foreach ($sections as $section)
                                     <option value="{{ $section->id }}" wire:key="section-{{ $section->id }}">
                                         {{ $section->title }}
@@ -154,12 +155,12 @@
 
                         <div class="mt-6 flex justify-end">
                             <x-secondary-button x-on:click="$dispatch('close')">
-                                {{ __('الغاء') }}
+                                {{ __('إلغاء') }}
                             </x-secondary-button>
 
                             <x-button
                                 class="ms-3 bg-brown-lite hover:bg-brown-max active:bg-brown-max focus:ring-brown-max">
-                                {{ __('أضافه') }}
+                                {{ __('إضافة') }}
                             </x-button>
                         </div>
                     </form>
@@ -173,7 +174,7 @@
                 <h2 class="text-lg font-medium text-gray-900 flex gap-1 items-center">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <span>
-                        ماذا تريد تحديثه؟!
+                        ماذا تريد أن تحدثه؟!
                     </span>
                 </h2>
                 <i class="fa-solid fa-x hover:text-red-600 duration-150 cursor-pointer text-sm"
@@ -198,7 +199,7 @@
 
                         <div class="mt-6 flex justify-end">
                             <x-secondary-button x-on:click="$dispatch('close')">
-                                {{ __('الغاء') }}
+                                {{ __('إلغاء') }}
                             </x-secondary-button>
 
                             <x-button
@@ -217,7 +218,7 @@
                 <h2 class="text-lg font-medium text-gray-900 flex gap-1 items-center">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <span>
-                        ماذا تريد تحديثه؟!
+                        ماذا تريد أن تحدثه؟!
                     </span>
                 </h2>
                 <i class="fa-solid fa-x hover:text-red-600 duration-150 cursor-pointer text-sm"
@@ -242,7 +243,7 @@
 
                         <div class="mt-2">
                             <x-select id="sections" label="اختار القسم" wire:model="shelf.section">
-                                <option selected>قم باختيار اسم القسم</option>
+                                <option selected>اختر اسم القسم</option>
                                 @foreach ($sections as $section)
                                     <option value="{{ $section->id }}" wire:key="section-{{ $section->id }}">
                                         {{ $section->title }}
@@ -255,7 +256,7 @@
 
                         <div class="mt-6 flex justify-end">
                             <x-secondary-button x-on:click="$dispatch('close')">
-                                {{ __('الغاء') }}
+                                {{ __('إلغاء') }}
                             </x-secondary-button>
 
                             <x-button

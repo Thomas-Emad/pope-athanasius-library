@@ -88,8 +88,7 @@
                 <div class="flex justify-between items-center">
                     <h2 class="text-lg font-medium text-gray-900 flex gap-1 items-center">
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        <span
-                            x-text="type == 'add' ? 'حسنا, يبدوا انه هناك ناشر جديد لدينا؟!' : 'اممم, ماذا تريد تعديله؟'">
+                        <span x-text="type == 'add' ? 'حسنًا، يبدو أنه لدينا ناشر جديد!' : 'ما الذي تريد تعديله؟'">
                         </span>
                     </h2>
                     <i class="fa-solid fa-x hover:text-red-600 duration-150 cursor-pointer text-sm"
@@ -97,9 +96,9 @@
                 </div>
                 <form wire:submit='savePublisher' x-show="type == 'add'" class="mt-4">
                     <div class="mt-6">
-                        <x-input-label for="publisher-name" value="{{ __('اسم ناشر') }}" class="sr-only" />
+                        <x-input-label for="publisher-name" value="{{ __('اسم الناشر') }}" class="sr-only" />
                         <x-text-input wire:model="publisher.name" id="publisher-name" type="text"
-                            class="mt-1 block w-full" placeholder="{{ __('اكتب هنا اسم ناشر') }}" />
+                            class="mt-1 block w-full" placeholder="{{ __('اكتب هنا اسم الناشر') }}" />
                         <x-input-error :messages="$errors->get('publisher.name')" class="mt-2" />
                     </div>
 
@@ -117,9 +116,9 @@
                 </form>
                 <form wire:submit='updatePublisher' x-show="type == 'edit'" class="mt-4">
                     <div class="mt-6">
-                        <x-input-label for="edit-publisher-name" value="{{ __('اسم ناشر') }}" class="sr-only" />
+                        <x-input-label for="edit-publisher-name" value="{{ __('اسم الناشر') }}" class="sr-only" />
                         <x-text-input wire:model="publisher.name" id="edit-publisher-name" type="text"
-                            class="mt-1 block w-full" placeholder="{{ __('اكتب هنا اسم ناشر') }}" />
+                            class="mt-1 block w-full" placeholder="{{ __('اكتب هنا اسم الناشر') }}" />
                         <x-input-error :messages="$errors->get('publisher.name')" class="mt-2" />
                     </div>
 

@@ -192,7 +192,8 @@
                         </div>
                         <hr class="my-4 block w-[95%] mx-auto">
                         <div class="flex items-center justify-between flex-col md:flex-row mt-4">
-                            <p class="font-bold">- هل تريد مزامنه الكتب مع الموقع الخارجي؟! (يجب توفر الانترنت)</p>
+                            <p class="font-bold">- هل تريد مزامنة الكتب مع الموقع الخارجي؟ (يلزم توفر اتصال بالإنترنت)
+                            </p>
                             <x-button wire:loading.attr="disabled" wire:target=""
                                 class="w-full md:w-fit mt-1 inline-block text-sm bg-red-700/40 hover:bg-red-600 active:bg-red-600 focus:bg-red-600">
                                 <x-loader wire:loading wire:target="" />
@@ -213,7 +214,7 @@
                         <h2 class="text-lg font-medium text-gray-900 flex gap-1 items-center">
                             <i class="fa-solid fa-gear"></i>
                             <span>
-                                اختار الملف المراد تسجيله
+                                اختر الملف المراد تسجيله
                             </span>
                         </h2>
                         <i class="fa-solid fa-x hover:text-red-600 duration-150 cursor-pointer text-sm"
@@ -234,7 +235,7 @@
                         </div>
                         <div class="opacity-0 text-green-700 mt-4 duration-150" wire:target='import'
                             wire:loading.class="opacity-1">
-                            يتم التحميل انتظر..
+                            جاري التحميل... يُرجى الانتظار
                         </div>
                     </form>
                     <div>

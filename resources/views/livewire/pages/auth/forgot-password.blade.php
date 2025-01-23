@@ -14,9 +14,15 @@ new #[Layout('layouts.guest')] class extends Component {
      */
     public function sendPasswordResetLink(): void
     {
-        $this->validate([
-            'email' => ['required', 'string', 'email'],
-        ]);
+        $this->validate(
+            [
+                'email' => ['required', 'string', 'email'],
+            ],
+            [],
+            [
+                'email' => 'البريد الإلكتروني',
+            ],
+        );
 
         // We will send the password reset link to this user. Once we have attempted
         // to send the link, we will examine the response then see the message we
@@ -47,7 +53,7 @@ new #[Layout('layouts.guest')] class extends Component {
         <h1 class="text-4xl text-center my-2">هل نسيت كلمة المرور؟!</h1>
         <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('البريد الالكتروني')" />
+            <x-input-label for="email" :value="__('البريد الإلكتروني')" />
             <x-text-input wire:model="email" id="email" class="block mt-1 w-full" type="email" name="email"
                 required autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
@@ -55,7 +61,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
         <div>
             <x-button class="py-4 mt-4 text-center text-sm w-full bg-brown-max hover:bg-brown-lite duration-200">
-                {{ __('تعين كلمة مرور جديده') }}
+                {{ __('تعيين كلمة مرور جديدة') }}
             </x-button>
         </div>
 
@@ -63,7 +69,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
         <p class="text-center">
             <span>
-                اتريد تسجيل دخولك؟
+                هل تريد تسجيل دخولك؟
             </span>
             <a href="{{ route('login') }}" wire:navigate class="text-brown-max">
                 هنا

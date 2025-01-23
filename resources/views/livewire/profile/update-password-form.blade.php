@@ -24,8 +24,8 @@ new class extends Component {
                 ],
                 [],
                 [
-                    'current_password' => 'كلمة المرور الحاليه',
-                    'password' => 'كلمة المرور الجديد',
+                    'current_password' => 'كلمة المرور الحالية',
+                    'password' => 'كلمة المرور الجديدة',
                 ],
             );
         } catch (ValidationException $e) {
@@ -51,13 +51,13 @@ new class extends Component {
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __('تاكد جيدا ان كلمة المرور كبيره وسريه.') }}
+            {{ __('تأكد جيدًا أن كلمة المرور قوية وسرية.') }}
         </p>
     </header>
 
     <form wire:submit="updatePassword" class="mt-6 space-y-6">
         <div>
-            <x-input-label for="update_password_current_password" :value="__('كلمة المرور الحاليه')" />
+            <x-input-label for="update_password_current_password" :value="__('كلمة المرور الحالية')" />
             <x-text-input wire:model="current_password" id="update_password_current_password" name="current_password"
                 type="password" class="mt-1 block w-full" autocomplete="current-password" />
             <x-input-error :messages="$errors->get('current_password')" class="mt-2" />
@@ -65,14 +65,14 @@ new class extends Component {
 
         <div class="flex items-center justify-between gap-4">
             <div class="w-full">
-                <x-input-label for="update_password_password" :value="__('كلمة المرور الجديد')" />
+                <x-input-label for="update_password_password" :value="__('كلمة المرور الجديدة')" />
                 <x-text-input wire:model="password" id="update_password_password" name="password" type="password"
                     class="mt-1 block w-full" autocomplete="new-password" />
                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
             </div>
 
             <div class="w-full">
-                <x-input-label for="update_password_password_confirmation" :value="__('تاكيد كلمة المرور')" />
+                <x-input-label for="update_password_password_confirmation" :value="__('تأكيد كلمة المرور')" />
                 <x-text-input wire:model="password_confirmation" id="update_password_password_confirmation"
                     name="password_confirmation" type="password" class="mt-1 block w-full"
                     autocomplete="new-password" />
@@ -85,7 +85,7 @@ new class extends Component {
             <x-primary-button>{{ __('حفظ') }}</x-primary-button>
 
             <x-action-message class="me-3" on="password-updated">
-                {{ __('تم الحغظ.') }}
+                {{ __('تم الحفظ.') }}
             </x-action-message>
         </div>
     </form>

@@ -21,7 +21,7 @@ new #[Layout('layouts.guest')] class extends Component {
     /**
      * Mount the component.
      */
-    #[Title('أعادة تعين كلمة المرور')]
+    #[Title('إعادة تعيين كلمة المرور')]
     public function mount(string $token): void
     {
         $this->token = $token;

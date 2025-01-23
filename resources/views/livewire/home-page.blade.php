@@ -40,8 +40,8 @@
             <div
                 class="w-full md:w-1/3 flex flex-col gap-2 items-center opacity-70 hover:opacity-100 duration-300 cursor-pointer">
                 <img src="{{ asset('assets/images/Bookshelf.png') }}" class="w-20" alt="books icon">
-                <span class="font-bold text-4xl"> {{ $counter['books'] }} كتاب </span>
-                <p>آلاف الكتب المنشورة على مكتبة البابا أثناسيوس للاطلاع</p>
+                <span class="font-bold text-4xl"> {{ $counter['books'] }} كتب </span>
+                <p>آلاف الكتب المنشورة في مكتبة البابا أثناسيوس للاطلاع</p>
             </div>
             <div class="flex flex-col gap-2 items-center my-4">
                 <img src="{{ asset('assets/images/logo.png') }}" class=" w-48" alt="Logo">
@@ -49,8 +49,8 @@
             <div
                 class="w-full md:w-1/3 flex flex-col gap-2 items-center opacity-70 hover:opacity-100 duration-300 cursor-pointer">
                 <img src="{{ asset('assets/images/books.png') }}" class="w-20" alt="books icon">
-                <span class="font-bold text-4xl"> {{ $counter['authors'] }} مؤلف </span>
-                <p>تهدف مكتبة البابا أثناسيوس إلى نشر المعرفة والعلم الذي تورثناء الي الجميع </p>
+                <span class="font-bold text-4xl"> {{ $counter['authors'] }} مؤلفين </span>
+                <p>تهدف مكتبة البابا أثناسيوس إلى نشر المعرفة والعلم الذي تورثناه للجميع.</p>
             </div>
         </div>
     </div>
@@ -66,7 +66,7 @@
                         <p class="text-lg py-2">{{ $wordToday->content }}</p>
                         <p class="text-left italic">{{ $wordToday->said }}</p>
                     @else
-                        <p class="text-lg text-center">ليس هناك اي كلمه لهذا اليوم</p>
+                        <p class="text-lg text-center">ليس هناك أي كلمة لهذا اليوم</p>
                     @endif
                 </div>
                 <div class="mt-10 grid gap-4" style="grid-template-columns: repeat(auto-fill, minmax(150px, 1fr))">
@@ -90,7 +90,7 @@
                     <div class="flex justify-between items-center">
                         <h2 class="w-fit font-bold pb-2 text-2xl border-b-2 border-b-brown-max">
                             <i class="fa-solid fa-book-medical"></i>
-                            <span> أقسام الكتب </span>
+                            <span>أقسام الكتب</span>
                         </h2>
                         <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'search-bar')"
                             class="hover:text-gray-800 hover:border-gray-800 duration-200">
@@ -106,7 +106,7 @@
                                 <i class="fa-solid fa-book-bookmark"></i>
                             </a>
                         @empty
-                            <p class="italic text-center text-gray-600">لا يوجد هنا اي وحده</p>
+                            <p class="italic text-center text-gray-600">لا يوجد هنا أي وحدة</p>
                         @endforelse
                     </div>
                 </div>

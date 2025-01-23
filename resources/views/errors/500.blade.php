@@ -17,10 +17,9 @@
             <div class="p-2 flex flex-col justify-center">
                 <img src="{{ asset('assets/images/errors/419.png') }}" class="inline-block mx-auto w-5/6 md:w-2/6"
                     alt="">
-                <div class="text-center text-gray-900">
-                    <h1 class="font-bold text-2xl">عذرا, يبدوا ان هناك خطا ما هنا, ونحن نعمل علي حل هذ المشكله في اسرع
-                        وقت
-                    </h1>
+                <div class="text-center text-gray-900" dir="rtl">
+                    <h1 class="font-bold text-2xl">عذرًا، يبدو أن هناك خطأ ما هنا، ونحن نعمل على حل هذه المشكلة بأسرع ما
+                        يمكن.</h1>
                 </div>
             </div>
 

@@ -16,7 +16,7 @@
         <main class="min-h-screen">
 
             <div class="text-center text-gray-900 py-8">
-                <h1 class="font-bold text-2xl">يبدوا انك متسرع جدا, انتظر قليل</h1>
+                <h1 class="font-bold text-2xl">يبدو أنك تتسرع كثيرًا، انتظر لحظة.</h1>
             </div>
         </main>
 

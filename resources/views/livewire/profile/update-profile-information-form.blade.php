@@ -136,19 +136,18 @@ new class extends Component {
                     @else
                         <i class="fa-solid fa-user text-2xl text-gray-400"></i>
                     @endif
-
                 </label>
             </div>
         </div>
         <div class="flex flex-col md:flex-row gap-4">
             <div class="w-full">
-                <x-input-label for="name" :value="__('ألاسم')" />
+                <x-input-label for="name" :value="__('الاسم')" />
                 <x-text-input wire:model="name" id="name" name="name" type="text" class="mt-1 block w-full"
                     required autofocus autocomplete="name" disabled="{{ !$allowEdit }}" />
                 <x-input-error class="mt-2" :messages="$errors->get('name')" />
             </div>
             <div class="w-full">
-                <x-input-label for="email" :value="__('البريد الالكتروني')" />
+                <x-input-label for="email" :value="__('البريد الإلكتروني')" />
                 <x-text-input wire:model="email" id="email" name="email" type="email" class="mt-1 block w-full"
                     required autocomplete="username" disabled="{{ !$allowEdit }}" />
                 <x-input-error class="mt-2" :messages="$errors->get('email')" />
@@ -156,17 +155,17 @@ new class extends Component {
                 @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !auth()->user()->hasVerifiedEmail())
                     <div>
                         <p class="text-sm mt-2 text-gray-800">
-                            {{ __('يجب تفعيل البريد الالكتروني الحالي اولا...') }}
+                            {{ __('يجب تفعيل البريد الإلكتروني الحالي أولاً...') }}
 
                             <button wire:click.prevent="sendVerification"
                                 class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                {{ __('أضغط هنا لاعادة ارسال رساله الي البريد الالكتروني.') }}
+                                {{ __('اضغط هنا لإعادة إرسال رسالة إلى البريد الإلكتروني.') }}
                             </button>
                         </p>
 
                         @if (session('status') === 'verification-link-sent')
                             <p class="mt-2 font-medium text-sm text-green-600">
-                                {{ __('لقد تم ارسال الرسال اليك بنجاح.') }}
+                                {{ __('لقد تم إرسال الرسالة إليك بنجاح.') }}
                             </p>
                         @endif
                     </div>

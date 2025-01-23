@@ -1,7 +1,7 @@
 <div class="bg-brown-max">
     <div class="italic py-2 px-10 text-white flex flex-col md:flex-row items-center justify-between gap-2 font-bold">
         <p>
-            جميع الحقوق محفوظة لكنيسة الشهيد العظيم مارمينا والبابا كيرلس السادس بالخصوص
+            جميع الحقوق محفوظة لكنيسة الشهيد العظيم مارمينا والبابا كيرلس السادس بالخصوص.
         </p>
         <div>
             <a href="#"

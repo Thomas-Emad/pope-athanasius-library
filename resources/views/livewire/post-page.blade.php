@@ -4,11 +4,11 @@
 
         @can(App\Enums\PermissionEnum::POSTS->value)
             <div class="bg-white py-2 px-4 rounded-lg shadow flex justify-between items-center my-4">
-                <span class="text-lg">أضافة منشور جديد</span>
+                <span class="text-lg">إضافة منشور جديد</span>
                 <x-button wire:loading.attr="disabled" x-on:click="$dispatch('open-modal', 'create-post')"
                     class="ms-3 bg-brown-max hover:ring-brown-max">
                     <x-loader wire:loading wire:target="save" />
-                    {{ __('أضافه') }}
+                    {{ __('إضافة') }}
                 </x-button>
             </div>
         @endcan
@@ -50,7 +50,7 @@
 
                 </div>
             @empty
-                <p class="text-gray-600 text-center italic my-4">ليس لدينا هنا اي منشور عد لاحقا..</p>
+                <p class="text-gray-600 text-center italic my-4">ليس لدينا هنا أي منشور، عد لاحقًا..</p>
             @endforelse
         </div>
         @if ($posts->total() > 10)
@@ -68,19 +68,19 @@
                     <h2 class="text-lg font-medium text-gray-900 flex gap-1 items-center">
                         <i class="fa-solid fa-newspaper"></i>
                         <span>
-                            هل انت متاكد من حذف هذا المنشور؟!
+                            هل أنت متأكد من حذف هذا المنشور؟!
                         </span>
                     </h2>
                     <i class="fa-solid fa-x hover:text-red-600 duration-150 cursor-pointer text-sm"
                         x-on:click="$dispatch('close')"></i>
                 </div>
                 <form wire:submit='delete' class="mt-4">
-                    <p class="text-gray-700">هذا الاجراء نهائي ولن يمكنك استرجاع هذا المنشور لاحقا!!</p>
+                    <p class="text-gray-700">هذا الإجراء نهائي، ولن يمكنك استرجاع هذا المنشور لاحقًا!!</p>
                     <x-text-input wire:model="post.title" disabled='true' class="mt-4 w-full" />
 
                     <div class="mt-6 flex justify-end">
                         <x-secondary-button x-on:click="$dispatch('close')">
-                            {{ __('الغاء') }}
+                            {{ __('إلغاء') }}
                         </x-secondary-button>
 
                         <x-button wire:loading.attr="disabled" wire:click='delete'
@@ -92,6 +92,5 @@
                 </form>
             </div>
         </x-modal>
-
     </div>
 </div>

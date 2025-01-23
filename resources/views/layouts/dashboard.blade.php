@@ -19,7 +19,7 @@
                 <div class="flex flex-col md:flex-row justify-between gap-4 mt-4">
                     <div class="w-full md:w-1/4 bg-white p-2 rounded-xl shadow-md">
                         @can(App\Enums\PermissionEnum::CONTROLR_DASHBOARD->value)
-                            <x-link-dashboard link="{{ route('dashboard.index') }}" label="الصفحه الرائيسيه"
+                            <x-link-dashboard link="{{ route('dashboard.index') }}" label="الصفحة الرئيسية"
                                 :isActive="Route::is('dashboard.index')" icon="fa-solid fa-chart-line" />
                         @endcan
                         @can(App\Enums\PermissionEnum::BOOK->value)

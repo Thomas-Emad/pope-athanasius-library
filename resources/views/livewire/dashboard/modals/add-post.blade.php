@@ -4,7 +4,7 @@
             <h2 class="text-lg font-medium text-gray-900 flex gap-1 items-center">
                 <i class="fa-solid fa-newspaper"></i>
                 <span>
-                    هل لديك منشور جديد تود اضافته؟!
+                    هل لديك منشور جديد ترغب بإضافته؟
                 </span>
             </h2>
             <i class="fa-solid fa-x hover:text-red-600 duration-150 cursor-pointer text-sm"
@@ -27,7 +27,7 @@
 
             <div class="mt-6">
                 <label for="photo"
-                    class="block minh-40 cursor-pointer flex flex-col items-center justify-center text-center rounded-xl w-full font-bold text-gray-300 p-10 border-4 border-dashed border-gray-300 hover:bg-gray-200/50 hover:text-gray-400 duration-100"
+                    class="minh-40 cursor-pointer flex flex-col items-center justify-center text-center rounded-xl w-full font-bold text-gray-300 p-10 border-4 border-dashed border-gray-300 hover:bg-gray-200/50 hover:text-gray-400 duration-100"
                     aria-label="Upload photo" title="Upload photo">
                     <span class="text-4xl">+</span>
                     <p class="text-xl">أضغط هنا لتحديد الصورة</p>

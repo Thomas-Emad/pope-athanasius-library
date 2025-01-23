@@ -36,7 +36,7 @@ new #[Layout('layouts.guest')] class extends Component {
         <h1 class="text-4xl text-center my-2">تسجيل دخول</h1>
         <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('البريد الالكتروني')" />
+            <x-input-label for="email" :value="__('البريد الإلكتروني')" />
             <x-text-input wire:model="form.email" id="email" class="block mt-1 w-full" type="email" name="email"
                 required autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('form.email')" class="mt-2" />
@@ -72,7 +72,7 @@ new #[Layout('layouts.guest')] class extends Component {
                 ليس لديك حساب؟
             </span>
             <a href="{{ route('register') }}" wire:navigate class="text-brown-max">
-                انشاء حساب
+                إنشاء حساب
             </a>
         </p>
     </form>

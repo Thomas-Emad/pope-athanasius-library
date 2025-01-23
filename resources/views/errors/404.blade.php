@@ -17,9 +17,10 @@
             <div class="p-2 flex flex-col justify-center">
                 <img src="{{ asset('assets/images/errors/404.png') }}" class="inline-block mx-auto w-5/6 md:w-2/6"
                     alt="">
-                <div class="text-center text-gray-900">
-                    <h1 class="font-bold text-2xl">يوجد خطا هنا!!</h1>
-                    <p class="text-xl">قد يظهر هذا الخطا نتيجة دخول الي صفحة غير موجود أو غير المسموح لك بدخول اليها</p>
+                <div class="text-center text-gray-900" dir="rtl">
+                    <h1 class="font-bold text-2xl">يوجد خطأ هنا!</h1>
+                    <p class="text-xl">قد يظهر هذا الخطأ نتيجةً للدخول إلى صفحة غير موجودة أو غير مُصرَّح لك بالدخول
+                        إليها.</p>
                 </div>
             </div>
         </main>
