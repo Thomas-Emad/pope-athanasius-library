@@ -28,7 +28,6 @@ class Books extends Component
   public function export()
   {
     return $this->features->export();
-    $this->dispatch("close-modal", 'more');
   }
 
   public function import()
@@ -54,6 +53,7 @@ class Books extends Component
         ->when($this->getMarkUpBooks, function ($query) {
           $query->where('markup', true);
         })
+        ->latest()
         ->paginate(10)
     ]);
   }

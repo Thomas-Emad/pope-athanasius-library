@@ -15,90 +15,76 @@
 
         <div class="relative overflow-x-auto sm:rounded-lg">
             <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
-                <div>
-                    <label for="table-search" class="sr-only">ابحث</label>
-                    <div class="relative">
-                        <div
-                            class="absolute inset-y-0 left-0 rtl:inset-r-0 rtl:right-0 flex items-center ps-3 pointer-events-none">
-                            <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor"
-                                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                        <input type="text" id="table-search" wire:model.blur='search'
-                            class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="ابحث عن كلمة اليوم..">
-                    </div>
-                </div>
+                <x-search-dashboard wire:model.blur='search' placeholder="ابحث عن كلمة اليوم.." />
                 <div class="me-2">
                     <x-toggle label='عرض كلمة اليوم' wire:model.change='showWordToday' />
                 </div>
             </div>
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                        <th scope="col" class="px-6 py-3">
-                            القائل
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            كلمة اليوم
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            رقم الكلمه
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            الحالة
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            المزيد
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($words as $item)
-                        <tr wire:key='word-{{ $item->id }}'
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <th scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ str($item->said)->limit(20) }}
-                            </th>
-                            <td class="px-6 py-4">
-                                {{ str($item->content)->limit(20) }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $item->number_show }}
-                            </td>
-                            <td class="px-6 py-4">
-                                <x-toggle wire:click='setWordToDay({{ $item->id }})'
-                                    currentStatus="{{ $item->is_today }}" />
-                            </td>
-                            <td class="px-6 py-4 flex gap-2">
-                                <button wire:key="{{ $item->id }}" x-on:click="type = 'edit'"
-                                    wire:click='editWordDaily({{ $item->id }})'
-                                    class="me-2 text-xl hover:text-amber-600 duration-150">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </button>
-                                <button wire:key="{{ $item->id }}"
-                                    x-on:click="idDeleteWord = {{ $item->id }}; titleDeleteWord = '{{ $item->content }}'"
-                                    x-on:click.prevent="$dispatch('open-modal', 'delete-word-daily')"
-                                    class="me-2 text-xl hover:text-red-600 duration-150">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </button>
-
-                            </td>
-                        </tr>
-                    @empty
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <td colspan="5" class="py-2 text-center  italic text-gray-600">
-                                يبدو أنه ليس لدينا هنا أي كلمة يومية!
-                            </td>
+                            <th scope="col" class="px-6 py-3 whitespace-nowrap">
+                                القائل
+                            </th>
+                            <th scope="col" class="px-6 py-3 whitespace-nowrap">
+                                كلمة اليوم
+                            </th>
+                            <th scope="col" class="px-6 py-3 whitespace-nowrap">
+                                رقم الكلمه
+                            </th>
+                            <th scope="col" class="px-6 py-3 whitespace-nowrap">
+                                الحالة
+                            </th>
+                            <th scope="col" class="px-6 py-3 whitespace-nowrap">
+                                المزيد
+                            </th>
                         </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @forelse ($words as $item)
+                            <tr wire:key='word-{{ $item->id }}'
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{ str($item->said)->limit(20) }}
+                                </th>
+                                <td class="px-6 py-4">
+                                    {{ str($item->content)->limit(20) }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ $item->number_show }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    <x-toggle wire:click='setWordToDay({{ $item->id }})'
+                                        currentStatus="{{ $item->is_today }}" />
+                                </td>
+                                <td class="px-6 py-4 flex gap-2">
+                                    <button wire:key="{{ $item->id }}" x-on:click="type = 'edit'"
+                                        wire:click='editWordDaily({{ $item->id }})'
+                                        class="me-2 text-xl hover:text-amber-600 duration-150">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                    <button wire:key="{{ $item->id }}"
+                                        x-on:click="idDeleteWord = {{ $item->id }}; titleDeleteWord = '{{ $item->content }}'"
+                                        x-on:click.prevent="$dispatch('open-modal', 'delete-word-daily')"
+                                        class="me-2 text-xl hover:text-red-600 duration-150">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
 
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="py-2 text-center  italic text-gray-600">
+                                    يبدو أنه ليس لدينا هنا أي كلمة يومية!
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+
+            </div>
             <div class="mt-4">
                 {{ $words->links() }}
             </div>

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Dashboard;
 
+use App\Livewire\Forms\Dashboard\Post\StoreForm;
 use App\Models\Post as PostModel;
 use App\Livewire\Forms\Dashboard\PostForm;
 use App\Livewire\Forms\Dashboard\Post\UpdateForm;
@@ -19,6 +20,7 @@ class Post extends Component
   public string $search = '';
   public bool $showOnlyMarkup = false;
   public PostForm $post;
+  public StoreForm $store;
   public UpdateForm $update;
 
   public function mount()
@@ -30,6 +32,12 @@ class Post extends Component
   public function removeValidation()
   {
     $this->resetErrorBag();
+  }
+
+  public function save()
+  {
+    $this->store->store();
+    $this->dispatch('close-modal', 'create-post');
   }
 
   public function show($id)

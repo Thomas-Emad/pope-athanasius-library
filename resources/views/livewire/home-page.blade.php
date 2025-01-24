@@ -36,7 +36,7 @@
     </div>
     <div class="bg-gray-200">
         <div
-            class="container px-10 max-w-full flex flex-col md:flex-row gap-2 justify-around items-center py-10 text-center">
+            class="container px-6 max-w-full flex flex-col md:flex-row gap-2 justify-around items-center py-10 text-center">
             <div
                 class="w-full md:w-1/3 flex flex-col gap-2 items-center opacity-70 hover:opacity-100 duration-300 cursor-pointer">
                 <img src="{{ asset('assets/images/Bookshelf.png') }}" class="w-20" alt="books icon">
@@ -55,7 +55,7 @@
         </div>
     </div>
     <div class="bg-gray-100">
-        <div class="container px-10 max-w-full  flex flex-col md:flex-row gap-4 justify-between my-10 ">
+        <div class="container px-6 max-w-full  flex flex-col md:flex-row gap-4 justify-between my-10 ">
             <div class="w-full md:w-2/3">
                 <div class="bg-white p-4 shadow-md rounded-md">
                     <h2 class="w-fit font-bold pb-2 text-2xl border-b-2 border-b-brown-max">

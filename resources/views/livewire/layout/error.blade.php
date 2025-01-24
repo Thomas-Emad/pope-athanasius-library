@@ -2,17 +2,18 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="rtl">
 
 <head>
-    @include('layouts.head')
+    @include('layouts.head', ['title' => 'ليس لديك اذن لفتح هذا الصفحه'])
+    <meta name="robots" content="noindex">
+    @livewireStyles
 </head>
 
-<body class="font-amiri antialiased overflow-x-hidden">
-    <div class="bg-gray-100">
+<body class="font-amiri antialiased">
+    <div class="bg-gray-100 ">
 
         <livewire:layout.navigation />
 
         <!-- Page Content -->
         <main class="min-h-screen">
-            {{ $slot }}
             @yield('content')
         </main>
 
@@ -20,8 +21,8 @@
 
     </div>
 
-    <script src="{{ asset('assets/js/all.min.js') }}"></script>
     @livewireScripts
+    <script src="{{ asset('assets/js/all.min.js') }}"></script>
 </body>
 
 </html>

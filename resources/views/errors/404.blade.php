@@ -11,7 +11,6 @@
     <div class="bg-gray-100 ">
 
         <livewire:layout.navigation />
-
         <!-- Page Content -->
         <main class="min-h-screen ">
             <div class="p-2 flex flex-col justify-center">
@@ -26,7 +25,6 @@
         </main>
 
         <livewire:layout.footer />
-
     </div>
 
     @livewireScripts

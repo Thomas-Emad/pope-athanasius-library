@@ -14,62 +14,64 @@ use Livewire\Attributes\Title;
 #[Layout('layouts.dashboard')]
 class WordDaily extends Component
 {
-    use WithPagination, WithFileUploads;
+  use WithPagination, WithFileUploads;
 
-    public WordDailyForm $word;
-    public ?string $search = '';
-    public bool $showWordToday = false;
+  public WordDailyForm $word;
+  public ?string $search = '';
+  public bool $showWordToday = false;
 
-    // Public Methods
+  // Public Methods
 
-    public function saveWordDaily()
-    {
-        $this->word->save();
-        $this->dispatch('close-modal', 'word-daily');
-    }
+  public function saveWordDaily()
+  {
+    $this->word->save();
+    $this->dispatch('close-modal', 'word-daily');
+  }
 
-    public function editWordDaily($id)
-    {
-        $wordDaily = WordDailyModel::findOrFail($id);
-        $this->word->setAttributes($id, $wordDaily->said, $wordDaily->content, $wordDaily->number_show);
-        $this->dispatch('open-modal', 'word-daily');
-    }
+  public function editWordDaily($id)
+  {
+    $wordDaily = WordDailyModel::findOrFail($id);
+    $this->word->setAttributes($id, $wordDaily->said, $wordDaily->content, $wordDaily->number_show);
+    $this->dispatch('open-modal', 'word-daily');
+  }
 
-    public function updateWordDaily()
-    {
-        $this->word->update();
-        $this->dispatch('close-modal', 'word-daily');
-        $this->word->resetAttributes();
-    }
+  public function updateWordDaily()
+  {
+    $this->word->update();
+    $this->dispatch('close-modal', 'word-daily');
+    $this->word->resetAttributes();
+  }
 
-    public function deleteWordDaily($id)
-    {
-        $this->word->delete($id);
-        $this->dispatch('close-modal', 'delete-word-daily');
-    }
+  public function deleteWordDaily($id)
+  {
+    $this->word->delete($id);
+    $this->dispatch('close-modal', 'delete-word-daily');
+  }
 
-    public function resetForm()
-    {
-        $this->reset(['word.said', 'word.content', 'word.number_show']);
-        $this->resetErrorBag();
-    }
+  public function resetForm()
+  {
+    $this->reset(['word.said', 'word.content', 'word.number_show']);
+    $this->resetErrorBag();
+  }
 
-    public function setWordToDay($id)
-    {
-        $this->word->newWordtoDay($id);
-    }
+  public function setWordToDay($id)
+  {
+    $this->word->newWordtoDay($id);
+  }
 
-    // Render Method
+  // Render Method
 
-    public function render()
-    {
-        return view('livewire.dashboard.word-daily', [
-            'words' => WordDailyModel::where('said', "like", "%$this->search%")
-                ->when($this->showWordToday, function ($query) {
-                    $query->where('is_today', true);
-                })
-                ->latest()
-                ->paginate(10)
-        ]);
-    }
+  public function render()
+  {
+    return view('livewire.dashboard.word-daily', [
+      'words' => WordDailyModel::where('said', "like", "%$this->search%")
+        ->orWhere('content', "like", "%$this->search%")
+        ->orWhere('number_show', "$this->search")
+        ->when($this->showWordToday, function ($query) {
+          $query->where('is_today', true);
+        })
+        ->latest()
+        ->paginate(10)
+    ]);
+  }
 }

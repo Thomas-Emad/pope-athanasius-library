@@ -1,5 +1,5 @@
 <div>
-    <div class="container px-10 max-w-full my-4">
+    <div class="container px-6 max-w-full my-4">
         <div class=" bg-white p-4 rounded-lg bvorder border-gray-100 shadow text-gray-800">
             <h1 class="flex items-center gap-2 font-bold text-2xl pb-2 border-b-4 mb-2 border-b-brown-max w-fit">
                 @if ($book->markup)

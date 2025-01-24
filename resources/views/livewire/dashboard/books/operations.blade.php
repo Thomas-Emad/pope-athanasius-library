@@ -1,5 +1,5 @@
 <div x-data="{ type: 'add' }">
-    <div class="container max-w-full px-10 py-4">
+    <div class="container max-w-full px-6 py-4">
         <div class="flex justify-between items-center">
             <span></span>
             <h1 class="text-gray-800 font-bold text-center text-2xl">
@@ -17,18 +17,17 @@
                 </p>
                 <x-input-error :messages="$errors->get('book.code')" class="mt-2 " />
             </div>
-
         </div>
         <form wire:submit.prevent="{{ $type === 'store' ? 'save' : 'update' }}"
             class="flex flex-col-reverse md:flex-row gap-10 justify-between mt-6">
-            <div class="w-full md:w-3/4">
+            <div class="w-full md:w-3/4 flex gap-5 flex-col">
                 <x-input-book id="title" title='الاسم'>
                     <x-text-input id="title" class="w-full  pt-4" wire:model='book.title'
                         placeholder="أكتب هنا اسم الكتاب.." />
                     <x-input-error :messages="$errors->get('book.title')" class="mt-2 " />
                 </x-input-book>
 
-                <div class="flex gap-4">
+                <div class="flex flex-col md:flex-row gap-5">
                     <x-input-book id="section" title='القسم'>
                         <div class="flex">
                             <x-select id="section" wire:model.live='book.section' class="pt-4">
@@ -72,7 +71,7 @@
 
                     </x-input-book>
                 </div>
-                <div class="flex gap-4">
+                <div class="flex flex-col md:flex-row gap-5">
                     <x-input-book id="publisher" title='الناشر'>
                         <div class="flex">
                             <x-select id="publisher" class="pt-4" wire:model='book.publisher'>
@@ -89,9 +88,7 @@
                                 </button>
                             @endcan
                         </div>
-
                         <x-input-error :messages="$errors->get('book.publisher')" class="mt-2 " />
-
                     </x-input-book>
 
                     <x-input-book id="author" title='المؤلف'>
@@ -112,22 +109,19 @@
                             @endcan
                         </div>
                         <x-input-error :messages="$errors->get('book.author')" class="mt-2 " />
-
                     </x-input-book>
                 </div>
                 <x-input-book id="subject" title='الموضوعات'>
                     <x-textarea id="subjects" class="w-full pt-4" wire:model='book.subjects'
                         placeholder='أكتب مواضيع الاساسية مع الفصل بينهم بـــ -' />
                     <x-input-error :messages="$errors->get('book.subjects')" class="mt-2 " />
-
                 </x-input-book>
                 <x-input-book id="content" title='ملخص الكتاب'>
                     <x-textarea id="content" class="w-full pt-4" placeholder='هل يمكنك كتابة ملخص الهذا لكتاب -'
                         wire:model='book.content' />
                     <x-input-error :messages="$errors->get('book.content')" class="mt-2 " />
-
                 </x-input-book>
-                <div class="flex gap-4">
+                <div class="flex flex-col md:flex-row gap-5">
                     <x-input-book id="copies" title='عدد النسخ'>
                         <x-text-input type='number' id="copies" class="w-full pt-4"
                             placeholder='كم نسخة لديك من هذا الكتاب؟..' wire:model='book.copies' />
@@ -140,7 +134,7 @@
                         <x-input-error :messages="$errors->get('book.part_number')" class="mt-2 " />
                     </x-input-book>
                 </div>
-                <div class="flex gap-4">
+                <div class="flex flex-col md:flex-row gap-5">
                     <x-input-book id="papers" title='عدد الصفحات'>
                         <x-text-input type='number' id="papers" class="w-full pt-4"
                             placeholder='كم عدد صفحات هذا الكتاب؟..' wire:model='book.papers' />
@@ -154,7 +148,7 @@
 
                     </x-input-book>
                 </div>
-                <div class="flex gap-4">
+                <div class="flex flex-col md:flex-row gap-5">
                     <x-input-book id="row" title='رقم الصف'>
                         <x-text-input type='number' id="row" class="w-full pt-4"
                             placeholder='ما هو رقم الصف؟' wire:model='book.row' />
@@ -197,7 +191,7 @@
                         wire:model='book.photo'>
                     <x-input-error :messages="$errors->get('book.photo')" class="mt-2 " />
                 </div>
-                <div class="mt-4 ">
+                <div class="mt-4">
                     <label class="block mb-2 text-sm font-bold text-gray-900 dark:text-white" for="pdf">ارفاق
                         نسخه من الكتاب</label>
                     <input
@@ -220,7 +214,7 @@
                 @endif
 
                 <div class="mt-4 bg-white p-2 rounded-lg border border-gray-200 shadow-lg">
-                    <x-toggle wire:model='book.markup' currentStatus="{{ $book->markup }}"
+                    <x-toggle wire:model='book.markup' currentStatus="{{ $book?->markup ?? false }}"
                         label='عرض هذا الكتاب في الصفحة الرئيسية' />
                 </div>
                 @if ($type !== 'store')

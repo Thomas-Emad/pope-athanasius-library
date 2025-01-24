@@ -1,6 +1,6 @@
 <div>
     <div x-data="{ showFilter: false }"
-        class="relative container px-10 py-4  max-w-full bg-brown-lite min-h-72 flex justify-center items-center flex-col">
+        class="relative container px-6 py-4  max-w-full bg-brown-lite min-h-72 flex justify-center items-center flex-col">
         <div class="text-gray-900 text-center">
             <h1 class="font-bold text-4xl mb-2">مكتبة البابا أثناسيوس للاطلاع</h1>
             <p class="italic text-2xl">كنيسة الشهيد العظيم مارمينا والبابا كيرلس السادس</p>

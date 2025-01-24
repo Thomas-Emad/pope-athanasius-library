@@ -23,7 +23,7 @@ new class extends Component {
 <div class="font-serif">
     <nav x-data="{ open: false, toggleBar: false }" class="bg-brown-max rounded-bl-lg rounded-br-lg">
         <div class="container max-w-full  relative">
-            <div class="py-4 px-10 flex justify-between gap-4 items-center">
+            <div class="py-4 px-6 flex justify-between gap-4 items-center">
                 <div class="flex items-center gap-6">
                     <a href="{{ route('home') }}" wire:navigate>
                         <img src="{{ asset('assets/images/logo.png') }}" class="w-12 h-12 rounded-full" alt="Logo website">
@@ -64,7 +64,7 @@ new class extends Component {
                         class="md:hidden py-1 px-4 border border-gray-600/50 text-2xl rounded-lg text-yellow-900 focus:ring-4 focus:ring-gray-900/50  duration-200">
                         <i class="fa-solid fa-bars"></i>
                     </button>
-                    @if (auth()->check())
+                    @if (auth()->user())
                         <!-- Settings Dropdown -->
                         <div>
                             <x-dropdown align="right" width="48">
@@ -120,7 +120,6 @@ new class extends Component {
                             تسجيل دخول
                         </a>
                     @endif
-
                 </div>
             </div>
             <ul x-show="toggleBar" x-collapse.duration.500ms

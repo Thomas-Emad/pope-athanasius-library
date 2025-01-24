@@ -1,5 +1,5 @@
 <div>
-    <div class="container max-w-full px-10 mt-4">
+    <div class="container max-w-full px-6 mt-4">
         <div class="flex justify-between items-center gap-2">
             <h1 class="w-fit font-bold pb-2 text-4xl border-b-4 border-b-brown-max ">
                 <i class="fa-solid fa-book-medical"></i>
@@ -14,7 +14,7 @@
                 </div>
             @endcan
         </div>
-        <div class="mt-10 flex flex-warp gap-4">
+        <div class="mt-10 flex flex-warp flex-col md:flex-row gap-4">
             @forelse ($sections as $section)
                 <button wire:key="{{ $section->id }}" type="button" x-data="{ isOpen: false }"
                     x-on:click="isOpen = !isOpen"
@@ -58,7 +58,7 @@
                                     class="bg-brown-max text-white text-xm py-1 px-2 rounded-xl">{{ $shelf->number ?? 'N/A' }}</span>
                             </div>
                         @empty
-                            <p class="font-bold text-center italic w-full text-2xl text-gray-700">
+                            <p class="font-bold text-center italic w-full text-xl text-gray-700">
                                 لا يوجد رفوف هنا..
                             </p>
                         @endforelse

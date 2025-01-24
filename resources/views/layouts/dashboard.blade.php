@@ -5,13 +5,13 @@
     @include('layouts.head')
 </head>
 
-<body class=" antialiased">
+<body class="font-amiri text-gray-900  antialiased overflow-x-hidden">
     <div class="bg-gray-100">
         <livewire:layout.navigation />
 
         <!-- Page Content -->
         <main class="min-h-screen">
-            <div class="container max-w-full px-10 my-5">
+            <div class="container max-w-full px-6 my-5">
                 <h1 class="font-bold text-2xl">
                     <i class="fa-solid fa-house me-2"></i>
                     <span>لوحة التحكم</span>

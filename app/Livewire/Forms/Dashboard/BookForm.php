@@ -14,7 +14,8 @@ class BookForm extends Form
 
   public $id;
   public $code, $title, $section, $shelf, $series, $publisher, $author, $subjects, $content, $copies, $part_number,
-    $papers, $current_unit_number, $row, $position_book, $markup;
+    $papers, $current_unit_number, $row, $position_book;
+  public $markup = false;
 
   public $photo, $pdf, $oldPhoto, $oldPdf;
 
@@ -51,7 +52,7 @@ class BookForm extends Form
   {
     return [
       'code' => ['unique:books,code,' . $this->id],
-      'title' => ['required', 'string', 'min:10', 'max:255'],
+      'title' => ['required', 'string', 'min:3', 'max:255'],
       'section' => ['required', 'exists:sections,id'],
       'shelf' => ['required', 'exists:section_shelves,id'],
       'series' => ['nullable', 'string', 'max:100'],
@@ -67,7 +68,6 @@ class BookForm extends Form
       'position_book' => ['required', 'integer', 'min:1'],
       'photo' => ['nullable', 'image', 'max:2048'],
       'pdf' => ['nullable', 'file', 'mimes:pdf', 'max:10240'],
-      'markup' => ['boolean'],
     ];
   }
 
@@ -134,7 +134,7 @@ class BookForm extends Form
       'position_book' => $this->position_book,
       'photo' => $this->photo ? $this->photo->store('book/photos', 'public') : null,
       'pdf' => $this->pdf ? $this->pdf->store('book/pdfs', 'public') : null,
-      'markup' => $this->markup,
+      'markup' => $this->markup ?? false,
     ]);
   }
 

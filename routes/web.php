@@ -20,7 +20,7 @@ Route::get('/book/{book:code}', BookPage::class)->name('book.show');
 Route::get('/search', SearchPage::class)->name('search');
 Route::get('/posts', PostPage::class)->name('posts');
 
-Route::middleware(['auth', 'permission:control_dashboard'])
+Route::middleware(['auth', 'permission:control_dashboard', 'verified'])
   ->prefix('dashboard')
   ->as('dashboard.')
   ->group(function () {

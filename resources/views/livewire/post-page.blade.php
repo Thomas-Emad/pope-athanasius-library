@@ -1,5 +1,5 @@
 <div>
-    <div class="container max-w-full mt-6 px-10 text-gray-800">
+    <div class="container max-w-full mt-6 px-6 text-gray-800">
         <h1 class="text-4xl text-center">المنشورات</h1>
 
         @can(App\Enums\PermissionEnum::POSTS->value)
@@ -27,15 +27,21 @@
                                 <span class="text-sm"> {{ $item->created_at->format('Y-m-d H:i') }} </span>
                             </div>
                         </div>
-                        <div>
-                            <i wire:click='deletePost({{ $item->id }})'
-                                class="cursor-pointer fa-solid fa-trash-can me-2 text-gray-700 hover:text-red-700 duration-200"></i>
-                            <i wire:click='markup({{ $item->id }})' @class([
-                                'cursor-pointer fa-solid fa-bookmark  duration-200',
-                                'text-green-800 hover:text-red-700' => $item->markup,
-                                'text-gray-800 hover:text-green-700' => !$item->markup,
-                            ])></i>
-                        </div>
+                        @can(App\Enums\PermissionEnum::POSTS->value)
+                            <div>
+                                <i wire:click='deletePost({{ $item->id }})'
+                                    class="cursor-pointer fa-solid fa-trash-can me-2 text-gray-700 hover:text-red-700 duration-200"></i>
+                                <i wire:click='markup({{ $item->id }})' @class([
+                                    'cursor-pointer fa-solid fa-bookmark  duration-200',
+                                    'text-green-700 hover:text-red-700' => $item->markup,
+                                    'text-gray-800 hover:text-green-700' => !$item->markup,
+                                ])></i>
+                            </div>
+                        @endcan
+                        @cannot(App\Enums\PermissionEnum::POSTS->value)
+                            <i x-show="{{ $item->markup }}"
+                                class="cursor-pointer fa-solid fa-bookmark  duration-200 text-green-700"></i>
+                        @endcannot
                     </div>
                     <hr class="block w-[95%] mx-auto my-4 bg-gray-700">
                     <h2 class="font-bold mb-2 text-lg">{{ $item->title }}</h2>

@@ -37,7 +37,7 @@ new class extends Component {
         $this->email = $user->email;
         $this->phone = $user->phone ?? '';
         $this->oldPhoto = $user->photo ?? '';
-        $this->brith_day = $user->brith_day?->format('Y-m-d') ?? '';
+        $this->brith_day = !is_null($user->brith_day) ? $user->brith_day?->format('Y-m-d') ?? '' : null;
     }
 
     private function allowEdit()
@@ -85,7 +85,7 @@ new class extends Component {
             'email' => strtolower($this->email),
             'phone' => $this->phone,
             'photo' => $photoPath,
-            'brith_day' => $this->brith_day,
+            'brith_day' => $this->brith_day ?? null,
         ]);
 
         // Reset email verification if email has changed

@@ -63,7 +63,7 @@ new class extends Component {
             <x-input-error :messages="$errors->get('current_password')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-between gap-4">
+        <div class="flex items-center justify-between flex-col md:flex-row gap-4">
             <div class="w-full">
                 <x-input-label for="update_password_password" :value="__('كلمة المرور الجديدة')" />
                 <x-text-input wire:model="password" id="update_password_password" name="password" type="password"

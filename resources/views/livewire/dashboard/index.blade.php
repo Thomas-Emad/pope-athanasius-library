@@ -24,8 +24,8 @@
             <span>اكثر الكتب اطلاعا</span>
         </h1>
     </div>
-    <div>
-        <div class="mt-10 grid gap-4" style="grid-template-columns: repeat(auto-fill, minmax(250px, 1fr))">
+    <div class="mt-5">
+        <div class="grid gap-4" style="grid-template-columns: repeat(auto-fill, minmax(250px, 1fr))">
             @foreach ($books as $book)
                 <a href="{{ route('book.show', $book->code) }}" wire:navigate wire:key='book-{{ $book->id }}'
                     class="p-2 bg-white shadow rounded-md overflow-hidden hover:-translate-y-2 duration-200 flex flex-row items-center gap-2">
@@ -46,6 +46,9 @@
                 </a>
             @endforeach
         </div>
+        @if (sizeOf($books) == 0)
+            <p class="text-center text-gray-600 italic">ليس لدينا اي كتاب هنا..</p>
+        @endif
     </div>
 
 </div>
