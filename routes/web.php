@@ -37,6 +37,4 @@ Route::middleware(['auth', 'permission:control_dashboard', 'verified'])
     Route::get('/roles', Roles::class)->name('roles')->middleware('permission:users');
   });
 
-
-
 require __DIR__ . '/auth.php';

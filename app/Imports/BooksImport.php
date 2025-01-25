@@ -22,26 +22,35 @@ class BooksImport implements ToModel, WithSkipDuplicates, WithChunkReading, With
    */
   public function model(array $row)
   {
+    // Skip rows with missing critical data or empty rows
+    if (!$this->isValidRow($row) || $this->uniqueCode($row[0])) {
+      return null;
+    }
+
     $user = Auth::id();
 
-    $getAuthors = Author::pluck('id', 'name')->toArray();
-    $getPublishers = Publisher::pluck('id', 'name')->toArray();
-    $getSections = Section::pluck('id', 'title')->toArray();
-    $getShelfs = SectionShelf::pluck('id', 'title')->toArray();
+    // Use pluck to minimize queries
+    $authors = Author::pluck('id', 'name')->toArray();
+    $publishers = Publisher::pluck('id', 'name')->toArray();
+    $sections = Section::pluck('id', 'title')->toArray();
+    $shelves = SectionShelf::pluck('id', 'title')->toArray();
 
-    $section = Section::firstOrCreate(['title' => $row[8]]);
-    return new Book([
+    // Handle section creation or lookup
+    $section = $this->getSection($row[8], $sections);
+
+    // Return the Book creation model
+    return Book::create([
       'user_id' => $user,
       'code' => $row[0],
       'title' => $row[1],
-      'author_id' => $getAuthors[$row[2]] ?? Author::firstOrCreate(['name' => $row[2]])->id,
+      'author_id' => $this->getAuthorId($row[2], $authors),
       'series' => $row[3],
-      'publisher_id' => $getPublishers[$row[4]] ?? Publisher::firstOrCreate(['name' => $row[4]])->id,
+      'publisher_id' => $this->getPublisherId($row[4], $publishers),
       'copies' => $row[5],
       'papers' => $row[6],
       'part_number' => $row[7],
-      'section_id' => $getSections[$row[8]] ??  $section->id,
-      'shelf_id' => $getShelfs[$row[9]] ?? SectionShelf::firstOrCreate(['title' => $row[9], 'section_id' => $section->id])->id,
+      'section_id' => $section,
+      'shelf_id' => $this->getShelfId($row[9], $section, $shelves),
       'current_unit_number' => $row[10],
       'row' => $row[11],
       'position_book' => $row[12],
@@ -50,12 +59,70 @@ class BooksImport implements ToModel, WithSkipDuplicates, WithChunkReading, With
     ]);
   }
 
+  /**
+   * Check if the row contains valid data.
+   */
+  protected function isValidRow(array $row)
+  {
+    return !empty($row[0]) && !empty($row[1]);
+  }
+
+  protected function uniqueCode($code)
+  {
+    return Book::where('code', $code)->exists();
+  }
+
+  /**
+   * Get the author ID, create if not exists.
+   */
+  protected function getAuthorId($authorName, $authors)
+  {
+    return $authors[$authorName] ?? Author::firstOrCreate(['name' => $authorName])->id;
+  }
+
+  /**
+   * Get the publisher ID, create if not exists.
+   */
+  protected function getPublisherId($publisherName, $publishers)
+  {
+    return $publishers[$publisherName] ?? Publisher::firstOrCreate(['name' => $publisherName])->id;
+  }
+
+  /**
+   * Get the section ID or create a new one.
+   */
+  protected function getSection($sectionTitle, $sections)
+  {
+    return $sections[$sectionTitle] ?? Section::firstOrCreate(['title' => $sectionTitle])->id;
+  }
+
+  /**
+   * Get the shelf ID, create if not exists.
+   */
+  protected function getShelfId($shelfTitle, $sectionId, $shelves)
+  {
+    return $shelves[$shelfTitle] ?? SectionShelf::firstOrCreate(['title' => $shelfTitle, 'section_id' => $sectionId])->id;
+  }
+
+  /**
+   * The number of rows per chunk
+   */
   public function chunkSize(): int
   {
     return 1000;
   }
 
+  /**
+   * Specify which column should be used to identify duplicates.
+   */
+  public function uniqueBy()
+  {
+    return 'code';
+  }
 
+  /**
+   * Define the row where data starts
+   */
   public function startRow(): int
   {
     return 2;

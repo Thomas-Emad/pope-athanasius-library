@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Book extends Model
 {
   protected $fillable = [
+    'uuid',
     'code',
     'user_id',
     'author_id',
@@ -26,7 +28,8 @@ class Book extends Model
     'photo',
     'pdf',
     'markup',
-    'views'
+    'views',
+    'is_synced'
   ];
 
   public function user()
@@ -57,5 +60,16 @@ class Book extends Model
       'old' => $query->oldest(),
       'top_views' => $query->orderBy('views', 'desc'),
     };
+  }
+
+  public static function boot()
+  {
+    parent::boot();
+
+    static::creating(function ($model) {
+      if (!$model->uuid) {
+        $model->uuid = (string) Str::uuid();
+      }
+    });
   }
 }

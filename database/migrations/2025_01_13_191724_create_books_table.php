@@ -13,6 +13,7 @@ return new class extends Migration
   {
     Schema::create('books', function (Blueprint $table) {
       $table->id();
+      $table->uuid('uuid')->unique();
       $table->integer('code')->unique();
 
       $table->foreignId('user_id')->constrained('users')->noActionOnDelete();
@@ -40,6 +41,7 @@ return new class extends Migration
       $table->integer('views')->default(0);
       $table->boolean('markup')->default(true);
 
+      $table->boolean('is_synced')->default(false);
       $table->timestamps();
     });
   }

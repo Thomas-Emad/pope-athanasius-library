@@ -2,11 +2,13 @@
 
 namespace App\Livewire\Forms\Dashboard;
 
-use App\Models\Book;
+use App\Models\{Book, DeletedBookSyncSkip};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Form;
 use App\Traits\UpdateAttachmentTrait;
+use Illuminate\Validation\Rule;
+
 
 class BookForm extends Form
 {
@@ -51,7 +53,9 @@ class BookForm extends Form
   public function rules()
   {
     return [
-      'code' => ['unique:books,code,' . $this->id],
+      'code' => [
+        Rule::unique('books', 'code')->ignore($this->id),
+      ],
       'title' => ['required', 'string', 'min:3', 'max:255'],
       'section' => ['required', 'exists:sections,id'],
       'shelf' => ['required', 'exists:section_shelves,id'],
@@ -77,6 +81,7 @@ class BookForm extends Form
   private function attributeRules()
   {
     return [
+      'code' => "كود الكتاب",
       'title' => 'اسم الكتاب',
       'section' => 'اسم القسم',
       'shelf' => 'اسم الرف',
@@ -108,12 +113,14 @@ class BookForm extends Form
    */
   public function store()
   {
+    $this->setCodeBook();
     $this->validate(
       $this->rules(),
-      [],
+      [
+        'code.unique' => 'تم اتخاذه هذا الكود بالفعل سابقا'
+      ],
       $this->attributeRules()
     );
-    $this->setCodeBook();
 
     Book::create([
       'code' => $this->code,
@@ -143,12 +150,12 @@ class BookForm extends Form
    */
   public function update()
   {
+    $this->setCodeBook();
     $this->validate(
       $this->rules(),
       [],
       $this->attributeRules()
     );
-    $this->setCodeBook();
 
     Book::where('id', $this->id)->update([
       'code' => $this->code,
@@ -170,6 +177,7 @@ class BookForm extends Form
       'photo' => $this->uploadAttachment($this->oldPhoto, $this->photo, 'book/photos'),
       'pdf' => $this->uploadAttachment($this->oldPdf, $this->pdf, 'book/pdfs'),
       'markup' => $this->markup,
+      'is_synced' => false
     ]);
   }
 
@@ -186,6 +194,7 @@ class BookForm extends Form
       if ($book->photo) {
         $this->deleteAttachment($book->photo);
       }
+      DeletedBookSyncSkip::create(['uuid' => $book->uuid]);
       $book->delete();
     }
   }

@@ -41,7 +41,7 @@ class User extends Component
   public function render()
   {
     return view('livewire.dashboard.user', [
-      'users' => UserModel::select('id', 'name', 'email', 'phone', 'photo', 'brith_day', 'role', 'created_at')
+      'users' => UserModel::select('id', 'name', 'email', 'phone', 'photo', 'brith_day', 'created_at')
         ->when($this->showOnlyMain, function ($query) {
           $query->whereHas('roles', function ($query) {
             $query->whereIn('id', [1, 2]);

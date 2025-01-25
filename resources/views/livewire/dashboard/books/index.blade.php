@@ -60,6 +60,9 @@
                                 المؤلف
                             </th>
                             <th scope="col" class="px-6 py-3  whitespace-nowrap">
+                                متزامن؟
+                            </th>
+                            <th scope="col" class="px-6 py-3  whitespace-nowrap">
                                 الاعدادت
                             </th>
                         </tr>
@@ -73,38 +76,22 @@
                                     {{ $item->code }}
                                 </th>
                                 <td class="px-6 py-4  whitespace-nowrap">
-                                    @if ($item->markup)
-                                        <span title="هذا الكتاب مميزه يظهر في الصفحه الرئيسيه"
-                                            class="text-xs text-green-700 border-2 border-green-700 p-1 rounded-full flex justify-center items-center">
-                                            <i class="fa-solid fa-check"></i>
-                                        </span>
-                                    @else
-                                        <span title="هذا الكتاب لا يظهر في الصفحه الرئيسيه"
-                                            class="text-xs text-red-700 border-2 border-red-700 p-1 rounded-full flex justify-center items-center">
-                                            <i class="fa-solid fa-x"></i>
-                                        </span>
-                                    @endif
+                                    <x-status-yes-no status="{{ $item->markup }}"
+                                        labelTrue="هذا الكتاب مميزه يظهر في الصفحه الرئيسيه"
+                                        labelFalse="هذا الكتاب لا يظهر في الصفحه الرئيسيه" />
                                 </td>
                                 <td class="px-6 py-4">
                                     <img src="{{ $item->photo ? Storage::url($item->photo) : asset('assets/images/logo.png') }}"
                                         class="shadow w-8 h-8 rounded-xl" alt="Photo Book"
                                         onerror="this.onerror=null;this.src='{{ asset('assets/images/logo.png') }}';">
                                 </td>
-                                <td class="px-6 py-4  whitespace-nowrap">
+                                <td class="px-6 py-4 whitespace-nowrap">
                                     {{ str($item->title)->limit(20) }}
                                 </td>
-                                <td class="px-6 py-4  whitespace-nowrap">
-                                    @if ($item->pdf)
-                                        <span title="هذا الكتاب يحتوي علي ملف PDF"
-                                            class="text-xs text-green-700 border-2 border-green-700 p-1 rounded-full flex justify-center items-center">
-                                            <i class="fa-solid fa-check"></i>
-                                        </span>
-                                    @else
-                                        <span title="هذا الكتاب لا يحتوي علي اي ملف"
-                                            class="text-xs text-red-700 border-2 border-red-700 p-1 rounded-full flex justify-center items-center">
-                                            <i class="fa-solid fa-x"></i>
-                                        </span>
-                                    @endif
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <x-status-yes-no status="{{ $item->pdf }}"
+                                        labelTrue="هذا الكتاب يحتوي علي ملف PDF"
+                                        labelFalse="هذا الكتاب لا يحتوي علي اي ملف" />
                                 </td>
                                 <td class="px-6 py-4  whitespace-nowrap">
                                     {{ $item->views }}
@@ -120,6 +107,11 @@
                                 </td>
                                 <td class="px-6 py-4  whitespace-nowrap">
                                     {{ $item->author->name }}
+                                </td>
+                                <td class="px-6 py-4  whitespace-nowrap">
+                                    <x-status-yes-no status="{{ $item->is_synced }}"
+                                        labelTrue="هذا الكتاب غير متزامن مع السيرفر الخارجي"
+                                        labelFalse="هذا الكتاب متزامن مع السيرفر الخارجي" />
                                 </td>
                                 <td class="px-6 py-4 flex gap-2">
                                     <button wire:key="{{ $item->id }}" wire:click='editBook({{ $item->id }})'
@@ -142,8 +134,6 @@
                     </tbody>
                 </table>
             </div>
-
-
             <div class="mt-4">
                 {{ $books->links() }}
             </div>
@@ -164,7 +154,10 @@
                     </div>
                     <div class="my-6">
                         <div class="flex items-center justify-between flex-col md:flex-row">
-                            <p class="font-bold">- هل تريد تصدير كافة الكتب ك Excel؟!</p>
+                            <p class="font-bold flex items-center gap-2">
+                                <i class="fa-solid fa-cloud-arrow-down text-gray-600"></i>
+                                <span>هل تريد تصدير كافة الكتب ك Excel؟!</span>
+                            </p>
                             <x-button wire:loading.attr="disabled" wire:click="export"
                                 class="w-full md:w-fit mt-1 inline-block text-sm bg-brown-lite hover:bg-brown-max active:bg-brown-max focus:ring-brown-max">
                                 <x-loader wire:loading wire:target="export" />
@@ -172,7 +165,10 @@
                             </x-button>
                         </div>
                         <div class="flex items-center justify-between flex-col md:flex-row mt-4">
-                            <p class="font-bold">- هل لديك ملف Excel وتريد تسجيل لدينا؟!</p>
+                            <p class="font-bold flex items-center gap-2">
+                                <i class="fa-solid fa-cloud-arrow-up text-gray-600"></i>
+                                <span> هل لديك ملف Excel وتريد تسجيل لدينا؟!</span>
+                            </p>
                             <x-button wire:loading.attr="disabled"
                                 x-on:click="$dispatch('close-modal', 'more');$dispatch('open-modal', 'import-excel')"
                                 class="w-full md:w-fit mt-1 inline-block text-sm bg-blue-700/40 hover:bg-blue-600 active:bg-blue-600 focus:bg-blue-600">
@@ -181,11 +177,13 @@
                         </div>
                         <hr class="my-4 block w-[95%] mx-auto">
                         <div class="flex items-center justify-between flex-col md:flex-row mt-4">
-                            <p class="font-bold">- هل تريد مزامنة الكتب مع الموقع الخارجي؟ (يلزم توفر اتصال بالإنترنت)
+                            <p class="font-bold flex items-center gap-2">
+                                <i class="fa-solid fa-rotate text-gray-600"></i>
+                                <span> هل تريد مزامنة الكتب مع الموقع الخارجي؟ (يلزم توفر اتصال بالإنترنت)</span>
                             </p>
-                            <x-button wire:loading.attr="disabled" wire:target=""
+                            <x-button wire:loading.attr="disabled" wire:click="sync"
                                 class="w-full md:w-fit mt-1 inline-block text-sm bg-red-700/40 hover:bg-red-600 active:bg-red-600 focus:bg-red-600">
-                                <x-loader wire:loading wire:target="" />
+                                <x-loader wire:loading />
                                 {{ __('مزامنه') }}
                             </x-button>
                         </div>
@@ -201,7 +199,7 @@
                 <div class="p-6">
                     <div class="flex justify-between items-center">
                         <h2 class="text-lg font-medium text-gray-900 flex gap-1 items-center">
-                            <i class="fa-solid fa-gear"></i>
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
                             <span>
                                 اختر الملف المراد تسجيله
                             </span>
@@ -238,7 +236,7 @@
                 <div class="p-6">
                     <div class="flex justify-between items-center">
                         <h2 class="text-lg font-medium text-gray-900 flex gap-1 items-center">
-                            <i class="fa-solid fa-gear"></i>
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
                             <span>
                                 تمت عملية استيراد بنجاح
                             </span>
@@ -249,6 +247,83 @@
                     <div class="my-6">
                         <div>
                             <h2 class="font-bold text-3xl text-center text-green-700">تم عملية استيراد الكتب بنجاح</h2>
+                        </div>
+                    </div>
+                    <div>
+                        <x-secondary-button x-on:click="$dispatch('close')" class="w-full">
+                            {{ __('خروج') }}
+                        </x-secondary-button>
+                    </div>
+                </div>
+            </x-modal>
+            <x-modal name="loading-sync">
+                <div class="p-6">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-lg font-medium text-gray-900 flex gap-1 items-center">
+                            <i class="fa-solid fa-rotate"></i>
+                            <span>
+                                تجري عملية المزامنة بنجاح
+                            </span>
+                        </h2>
+                        <i class="fa-solid fa-x hover:text-green-600 duration-150 cursor-pointer text-sm"
+                            x-on:click="$dispatch('close')"></i>
+                    </div>
+                    <div class="my-6">
+                        <h2 class="font-bold text-3xl text-center text-amber-700">
+                            تجري العملية المزامنة الان, لا تغلق الصفحه او اتصال الانترنت
+                        </h2>
+                        <div class="flex justify-center my-4">
+                            <x-loader classLoader="w-20 h-20 text-gray-200 fill-amber-700" />
+                        </div>
+                    </div>
+                    <div>
+                        <x-secondary-button x-on:click="$dispatch('close')" class="w-full">
+                            {{ __('خروج') }}
+                        </x-secondary-button>
+                    </div>
+                </div>
+            </x-modal>
+            <x-modal name="success-sync">
+                <div class="p-6">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-lg font-medium text-gray-900 flex gap-1 items-center">
+                            <i class="fa-solid fa-rotate"></i>
+                            <span>
+                                تمت عملية المزامنة بنجاح
+                            </span>
+                        </h2>
+                        <i class="fa-solid fa-x hover:text-green-600 duration-150 cursor-pointer text-sm"
+                            x-on:click="$dispatch('close')"></i>
+                    </div>
+                    <div class="my-6">
+                        <div>
+                            <h2 class="font-bold text-3xl text-center text-green-700">تمت عملية المزامنة بنجاح
+                            </h2>
+                        </div>
+                    </div>
+                    <div>
+                        <x-secondary-button x-on:click="$dispatch('close')" class="w-full">
+                            {{ __('خروج') }}
+                        </x-secondary-button>
+                    </div>
+                </div>
+            </x-modal>
+            <x-modal name="fail-sync">
+                <div class="p-6">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-lg font-medium text-gray-900 flex gap-1 items-center">
+                            <i class="fa-solid fa-rotate"></i>
+                            <span>
+                                لقد فشلت عملية المزامنة
+                            </span>
+                        </h2>
+                        <i class="fa-solid fa-x hover:text-green-600 duration-150 cursor-pointer text-sm"
+                            x-on:click="$dispatch('close')"></i>
+                    </div>
+                    <div class="my-6">
+                        <div>
+                            <h2 class="font-bold text-3xl text-center text-red-700">لقد فشلت عملية المزامنة
+                            </h2>
                         </div>
                     </div>
                     <div>
