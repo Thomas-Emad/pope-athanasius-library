@@ -81,7 +81,7 @@
                                         labelFalse="هذا الكتاب لا يظهر في الصفحه الرئيسيه" />
                                 </td>
                                 <td class="px-6 py-4">
-                                    <img src="{{ $item->photo ? Storage::url($item->photo) : asset('assets/images/logo.png') }}"
+                                    <img src="{{ $item->photo && Storage::exists($item->photo) ? Storage::url($item->photo) : asset('assets/images/logo.png') }}"
                                         class="shadow w-8 h-8 rounded-xl" alt="Photo Book"
                                         onerror="this.onerror=null;this.src='{{ asset('assets/images/logo.png') }}';">
                                 </td>
@@ -183,7 +183,7 @@
                             </p>
                             <x-button wire:loading.attr="disabled" wire:click="sync"
                                 class="w-full md:w-fit mt-1 inline-block text-sm bg-red-700/40 hover:bg-red-600 active:bg-red-600 focus:bg-red-600">
-                                <x-loader wire:loading />
+                                <x-loader wire:loading wire:target="sync" />
                                 {{ __('مزامنه') }}
                             </x-button>
                         </div>
