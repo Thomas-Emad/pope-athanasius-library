@@ -13,7 +13,7 @@ A comprehensive library management system built with Laravel Livewire and Tailwi
 1.  **Clone the repository:**
 
 ```bash
-  git clone https://github.com/yourusername/pope-athanasius-library.git
+  git clone https://github.com/Thomas-Emad/pope-athanasius-library.git
   cd pope-athanasius-library
 ```
 
