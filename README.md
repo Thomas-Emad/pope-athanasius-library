@@ -21,7 +21,7 @@ A comprehensive library management system built with Laravel Livewire and Tailwi
 
 ```bash
   composer install
-  npm install && npm run dev`
+  npm install && npm run dev
 ```
 
 2.  **Set up environment variables:**  
