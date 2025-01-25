@@ -63,7 +63,7 @@
                 @foreach ($books as $book)
                     <a href="{{ route('book.show', $book->code) }}" wire:navigate wire:key='book-{{ $book->id }}'
                         class="bg-white shadow rounded-md overflow-hidden hover:-translate-y-2 duration-200">
-                        <img src="{{ $book->photo ? Storage::url($book->photo) : asset('assets/images/mockup.jpg') }}"
+                        <img src="{{ $book->photo && Storage::exists($book->photo) ? Storage::url($book->photo) : asset('assets/images/mockup.jpg') }}"
                             class="w-full h-56" alt="mockup book"
                             onerror="this.onerror=null; this.src='{{ asset('assets/images/mockup.jpg') }}';">
                         <div class="text-center px-2">
@@ -74,7 +74,7 @@
                 @endforeach
             </div>
             @if ($books->total() > 10)
-                <div class="bg-white py-2 px-4 rounded-lg shadow mt-6">
+                <div class="bg-white py-2 px-4 rounded-lg shadow mb-6">
                     {{ $books->links() }}
                 </div>
             @endif

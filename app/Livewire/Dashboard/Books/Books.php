@@ -10,13 +10,13 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
 use Livewire\WithFileUploads;
-
+use Livewire\WithPagination;
 
 #[Title('الكتب')]
 #[Layout('layouts.dashboard')]
 class Books extends Component
 {
-  use WithFileUploads;
+  use WithFileUploads, WithPagination;
   public $search;
   public MoreFeaturesBookForm $features;
   public $getMarkUpBooks = false;
