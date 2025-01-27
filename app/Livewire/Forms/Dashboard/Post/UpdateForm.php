@@ -58,5 +58,6 @@ class UpdateForm extends Form
         'photo' => $this->photo ? $this->uploadAttachment($this->oldPhoto, $this->photo, 'posts') : $post->photo,
       ]);
     }
+    $this->reset(['id', 'user_id',  'title', 'content', 'oldPhoto', 'photo']);
   }
 }

@@ -24,13 +24,13 @@ class Sections extends Component
   public function saveSection()
   {
     $this->section->save();
-    $this->dispatch('close-modal', 'add-sections');
+    $this->dispatch('close-modal', 'sections-shelfs');
   }
 
   public function saveShelf()
   {
     $this->shelf->save();
-    $this->dispatch('close-modal', 'add-sections');
+    $this->dispatch('close-modal', 'sections-shelfs');
   }
 
   public function editSection($id)

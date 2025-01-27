@@ -13,14 +13,15 @@
                 <div class="absolute inset-y-0 right-2 flex items-center justify-center z-10">
                     <i class="fa-solid fa-magnifying-glass text-brown-max"></i>
                 </div>
-                <input type="text" wire:model='search'
+                <input type="text" wire:model='search' wire:keydown.enter="submit"
                     placeholder="أكتب هنا اسم الكتاب، المؤلف، الناشر، الموضوعات، القسم، الرف، كود الكتاب..."
                     class="py-4 px-8 border-none outline-none rounded-xl w-full focus:ring-brown-max">
                 <div class="absolute inset-y-0 left-2 flex items-center justify-center  z-10">
-                    <button type="button" wire:click="submit"
+                    <x-button type="button" wire:click="submit" wire:loading.attr="disabled"
                         class="text-sm py-2 px-4 bg-brown-lite rounded-md text-white duration-200 hover:bg-brown-max">
-                        أبحث
-                    </button>
+                        <x-loader wire:loading wire:target="submit" />
+                        {{ __('أبحث') }}
+                    </x-button>
                 </div>
             </div>
         </div>
@@ -46,7 +47,6 @@
                     <x-toggle wire:model.change='filters.shelf' label='اسم الرف' currentStatus='true' />
                     <x-toggle wire:model.change='filters.subjects' label='الموضوعات' currentStatus='false' />
                     <x-toggle wire:model.change='filters.series' label='السلسلة' currentStatus='false' />
-
                 </div>
                 <x-select id="orderBy" wire:model.change='orderBy' class="mt-4 cursor-pointer">
                     <option value="new">أحدث الكتب أولًا</option>
@@ -62,11 +62,15 @@
             <div class="grid gap-4 pb-8" style="grid-template-columns: repeat(auto-fill, minmax(150px, 1fr))">
                 @foreach ($books as $book)
                     <a href="{{ route('book.show', $book->code) }}" wire:navigate wire:key='book-{{ $book->id }}'
-                        class="bg-white shadow rounded-md overflow-hidden hover:-translate-y-2 duration-200">
-                        <img src="{{ $book->photo && Storage::exists($book->photo) ? Storage::url($book->photo) : asset('assets/images/mockup.jpg') }}"
-                            class="w-full h-56" alt="mockup book"
-                            onerror="this.onerror=null; this.src='{{ asset('assets/images/mockup.jpg') }}';">
-                        <div class="text-center px-2">
+                        class="flex flex-col items-center justify-between  bg-white shadow rounded-md overflow-hidden hover:-translate-y-2 duration-200">
+                        <!-- Image Container with Fixed Size and Background -->
+                        <div class="w-full h-56 bg-white flex items-center justify-center">
+                            <img src="{{ $book->photo ? Storage::url($book->photo) : asset('assets/images/mockup.jpg') }}"
+                                class="max-w-full max-h-full object-contain" alt="{{ $book->title }}"
+                                onerror="this.onerror=null; this.src='{{ asset('assets/images/mockup.jpg') }}';">
+                        </div>
+                        <!-- Book Details -->
+                        <div class="text-center px-2 py-3">
                             <h3 class="font-bold">{{ str($book->title)->limit(20) }}</h3>
                             <span>{{ str($book->author->name)->limit(20) }}</span>
                         </div>

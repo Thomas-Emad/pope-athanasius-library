@@ -15,7 +15,8 @@
 
         <div class="relative overflow-x-auto sm:rounded-lg">
             <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
-                <x-search-dashboard wire:model.blur='search' placeholder="ابحث عن كلمة اليوم.." />
+                <x-search-dashboard wire:keydown.enter="search" wire:model.blur='search'
+                    placeholder="ابحث عن كلمة اليوم.." />
                 <div class="me-2">
                     <x-toggle label='عرض كلمة اليوم' wire:model.change='showWordToday' />
                 </div>

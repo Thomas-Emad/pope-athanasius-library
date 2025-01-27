@@ -48,6 +48,14 @@ class BookForm extends Form
   }
 
   /**
+   * ReSet the form's attributes from the provided book.
+   */
+  public function removeAttrbiutes()
+  {
+    $this->reset();
+  }
+
+  /**
    * Validation rules for the book form.
    */
   public function rules()
@@ -143,6 +151,7 @@ class BookForm extends Form
       'pdf' => $this->pdf ? $this->pdf->store('book/pdfs', 'public') : null,
       'markup' => $this->markup ?? false,
     ]);
+    $this->removeAttrbiutes();
   }
 
   /**
@@ -179,6 +188,7 @@ class BookForm extends Form
       'markup' => $this->markup,
       'is_synced' => false
     ]);
+    $this->removeAttrbiutes();
   }
 
   /**
@@ -197,6 +207,7 @@ class BookForm extends Form
       DeletedBookSyncSkip::create(['uuid' => $book->uuid]);
       $book->delete();
     }
+    $this->removeAttrbiutes();
   }
 
   /**

@@ -55,12 +55,14 @@ new #[Layout('layouts.guest')] class extends Component {
         </div>
 
         <div>
-            <x-button wire:click="sendVerification"
-                class="py-4 mt-4 text-center text-sm w-full bg-green-700 hover:bg-green-700 duration-200">
+            <x-button wire:click="sendVerification" wire:loading.attr="disabled"
+                class="py-4 mt-4 text-center text-sm w-full bg-brown-max hover:bg-brown-lite duration-200">
+                <x-loader wire:loading wire:target="sendVerification" />
                 {{ __('إعادة إرسال الرسالة') }}
             </x-button>
-            <x-button wire:click="logout" type="submit"
+            <x-button wire:click="logout" wire:loading.attr="disabled"
                 class="py-4 mt-4 text-center text-sm w-full bg-red-700 hover:bg-red-800 duration-200">
+                <x-loader wire:loading wire:target="logout" />
                 {{ __('تسجيل خروج') }}
             </x-button>
         </div>

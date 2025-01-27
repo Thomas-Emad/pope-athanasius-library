@@ -108,7 +108,9 @@ new #[Layout('layouts.guest')] class extends Component {
         </div>
 
         <div>
-            <x-button class="py-4 mt-4 text-center text-sm w-full bg-brown-max hover:bg-brown-lite duration-200">
+            <x-button type="submit" wire:loading.attr="disabled"
+                class="py-4 mt-4 text-center text-sm w-full bg-brown-max hover:bg-brown-lite duration-200 justify-center">
+                <x-loader wire:loading />
                 {{ __('إنشاء حساب') }}
             </x-button>
         </div>
@@ -117,10 +119,10 @@ new #[Layout('layouts.guest')] class extends Component {
 
         <p class="text-center">
             <span>
-                ليس لديك حساب؟
+                هل لديك حساب؟
             </span>
             <a href="{{ route('login') }}" wire:navigate class="text-brown-max">
-                إنشاء حساب
+                تسجيل دخول
             </a>
         </p>
     </form>

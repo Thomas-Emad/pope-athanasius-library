@@ -3,22 +3,39 @@
 namespace App\Livewire\Forms\Dashboard;
 
 use App\Models\Author;
-use Livewire\Attributes\Validate;
+use Illuminate\Validation\Rule;
 use Livewire\Form;
 
 class AuthorForm extends Form
 {
   public $id;
-
-  #[Validate("required|min:3|max:255", as: 'اسم مؤلف')]
   public $name = '';
+
+  public function rules(): array
+  {
+    return [
+      'name' => [
+        "required",
+        "min:3",
+        "max:255",
+        Rule::unique('authors', 'name')->ignore($this->id)
+      ],
+    ];
+  }
+  public function attributeRules(): array
+  {
+    return [
+      'name' => "اسم مؤلف",
+    ];
+  }
 
   public function save()
   {
-    $this->validate();
-    $this->validate([
-      'name' => 'unique:authors,name',
-    ]);
+    $this->validate(
+      $this->rules(),
+      [],
+      $this->attributeRules()
+    );
     $author = Author::create([
       'name' => $this->name,
     ]);
@@ -28,15 +45,16 @@ class AuthorForm extends Form
 
   public function update()
   {
-    $this->validate();
-
+    $this->validate(
+      $this->rules(),
+      [],
+      $this->attributeRules()
+    );
     $author = Author::findOrFail($this->id);
-    $this->validate([
-      'name' => 'unique:authors,name,' . $this->id,
-    ]);
     $author->update([
       'name' => $this->name,
     ]);
+    $this->removeAttrbiutes();
   }
 
   public function setAttrbiutes($id, $name)

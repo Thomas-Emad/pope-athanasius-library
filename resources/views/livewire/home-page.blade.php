@@ -9,7 +9,7 @@
                 <div class="absolute inset-y-0 right-2 flex items-center justify-center z-10">
                     <i class="fa-solid fa-magnifying-glass text-brown-max"></i>
                 </div>
-                <input wire:model='book' type="text" placeholder="أكتب هنا اسم الكتاب..."
+                <input wire:model='book' wire:keydown.enter="search" type="text" placeholder="أكتب هنا اسم الكتاب..."
                     class="py-4 px-8 border-none outline-none rounded-xl w-full focus:ring-brown-max">
                 <div class="absolute inset-y-0 left-2 flex items-center justify-center  z-10">
                     <button type="button" wire:click='search'
@@ -73,11 +73,15 @@
                     @foreach ($books as $book)
                         <a href="{{ route('book.show', $book->code) }}" wire:navigate
                             wire:key='book-{{ $book->id }}'
-                            class="bg-white shadow rounded-md overflow-hidden hover:-translate-y-2 duration-200">
-                            <img src="{{ $book->photo ? Storage::url($book->photo) : asset('assets/images/mockup.jpg') }}"
-                                class="w-full h-56" alt="mockup book"
-                                onerror="this.onerror=null; this.src='{{ asset('assets/images/mockup.jpg') }}';">
-                            <div class="text-center px-2">
+                            class="flex flex-col items-center justify-between  bg-white shadow rounded-md overflow-hidden hover:-translate-y-2 duration-200">
+                            <!-- Image Container with Fixed Size and Background -->
+                            <div class="w-full h-56 bg-white flex items-center justify-center">
+                                <img src="{{ $book->photo ? Storage::url($book->photo) : asset('assets/images/mockup.jpg') }}"
+                                    class="max-w-full max-h-full object-contain" alt="{{ $book->title }}"
+                                    onerror="this.onerror=null; this.src='{{ asset('assets/images/mockup.jpg') }}';">
+                            </div>
+                            <!-- Book Details -->
+                            <div class="text-center px-2 py-3">
                                 <h3 class="font-bold">{{ str($book->title)->limit(20) }}</h3>
                                 <span>{{ str($book->author->name)->limit(20) }}</span>
                             </div>

@@ -29,13 +29,14 @@ class StoreForm extends Form
   {
     if (Auth::user()->can('posts')) {
       $this->validate();
-      return Post::create([
+      $post = Post::create([
         'user_id' => Auth::id(),
         'title' => $this->title,
         'content' => $this->content,
         'photo' => $this->photo ? $this->photo->store('posts', 'public') : null,
       ]);
+      $this->reset(['title', 'content', 'photo']);
+      return $post;
     }
-    $this->reset(['title', 'content', 'photo']);
   }
 }

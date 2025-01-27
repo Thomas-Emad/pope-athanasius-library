@@ -3,48 +3,70 @@
 namespace App\Livewire\Forms\Dashboard;
 
 use App\Models\Publisher;
-use Livewire\Attributes\Validate;
 use Livewire\Form;
+use Illuminate\Validation\Rule;
 
 class PublisherForm extends Form
 {
-    public $id;
+  public $id;
+  public $name = '';
 
-    #[Validate("required|min:3|max:255", as: 'اسم الناشر')]
-    public $name = '';
+  public function rules(): array
+  {
+    return [
+      'name' => [
+        "required",
+        "min:3",
+        "max:255",
+        Rule::unique('publishers', 'name')->ignore($this->id)
+      ],
+    ];
+  }
+  public function attributeRules(): array
+  {
+    return [
+      'name' => "اسم الناشر",
+    ];
+  }
 
-    public function save()
-    {
-        $this->validate();
-        $this->validate([
-            'name' => 'unique:publishers,name',
-        ]);
-        return Publisher::create([
-            'name' => $this->name,
-        ]);
-    }
+  public function save()
+  {
+    $this->validate(
+      $this->rules(),
+      [],
+      $this->attributeRules()
+    );
 
-    public function update()
-    {
-        $this->validate();
+    $publisher = Publisher::create([
+      'name' => $this->name,
+    ]);
+    $this->removeAttrbiutes();
+    return $publisher;
+  }
 
-        $publisher = Publisher::findOrFail($this->id);
-        $this->validate([
-            'name' => 'unique:publishers,name,' . $this->id,
-        ]);
-        $publisher->update([
-            'name' => $this->name,
-        ]);
-    }
+  public function update()
+  {
+    $this->validate(
+      $this->rules(),
+      [],
+      $this->attributeRules()
+    );
 
-    public function setAttrbiutes($id, $name)
-    {
-        $this->id = $id;
-        $this->name = $name;
-    }
+    $publisher = Publisher::findOrFail($this->id);
+    $publisher->update([
+      'name' => $this->name,
+    ]);
+    $this->removeAttrbiutes();
+  }
 
-    public function removeAttrbiutes()
-    {
-        $this->reset();
-    }
+  public function setAttrbiutes($id, $name)
+  {
+    $this->id = $id;
+    $this->name = $name;
+  }
+
+  public function removeAttrbiutes()
+  {
+    $this->reset(['id', 'name']);
+  }
 }

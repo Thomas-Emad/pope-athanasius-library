@@ -50,6 +50,7 @@ class Operations extends Component
   public function updatedBooksection($sectionId)
   {
     $this->shelfs = SectionShelf::where('section_id', $sectionId)->get();
+    $this->dispatch('add-modal-selected-section', $sectionId);
   }
 
   public function save()
@@ -73,18 +74,28 @@ class Operations extends Component
   public function authorAdded($id)
   {
     $this->addEntityToCollection(Author::class, $id, 'authors');
+    $this->book->author = $id;
   }
 
   #[On('added-publisher')]
   public function publisherAdded($id)
   {
     $this->addEntityToCollection(Publisher::class, $id, 'publishers');
+    $this->book->publisher = $id;
   }
 
   #[On('added-section')]
   public function sectionAdded($id)
   {
     $this->addEntityToCollection(Section::class, $id, 'sections');
+    $this->book->section = $id;
+  }
+
+  #[On('added-shelf')]
+  public function shelfAdded($id)
+  {
+    $this->addEntityToCollection(SectionShelf::class, $id, 'shelfs');
+    $this->book->shelf = $id;
   }
 
   private function addEntityToCollection($modelClass, $id, $collection)

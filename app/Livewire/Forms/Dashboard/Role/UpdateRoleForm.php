@@ -47,6 +47,7 @@ class UpdateRoleForm extends Form
 
     $permissionIds = array_map('intval', $this->permissions->toArray());
     $role->syncPermissions($permissionIds);
+    $this->reset(['id', 'name', 'permissions']);
   }
 
   public function delete()
@@ -55,5 +56,6 @@ class UpdateRoleForm extends Form
       $role = Role::where('id', $this->id)->firstOrFail();
       $role->delete();
     }
+    $this->reset(['id', 'name', 'permissions']);
   }
 }

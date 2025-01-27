@@ -49,6 +49,7 @@ class PostForm extends Form
       }
       Post::where('id', $this->id)->delete();
     }
+    $this->removeAttrbiutes();
   }
 
   public function markup($id)
@@ -59,5 +60,11 @@ class PostForm extends Form
         'markup' => !$post->markup
       ]);
     }
+    $this->removeAttrbiutes();
+  }
+
+  public function removeAttrbiutes()
+  {
+    $this->reset(['id', 'title', 'content', 'photo']);
   }
 }

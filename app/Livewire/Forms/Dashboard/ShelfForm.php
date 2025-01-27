@@ -5,48 +5,78 @@ namespace App\Livewire\Forms\Dashboard;
 use App\Models\SectionShelf;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
+use Illuminate\Validation\Rule;
 
 class ShelfForm extends Form
 {
   public $shelfId;
-
-  #[Validate('required|min:3|max:255', as: 'اسم الرف')]
   public $title = '';
-  #[Validate('required|integer', as: 'رقم الرف')]
   public $number = 0;
-  #[Validate('required|exists:sections,id', as: 'اسم الوحده')]
   public $section;
 
+  public function rules(): array
+  {
+    return [
+      'title' => [
+        "required",
+        "min:3",
+        "max:255",
+        Rule::unique('section_shelves', 'title')->ignore($this->shelfId)
+      ],
+      'number' => [
+        "required",
+        "integer",
+      ],
+      'section' => [
+        "required",
+        "integer",
+        "exists:sections,id",
+      ]
+    ];
+  }
+
+  public function attributeRules(): array
+  {
+    return [
+      'title' => "اسم الرف",
+      'number' => 'رقم الرف',
+      'section' => "اسم الوحده"
+    ];
+  }
 
   public function save()
   {
-    $this->validate();
-
-    $this->validate([
-      'title' => 'unique:section_shelves,title',
-    ]);
-    SectionShelf::create([
+    $this->validate(
+      $this->rules(),
+      [],
+      $this->attributeRules()
+    );
+    $shelf = SectionShelf::create([
       'title' => $this->title,
       'number' => $this->number,
       'section_id' => $this->section
     ]);
+    $this->removeAttrbiutes();
+    return $shelf;
   }
 
   public function update()
   {
-    $this->validate();
+    $this->validate(
+      $this->rules(),
+      [],
+      $this->attributeRules()
+    );
 
     $shelf = SectionShelf::findOrFail($this->shelfId);
-
-    $this->validate([
-      'title' => 'unique:sections,title,' . $this->shelfId,
-    ]);
 
     $shelf->update([
       'title' => $this->title,
       'number' => $this->number,
       'section_id' => $this->section
     ]);
+
+    $this->removeAttrbiutes();
   }
 
   public function setAttrbiutes($id, $title, $number, $section)
@@ -57,9 +87,8 @@ class ShelfForm extends Form
     $this->section = $section;
   }
 
-
   public function removeAttrbiutes()
   {
-    $this->reset();
+    $this->reset(['id', 'title', 'number', 'section']);
   }
 }

@@ -60,7 +60,9 @@ new #[Layout('layouts.guest')] class extends Component {
         </div>
 
         <div>
-            <x-button class="py-4 mt-4 text-center text-sm w-full bg-brown-max hover:bg-brown-lite duration-200">
+            <x-button wire:loading.attr="disabled"
+                class="justify-center py-4 mt-4 text-center text-sm w-full bg-brown-max hover:bg-brown-lite duration-200">
+                <x-loader wire:loading />
                 {{ __('تعيين كلمة مرور جديدة') }}
             </x-button>
         </div>

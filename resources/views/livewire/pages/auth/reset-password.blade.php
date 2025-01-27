@@ -104,9 +104,12 @@ new #[Layout('layouts.guest')] class extends Component {
         </div>
 
         <div>
-            <x-button class="py-4 mt-4 text-center text-sm w-full bg-brown-max hover:bg-brown-lite duration-200">
+            <x-button type="submit" wire:loading.attr="disabled"
+                class="justify-center py-4 mt-4 text-center text-sm w-full bg-brown-max hover:bg-brown-lite duration-200">
+                <x-loader wire:loading />
                 {{ __('تغير كلمة المرور') }}
             </x-button>
+
         </div>
     </form>
 </div>

@@ -33,19 +33,20 @@
                             <x-select id="section" wire:model.live='book.section' class="pt-4">
                                 <option selected>اختار اسم القسم</option>
                                 @foreach ($sections as $section)
-                                    <option value="{{ $section->id }}">
+                                    <option value="{{ $section->id }}" @selected($section->id == $book->section)
+                                        wire:key="section-book-{{ $section->id }}">
                                         {{ $section->title }} - {{ $section->number }}
                                     </option>
                                 @endforeach
                             </x-select>
                             @can(App\Enums\PermissionEnum::SECTIONS_BOOK->value)
                                 <button type="button" x-on:click="type = 'add'"
-                                    x-on:click.prevent="$dispatch('open-modal', 'add-sections')"
+                                    x-on:click.prevent="$dispatch('open-modal', 'sections-shelfs')"
+                                    @click="$dispatch('open-section')"
                                     class="border border-gray-300 bg-white text-gray-900 text-sm rounded-lg focus:ring-border-brown-max focus:border-brown-max py-2 px-4 ">
                                     +
                                 </button>
                             @endcan
-
                         </div>
                         <x-input-error :messages="$errors->get('book.section')" class="mt-2 " />
                     </x-input-book>
@@ -54,11 +55,20 @@
                             <x-select id="shelf" wire:model='book.shelf' class="pt-4">
                                 <option selected value="">اختار اسم الرف </option>
                                 @foreach ($shelfs as $shelf)
-                                    <option value="{{ $shelf->id }}">
+                                    <option value="{{ $shelf->id }}" @selected($shelf->id == $book->shelf)
+                                        wire:key="shelf-book-{{ $section->id }}">
                                         {{ $shelf->title }} - {{ $shelf->number }}
                                     </option>
                                 @endforeach
                             </x-select>
+                            @can(App\Enums\PermissionEnum::SECTIONS_BOOK->value)
+                                <button type="button" x-on:click="type = 'add'" x-show="$wire.book.section"
+                                    x-on:click.prevent="$dispatch('open-modal', 'sections-shelfs')"
+                                    @click="$dispatch('add-modal-selected-section', { id: {{ $section->id }} })"
+                                    class="border border-gray-300 bg-white text-gray-900 text-sm rounded-lg focus:ring-border-brown-max focus:border-brown-max py-2 px-4 ">
+                                    +
+                                </button>
+                            @endcan
                         </div>
                         <x-input-error :messages="$errors->get('book.shelf')" class="mt-2 " />
                     </x-input-book>
@@ -77,7 +87,8 @@
                             <x-select id="publisher" class="pt-4" wire:model='book.publisher'>
                                 <option selected>اختار اسم الناشر</option>
                                 @foreach ($publishers as $publisher)
-                                    <option value="{{ $publisher->id }}">{{ $publisher->name }}</option>
+                                    <option value="{{ $publisher->id }}" @selected($publisher->id == $book->publisher)>
+                                        {{ $publisher->name }}</option>
                                 @endforeach
                             </x-select>
                             @can(App\Enums\PermissionEnum::PUBLISHERS->value)
@@ -97,7 +108,8 @@
                                 wire:model='book.author'>
                                 <option selected>اختار اسم المؤلف</option>
                                 @foreach ($authors as $author)
-                                    <option value="{{ $author->id }}">{{ $author->name }}</option>
+                                    <option value="{{ $author->id }}" @selected($author->id == $book->author)>
+                                        {{ $author->name }}</option>
                                 @endforeach
                             </x-select>
                             @can(App\Enums\PermissionEnum::AUTHORS->value)

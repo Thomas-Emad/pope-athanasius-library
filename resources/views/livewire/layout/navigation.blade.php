@@ -156,8 +156,7 @@ new class extends Component {
     </nav>
 
     <x-modal name="search-bar" focusable>
-        <form wire:submit="deleteUser" class="p-6">
-
+        <div class="p-6">
             <div class="flex justify-between items-center">
                 <h2 class="text-lg font-medium text-gray-900 flex gap-1 items-center">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -173,7 +172,7 @@ new class extends Component {
                 <x-input-label for="book" value="{{ __('اكتب هنا اسم الكتاب') }}" class="sr-only" />
 
                 <x-text-input wire:model="book" id="book" name="book" type="text" class="mt-1 block w-full"
-                    placeholder="{{ __('اكتب هنا اسم الكتاب') }}" />
+                    placeholder="{{ __('اكتب هنا اسم الكتاب') }}" wire:keydown.enter="search" />
             </div>
 
             <div class="mt-6 flex justify-end">
@@ -181,11 +180,12 @@ new class extends Component {
                     {{ __('الغاء') }}
                 </x-secondary-button>
 
-                <x-button type="button" wire:click="search"
+                <x-button wire:click="search" wire:loading.attr="disabled"
                     class="ms-3 bg-brown-lite hover:bg-brown-max active:bg-brown-max focus:ring-brown-max">
+                    <x-loader wire:loading />
                     {{ __('بحث...') }}
                 </x-button>
             </div>
-        </form>
+        </div>
     </x-modal>
 </div>

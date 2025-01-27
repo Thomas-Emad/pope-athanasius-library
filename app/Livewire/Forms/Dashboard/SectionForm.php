@@ -3,36 +3,64 @@
 namespace App\Livewire\Forms\Dashboard;
 
 use App\Models\Section;
-use Livewire\Attributes\Validate;
 use Livewire\Form;
+use Illuminate\Validation\Rule;
 
 class SectionForm extends Form
 {
   public $sectionId;
-
-  #[Validate("required|min:3|max:255", as: 'اسم الوحده')]
   public $title = '';
-
-  #[Validate('required|min:1|integer', as: 'رقم الوحده')]
   public $number = 0;
+
+  public function rules(): array
+  {
+    return [
+      'title' => [
+        "required",
+        "min:3",
+        "max:255",
+        Rule::unique('sections', 'title')->ignore($this->sectionId)
+      ],
+      'number' => [
+        "required",
+        "min:1",
+        "integer",
+        Rule::unique('sections', 'number')->ignore($this->sectionId)
+      ]
+    ];
+  }
+
+  public function attributeRules(): array
+  {
+    return [
+      'title' => "اسم الوحده",
+      'number' => "رقم الوحده"
+    ];
+  }
 
   public function save()
   {
-    $this->validate();
+    $this->validate(
+      $this->rules(),
+      [],
+      $this->attributeRules()
+    );
 
-    $this->validate([
-      'title' => 'unique:sections,title',
-      'number' => 'unique:sections,number'
-    ]);
-    return Section::create([
+    $section =  Section::create([
       'title' => $this->title,
       'number' => $this->number
     ]);
+    $this->removeAttrbiutes();
+    return $section;
   }
 
   public function update()
   {
-    $this->validate();
+    $this->validate(
+      $this->rules(),
+      [],
+      $this->attributeRules()
+    );
 
     $section = Section::findOrFail($this->sectionId);
 
@@ -45,6 +73,7 @@ class SectionForm extends Form
       'title' => $this->title,
       'number' => $this->number
     ]);
+    $this->removeAttrbiutes();
   }
 
   public function setAttrbiutes($id, $title, $number)
@@ -54,9 +83,8 @@ class SectionForm extends Form
     $this->number = $number;
   }
 
-
   public function removeAttrbiutes()
   {
-    $this->reset();
+    $this->reset(['id', 'title', 'number']);
   }
 }

@@ -31,5 +31,6 @@ class AddRoleForm extends Form
     $role =  Role::create(['name' => $this->name]);
     $permissionIds = array_map('intval', $this->permissions);
     $role->syncPermissions($permissionIds);
+    $this->reset(['id', 'name', 'permissions']);
   }
 }
