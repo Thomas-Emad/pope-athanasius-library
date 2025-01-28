@@ -208,23 +208,20 @@
                             x-on:click="$dispatch('close')"></i>
                     </div>
                     <form wire:submit.prevent="import" class="my-6">
-                        <div>
-                            <div class="flex gap-2">
-                                <input wire:model="features.importExcel"
-                                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                                    aria-describedby="file_input_help" id="file_input" type="file"
-                                    accept="excel">
-                                <x-button type="submit" class="bg-green-700 hover:bg-green-600 duration-150">
-                                    {{ __('استيراد') }}
-                                </x-button>
-                            </div>
-                            <x-input-error :messages="$errors->get('features.importExcel')" class="mt-2 " />
+                        <div class="flex gap-2">
+                            <input wire:model="features.importExcel"
+                                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                aria-describedby="file_input_help" id="file_input" type="file" accept="excel">
+                            <x-button type="submit" class="bg-green-700 hover:bg-green-600 duration-150">
+                                {{ __('استيراد') }}
+                            </x-button>
                         </div>
-                        <div class="opacity-0 text-green-700 mt-4 duration-150" wire:target='import'
-                            wire:loading.class="opacity-1">
-                            جاري التحميل... يُرجى الانتظار
-                        </div>
+                        <x-input-error :messages="$errors->get('features.importExcel')" class="mt-2 " />
                     </form>
+                    <div class="opacity-0 text-green-700 mb-4 duration-150" wire:target="import"
+                        wire:loading.class="opacity-100">
+                        جاري التحميل... يُرجى الانتظار
+                    </div>
                     <div>
                         <x-secondary-button x-on:click="$dispatch('close')" class="w-full">
                             {{ __('الغاء') }}

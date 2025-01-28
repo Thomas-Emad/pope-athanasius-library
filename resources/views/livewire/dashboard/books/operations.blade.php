@@ -123,7 +123,7 @@
                         <x-input-error :messages="$errors->get('book.author')" class="mt-2 " />
                     </x-input-book>
                 </div>
-                <x-input-book id="subject" title='الموضوعات'>
+                <x-input-book id="subjects" title='الموضوعات'>
                     <x-textarea id="subjects" class="w-full pt-4" wire:model='book.subjects'
                         placeholder='أكتب مواضيع الاساسية مع الفصل بينهم بـــ -' />
                     <x-input-error :messages="$errors->get('book.subjects')" class="mt-2 " />
@@ -226,8 +226,8 @@
                 @endif
 
                 <div class="mt-4 bg-white p-2 rounded-lg border border-gray-200 shadow-lg">
-                    <x-toggle wire:model='book.markup' currentStatus="{{ $book?->markup ?? false }}"
-                        label='عرض هذا الكتاب في الصفحة الرئيسية' />
+                    <x-toggle id="toggleMarkup" wire:model='book.markup'
+                        currentStatus="{{ $book?->markup ?? false }}" label='عرض هذا الكتاب في الصفحة الرئيسية' />
                 </div>
                 @if ($type !== 'store')
                     @can(App\Enums\PermissionEnum::DELETE_BOOK->value)
