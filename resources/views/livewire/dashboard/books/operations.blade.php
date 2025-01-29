@@ -56,7 +56,7 @@
                                 <option selected value="">اختار اسم الرف </option>
                                 @foreach ($shelfs as $shelf)
                                     <option value="{{ $shelf->id }}" @selected($shelf->id == $book->shelf)
-                                        wire:key="shelf-book-{{ $section->id }}">
+                                        wire:key="shelf-book-{{ $shelf->id }}">
                                         {{ $shelf->title }} - {{ $shelf->number }}
                                     </option>
                                 @endforeach
@@ -64,7 +64,7 @@
                             @can(App\Enums\PermissionEnum::SECTIONS_BOOK->value)
                                 <button type="button" x-on:click="type = 'add'" x-show="$wire.book.section"
                                     x-on:click.prevent="$dispatch('open-modal', 'sections-shelfs')"
-                                    @click="$dispatch('add-modal-selected-section', { id: {{ $section->id }} })"
+                                    @click="$dispatch('add-modal-selected-section', { id: '{{ $book->section }}' })"
                                     class="border border-gray-300 bg-white text-gray-900 text-sm rounded-lg focus:ring-border-brown-max focus:border-brown-max py-2 px-4 ">
                                     +
                                 </button>
