@@ -42,7 +42,10 @@ class HomePage extends Component
       'units' => Section::withCount('books')->orderBy('books_count', 'desc')->get(),
       'books' => Book::with('author:id,name')
         ->select('id', 'code', 'photo', 'title', 'author_id')
-        ->where('markup', true)->limit(10)->get(),
+        ->orderBy('markup', 'desc')
+        ->orderBy('views', 'desc')
+        ->limit(10)
+        ->get(),
       'counter' => $this->getCounter(),
       'wordToday' => $this->getWordToday()
     ]);

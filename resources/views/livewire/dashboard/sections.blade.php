@@ -13,66 +13,69 @@
             </div>
         </div>
 
-        <div class="relative overflow-x-auto sm:rounded-lg">
+        <div class="relative  sm:rounded-lg">
             <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
                 <x-search-dashboard wire:model.blur='search' placeholder="ابحث عن اسم القسم.." />
             </div>
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                        <th scope="col" class="px-6 py-3 whitespace-nowrap">
-                            اسم القسم
-                        </th>
-                        <th scope="col" class="px-6 py-3 whitespace-nowrap">
-                            رقم القسم
-                        </th>
-                        <th scope="col" class="px-6 py-3 whitespace-nowrap">
-                            مرات الاستخدام
-                        </th>
-                        <th scope="col" class="px-6 py-3 whitespace-nowrap">
-                            عدد الرف
-                        </th>
-                        <th scope="col" class="px-6 py-3 whitespace-nowrap">
-                            الاعدادت
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($sections as $section)
-                        <tr
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <th scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ str($section->title)->limit(20) }}
-                            </th>
-                            <td class="px-6 py-4">
-                                {{ $section->number ?? 'N/A' }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $section->books_count }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $section->shelfs_count }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <button wire:click='showShelfs({{ $section->id }})'
-                                    class="me-2 text-xl hover:text-blue-600 duration-150">
-                                    <i class="fa-solid fa-eye"></i>
-                                </button>
-                                <button wire:click='editSection({{ $section->id }})'
-                                    class="me-2 text-xl hover:text-amber-600 duration-150">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    @empty
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <td colspan="5" class="py-2 text-center  italic text-gray-600">لا يوجد وحدات هنا, يمكن
-                                اضافه واحده..</td>
+                            <th scope="col" class="px-6 py-3 whitespace-nowrap">
+                                اسم القسم
+                            </th>
+                            <th scope="col" class="px-6 py-3 whitespace-nowrap">
+                                رقم القسم
+                            </th>
+                            <th scope="col" class="px-6 py-3 whitespace-nowrap">
+                                مرات الاستخدام
+                            </th>
+                            <th scope="col" class="px-6 py-3 whitespace-nowrap">
+                                عدد الرف
+                            </th>
+                            <th scope="col" class="px-6 py-3 whitespace-nowrap">
+                                الاعدادت
+                            </th>
                         </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @forelse ($sections as $section)
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{ str($section->title)->limit(20) }}
+                                </th>
+                                <td class="px-6 py-4">
+                                    {{ $section->number ?? 'N/A' }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ $section->books_count }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ $section->shelfs_count }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <button wire:click='showShelfs({{ $section->id }})'
+                                        class="me-2 text-xl hover:text-blue-600 duration-150">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+                                    <button wire:click='editSection({{ $section->id }})'
+                                        class="me-2 text-xl hover:text-amber-600 duration-150">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="py-2 text-center  italic text-gray-600">لا يوجد وحدات هنا,
+                                    يمكن
+                                    اضافه واحده..</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
 
             <div class="mt-4">
                 {{ $sections->links() }}
@@ -182,7 +185,7 @@
                 </div>
             </div>
         </x-modal>
-        <x-modal name="show-shelfs" :show="$errors->isNotEmpty()" focusable>
+        <x-modal name="show-shelfs">
             <div class="p-6">
                 <div class="flex justify-between items-center">
                     <h2 class="text-lg font-medium text-gray-900 flex gap-1 items-center">

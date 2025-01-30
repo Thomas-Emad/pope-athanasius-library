@@ -57,7 +57,6 @@ class Sections extends Component
   {
     $this->shelf->update();
     $this->dispatch('close-modal', 'edit-shelf');
-    $this->dispatch('open-modal', 'show-shelfs');
     $this->shelf->removeAttrbiutes();
   }
   public function showShelfs($id)

@@ -39,6 +39,7 @@
                                     </option>
                                 @endforeach
                             </x-select>
+
                             @can(App\Enums\PermissionEnum::SECTIONS_BOOK->value)
                                 <button type="button" x-on:click="type = 'add'"
                                     x-on:click.prevent="$dispatch('open-modal', 'sections-shelfs')"
@@ -61,6 +62,7 @@
                                     </option>
                                 @endforeach
                             </x-select>
+
                             @can(App\Enums\PermissionEnum::SECTIONS_BOOK->value)
                                 <button type="button" x-on:click="type = 'add'" x-show="$wire.book.section"
                                     x-on:click.prevent="$dispatch('open-modal', 'sections-shelfs')"
@@ -84,13 +86,10 @@
                 <div class="flex flex-col md:flex-row gap-5">
                     <x-input-book id="publisher" title='الناشر'>
                         <div class="flex">
-                            <x-select id="publisher" class="pt-4" wire:model='book.publisher'>
-                                <option selected>اختار اسم الناشر</option>
-                                @foreach ($publishers as $publisher)
-                                    <option value="{{ $publisher->id }}" @selected($publisher->id == $book->publisher)>
-                                        {{ $publisher->name }}</option>
-                                @endforeach
-                            </x-select>
+                            <x-searchable-select id="publisher" :options="$publishers"
+                                noOptionsText="لا يوجد هذا الناشر لدينا" placeholder="أختار الناشر" nameProperty="name"
+                                property='book.publisher' nameEvent="updated-publishers" />
+
                             @can(App\Enums\PermissionEnum::PUBLISHERS->value)
                                 <button type="button" x-on:click="type = 'add'"
                                     x-on:click.prevent="$dispatch('open-modal', 'publisher')"
@@ -104,14 +103,10 @@
 
                     <x-input-book id="author" title='المؤلف'>
                         <div class="flex">
-                            <x-select id="author" class="pt-4" placeholder="من هو مؤلف هذا الكتاب؟"
-                                wire:model='book.author'>
-                                <option selected>اختار اسم المؤلف</option>
-                                @foreach ($authors as $author)
-                                    <option value="{{ $author->id }}" @selected($author->id == $book->author)>
-                                        {{ $author->name }}</option>
-                                @endforeach
-                            </x-select>
+                            <x-searchable-select id="author" :options="$authors"
+                                noOptionsText="لا يوجد هذا المؤلف لدينا" placeholder="أختار المؤلف" nameProperty="name"
+                                property='book.author' nameEvent="updated-authors" />
+
                             @can(App\Enums\PermissionEnum::AUTHORS->value)
                                 <button type="button" x-on:click="type = 'add'"
                                     x-on:click.prevent="$dispatch('open-modal', 'author')"

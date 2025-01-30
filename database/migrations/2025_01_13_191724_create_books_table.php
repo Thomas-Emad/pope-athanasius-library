@@ -39,7 +39,7 @@ return new class extends Migration
       $table->string('pdf')->nullable();
 
       $table->integer('views')->default(0);
-      $table->boolean('markup')->default(true);
+      $table->boolean('markup')->default(false);
 
       $table->boolean('is_synced')->default(false);
       $table->timestamps();

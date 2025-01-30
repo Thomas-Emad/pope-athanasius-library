@@ -59,14 +59,14 @@ class WordDaily extends Component
     $this->word->newWordtoDay($id);
   }
 
-  // Render Method
-
   public function render()
   {
     return view('livewire.dashboard.word-daily', [
-      'words' => WordDailyModel::where('said', "like", "%$this->search%")
-        ->orWhere('content', "like", "%$this->search%")
-        ->orWhere('number_show', "$this->search")
+      'words' => WordDailyModel::where(function ($query) {
+        $query->where('said', "like", "%$this->search%")
+          ->orWhere('content', "like", "%$this->search%")
+          ->orWhere('number_show', "$this->search");
+      })
         ->when($this->showWordToday, function ($query) {
           $query->where('is_today', true);
         })

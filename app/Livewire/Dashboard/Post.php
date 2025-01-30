@@ -73,11 +73,13 @@ class Post extends Component
   public function render()
   {
     return view('livewire.dashboard.post', [
-      'posts' => PostModel::when($this->showOnlyMarkup, function ($query) {
-        $query->where('markup', true);
+      'posts' => PostModel::where(function ($query) {
+        $query->where('title', 'like', "%" . $this->search . "%")
+          ->orWhereHas('user', fn($query) => $query->where('name', 'like', "%$this->search%"));
       })
-        ->where('title', 'like', "%" . $this->search . "%")
-        ->OrWhereHas('user', fn($query) => $query->where('name', 'like', "%$this->search%"))
+        ->when($this->showOnlyMarkup, function ($query) {
+          $query->where('markup', true);
+        })
         ->latest()
         ->paginate(10)
     ]);

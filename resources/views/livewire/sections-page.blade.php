@@ -15,7 +15,7 @@
             @endcan
         </div>
         <div class="mt-10 grid gap-4" style="grid-template-columns: repeat(auto-fill, minmax(250px, 1fr))">
-            @forelse ($sections as $section)
+            @foreach ($sections as $section)
                 <button wire:key="{{ $section->id }}" type="button" x-data="{ isOpen: false }"
                     x-on:click="isOpen = !isOpen"
                     class="bg-white p-2 rounded-lg shadow hover:-translate-y-1 duration-200 h-fit w-full">
@@ -74,10 +74,12 @@
                         @endforelse
                     </div>
                 </button>
-            @empty
-                <p class="font-bold text-center italic w-full text-2xl text-gray-700">لا يوجد أقسام هنا..</p>
-            @endforelse
+            @endforeach
         </div>
+        @if (sizeof($sections) == 0)
+            <p class="font-bold text-center italic w-full text-2xl text-gray-700">لا يوجد أقسام هنا..</p>
+        @endif
+
     </div>
 
     <x-modals.section-shelf-modal :sections="$sections" />

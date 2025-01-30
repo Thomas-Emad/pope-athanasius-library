@@ -18,7 +18,7 @@
                 <x-search-dashboard wire:keydown.enter="search" wire:model.blur='search'
                     placeholder="ابحث عن كلمة اليوم.." />
                 <div class="me-2">
-                    <x-toggle label='عرض كلمة اليوم' wire:model.change='showWordToday' />
+                    <x-toggle id="show-word-today" label='عرض كلمة اليوم' wire:model.change='showWordToday' />
                 </div>
             </div>
             <div class="overflow-x-auto">
@@ -57,17 +57,17 @@
                                     {{ $item->number_show }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    <x-toggle wire:click='setWordToDay({{ $item->id }})'
+                                    <x-toggle id="word-{{ $item->id }}"
+                                        wire:click='setWordToDay({{ $item->id }})'
                                         currentStatus="{{ $item->is_today }}" />
                                 </td>
                                 <td class="px-6 py-4 flex gap-2">
-                                    <button wire:key="{{ $item->id }}" x-on:click="type = 'edit'"
-                                        wire:click='editWordDaily({{ $item->id }})'
+                                    <button x-on:click="type = 'edit'" wire:click='editWordDaily({{ $item->id }})'
                                         class="me-2 text-xl hover:text-amber-600 duration-150">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </button>
-                                    <button wire:key="{{ $item->id }}"
-                                        x-on:click="idDeleteWord = {{ $item->id }}; titleDeleteWord = '{{ $item->content }}'"
+                                    <button
+                                        x-on:click="idDeleteWord = `{{ $item->id }}`; titleDeleteWord = `{{ $item->content }}`"
                                         x-on:click.prevent="$dispatch('open-modal', 'delete-word-daily')"
                                         class="me-2 text-xl hover:text-red-600 duration-150">
                                         <i class="fa-solid fa-trash-can"></i>
@@ -109,7 +109,7 @@
                     x-init="$watch('type', (newValue) => { if (newValue === 'add') $wire.resetForm(); })">
                     <div class="mt-6">
                         <x-input-label for="add-word-said" value="{{ __('من قائل هذه الكلمة؟') }}" class="sr-only" />
-                        <x-text-input wire:model="word.said" id="word-said" type="text" class="mt-1 block w-full"
+                        <x-text-input wire:model="word.said" id="add-word-said" type="text" class="mt-1 block w-full"
                             placeholder="{{ __('اكتب هنا اسم قائل هذه الكلمة') }}" />
                         <x-input-error :messages="$errors->get('word.said')" class="mt-2" />
                     </div>
@@ -122,7 +122,7 @@
                         <x-input-error :messages="$errors->get('word.content')" class="mt-2" />
                     </div>
                     <div class="mt-4">
-                        <x-text-input type='number' wire:model="word.number_show"
+                        <x-text-input type='number' name="word-number_show" wire:model="word.number_show"
                             placeholder="{{ __('ترتيب هذا الكلمة') }}" class="w-full" />
                         <x-input-error :messages="$errors->get('word.number_show')" class="mt-2" />
                     </div>
@@ -157,7 +157,7 @@
                     </div>
 
                     <div class="mt-4">
-                        <x-text-input type='number' wire:model="word.number_show"
+                        <x-text-input name="word-number_show" type='number' wire:model="word.number_show"
                             placeholder="{{ __('ترتيب هذا الكلمة؟') }}" class="w-full" />
                         <x-input-error :messages="$errors->get('word.number_show')" class="mt-2" />
                     </div>
@@ -193,7 +193,8 @@
                 <form wire:submit='deleteWordDaily(idDeleteWord)' class="mt-4">
                     <div>
                         <p class="text-gray-600">هذا إجراء نهائي ولا يمكنك التراجع عنه، هذا محتوى الكلمة :</p>
-                        <x-textarea x-text="titleDeleteWord" class="mt-2 w-full" disabled='true' />
+                        <x-textarea x-text="titleDeleteWord" class="mt-2 w-full" name="titleDeleteWord"
+                            disabled='true' />
                     </div>
                     <div class="mt-6 flex justify-end">
                         <x-secondary-button x-on:click="$dispatch('close')">

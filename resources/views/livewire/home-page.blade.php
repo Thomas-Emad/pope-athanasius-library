@@ -9,7 +9,8 @@
                 <div class="absolute inset-y-0 right-2 flex items-center justify-center z-10">
                     <i class="fa-solid fa-magnifying-glass text-brown-max"></i>
                 </div>
-                <input wire:model='book' wire:keydown.enter="search" type="text" placeholder="أكتب هنا اسم الكتاب..."
+                <input name="search-book" wire:model='book' wire:keydown.enter="search" type="text"
+                    placeholder="أكتب هنا اسم الكتاب..."
                     class="py-4 px-8 border-none outline-none rounded-xl w-full focus:ring-brown-max">
                 <div class="absolute inset-y-0 left-2 flex items-center justify-center  z-10">
                     <button type="button" wire:click='search'

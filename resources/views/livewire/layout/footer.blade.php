@@ -4,7 +4,7 @@
             جميع الحقوق محفوظة لكنيسة الشهيد العظيم مارمينا والبابا كيرلس السادس بالخصوص.
         </p>
         <div>
-            <a href="https://www.facebook.com/m.marmina/" target="__blank"
+            <a href="https://www.facebook.com/subdeaconwael" target="__blank"
                 class="inline-block text-md py-1 px-3 border border-white hover:border-gray-800 hover:text-gray-800 rounded-lg duration-200">
                 <i class="fa-brands fa-facebook"></i>
             </a>

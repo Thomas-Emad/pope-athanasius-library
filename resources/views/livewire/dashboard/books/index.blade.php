@@ -22,7 +22,7 @@
                 class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
                 <x-search-dashboard wire:model.live.debounce.500ms='search' placeholder="ابحث عن اسم الكتاب.." />
                 <div>
-                    <x-toggle wire:model.live='getMarkUpBooks' label='الكتب المميزه' />
+                    <x-toggle id="getMarkUpBooks" wire:model.live='getMarkUpBooks' label='الكتب المميزه' />
                 </div>
             </div>
             <div class="overflow-x-auto ">
@@ -126,7 +126,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="9" class="py-2 text-center  italic text-gray-600">
+                                <td colspan="12" class="py-2 text-center  italic text-gray-600">
                                     يبدوا انه ليس لدينا هنا اي كتاب!!
                                 </td>
                             </tr>

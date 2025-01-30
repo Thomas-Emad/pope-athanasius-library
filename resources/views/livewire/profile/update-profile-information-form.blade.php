@@ -57,7 +57,7 @@ new class extends Component {
             [
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
-                'phone' => ['required', 'string', 'max:255'],
+                'phone' => ['required', 'string', 'regex:/^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/'],
                 'photo' => ['nullable', 'image', 'max:3072'],
                 'brith_day' => ['nullable', 'date'],
             ],
@@ -126,7 +126,8 @@ new class extends Component {
     <form wire:submit="updateProfileInformation" class="space-y-6">
         <div class="flex justify-around">
             <div>
-                <input type="file" id="photo" wire:model="photo" :disabled="{{ !$allowEdit }}" hidden>
+                <input type="file" id="photo" wire:model="photo" accept="image/png,image/jpg,image/jpeg"
+                    :disabled="{{ !$allowEdit }}" hidden>
                 <label for="photo"
                     class="flex items-center justify-center w-24 h-24 rounded-full bg-gray-100 border-2 border-gray-700/20 border-dashed cursor-pointer hover:opacity-50 duration-150">
                     @if ($photo && !is_string($photo))

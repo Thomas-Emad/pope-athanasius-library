@@ -82,7 +82,8 @@
                 </div>
                 <form wire:submit='delete' class="mt-4">
                     <p class="text-gray-700">هذا الإجراء نهائي، ولن يمكنك استرجاع هذا المنشور لاحقًا!!</p>
-                    <x-text-input wire:model="post.title" disabled='true' class="mt-4 w-full" />
+                    <x-text-input wire:model="post.title" name="post-title-delete" disabled='true'
+                        class="mt-4 w-full" />
 
                     <div class="mt-6 flex justify-end">
                         <x-secondary-button x-on:click="$dispatch('close')">

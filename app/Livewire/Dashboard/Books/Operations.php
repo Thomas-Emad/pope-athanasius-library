@@ -75,6 +75,7 @@ class Operations extends Component
   {
     $this->addEntityToCollection(Author::class, $id, 'authors');
     $this->book->author = $id;
+    $this->dispatch('updated-authors', $this->authors);
   }
 
   #[On('added-publisher')]
@@ -82,6 +83,7 @@ class Operations extends Component
   {
     $this->addEntityToCollection(Publisher::class, $id, 'publishers');
     $this->book->publisher = $id;
+    $this->dispatch('updated-publishers',  $this->publishers);
   }
 
   #[On('added-section')]

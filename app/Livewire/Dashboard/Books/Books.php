@@ -22,6 +22,11 @@ class Books extends Component
   public $getMarkUpBooks = false;
   public $is_sync_books = false;
 
+  public function updatedSearch()
+  {
+    $this->resetPage();
+  }
+
   public function editBook($id)
   {
     return $this->redirectRoute('dashboard.books.edit', ['id' => $id], navigate: true);

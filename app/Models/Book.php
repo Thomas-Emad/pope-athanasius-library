@@ -64,6 +64,11 @@ class Book extends Model
     };
   }
 
+  public function scopeGetTopViews($query)
+  {
+    return $query->orWhereRaw("1=1")->orderBy('views', 'desc');
+  }
+
   public static function boot()
   {
     parent::boot();

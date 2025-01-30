@@ -12,7 +12,7 @@
                 <x-search-dashboard wire:model.blur='search' placeholder="ابحث عن مستخدم, البريد الالكتروني.." />
 
                 <div class="me-2">
-                    <x-toggle label='الخدام فقط' wire:model.change='showOnlyMain' />
+                    <x-toggle id="showOnlyMain" label='الخدام فقط' wire:model.change='showOnlyMain' />
                 </div>
             </div>
             <div class="overflow-x-auto">
@@ -124,14 +124,14 @@
                     </div>
 
                     <div class="mt-6">
-                        <x-input-label for="email" value="{{ __('البريد الالكتروني') }}" class="sr-only" />
-                        <x-text-input wire:model="user.email" id="email" type="text" class="mt-1 block w-full"
+                        <x-input-label for="show-email" value="{{ __('البريد الالكتروني') }}" class="sr-only" />
+                        <x-text-input wire:model="user.email" id="show-email" type="text" class="mt-1 block w-full"
                             placeholder="{{ __('هنا يُسجَّل البريد الإلكتروني.') }}" disabled="false" />
                     </div>
 
                     <div class="mt-6">
-                        <x-input-label for="role" value="{{ __('دور المستخدم') }}" class="sr-only" />
-                        <x-select wire:model="user.role" id="role" class="mt-1 block w-full">
+                        <x-input-label for="show-role" value="{{ __('دور المستخدم') }}" class="sr-only" />
+                        <x-select wire:model="user.role" id="show-role" class="mt-1 block w-full">
                             @foreach ($roles as $role)
                                 <option value="{{ $role->name }}">{{ $role->name }} </option>
                             @endforeach
@@ -173,37 +173,37 @@
                     <div>
                         <div class="mt-3">
                             <span>{{ __('اسم المستخدم') }}</span>
-                            <x-text-input wire:model="user.username" id="username" type="text"
-                                class="mt-1 block w-full disabled:bg-gray-200"
+                            <x-text-input wire:model="user.username" type="text" name="user-username"
+                                class="mt-1 block w-full disabled:bg-gray-100"
                                 placeholder="{{ __('هنا يُسجَّل اسم المستخدم') }}" disabled="false" />
                         </div>
                         <div class="mt-3">
                             <span>{{ __('البريد الالكتروني') }}</span>
-                            <x-text-input wire:model="user.email" id="email" type="text"
+                            <x-text-input wire:model="user.email" type="text" name="user-email"
                                 class="mt-1 block w-full disabled:bg-gray-100"
                                 placeholder="{{ __('هنا يُسجَّل البريد الإلكتروني') }}" disabled="false" />
                         </div>
                         <div class="mt-3">
                             <span>{{ __('أذونات المستخدم') }}</span>
-                            <x-text-input wire:model="user.role" id="role" type="text"
+                            <x-text-input wire:model="user.role" type="text" name="user-role"
                                 class="mt-1 block w-full disabled:bg-gray-100"
                                 placeholder="{{ __('هنا تُحدَّد/تُعيَّن أذونات المستخدم') }}" disabled="false" />
                         </div>
                         <div class="mt-3">
                             <span>{{ __('رقم الهاتف') }}</span>
-                            <x-text-input wire:model="user.phone" id="phone" type="text"
+                            <x-text-input wire:model="user.phone" type="text" name="user-phone"
                                 class="mt-1 block w-full disabled:bg-gray-100"
                                 placeholder="{{ __('هنا يسجل رقم الهاتف') }}" disabled="false" />
                         </div>
                         <div class="mt-3">
                             <span>{{ __('تاريخ الميلاد') }}</span>
-                            <x-text-input wire:model="user.username" id="username" type="text"
-                                class="mt-1 block w-full disabled:bg-gray-200"
+                            <x-text-input wire:model="user.username" type="text" name="user-username"
+                                class="mt-1 block w-full disabled:bg-gray-100"
                                 placeholder="{{ __('هنا يسجل اسم المستخدم') }}" disabled="false" />
                         </div>
                         <div class="mt-3">
                             <span>{{ __('تاريخ انشاء الحساب') }}</span>
-                            <x-text-input wire:model="user.created_at" id="created_at" type="text"
+                            <x-text-input wire:model="user.created_at" type="text" name="user-created_at"
                                 class="mt-1 block w-full disabled:bg-gray-100"
                                 placeholder="{{ __('هنا يسجل تاريخ انشاء الحساب') }}" disabled="false" />
                         </div>

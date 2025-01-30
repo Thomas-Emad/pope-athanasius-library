@@ -18,8 +18,9 @@
                 <x-search-dashboard wire:model.blur='search' placeholder="ابحث عن عنوان منشور او اسم الناشر.." />
 
                 <div class="me-2">
-                    <x-toggle label='المنشورات المميزه' wire:model.change='showOnlyMarkup' />
+                    <x-toggle id="showOnlyMarkup" label='المنشورات المميزه' wire:model.change='showOnlyMarkup' />
                 </div>
+                {{ $showOnlyMarkup }}
             </div>
             <div class="overflow-x-auto ">
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 ">
@@ -60,7 +61,8 @@
                                     {{ str($item->user->name)->limit(20) }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <x-toggle wire:click='setAsMarkup({{ $item->id }})' label=''
+                                    <x-toggle id="setAsMarkup-{{ $item->id }}"
+                                        wire:click='setAsMarkup({{ $item->id }})' label=''
                                         currentStatus='{{ $item->markup }}' />
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -136,6 +138,8 @@
                         <input type="file" id="photo" class="hidden" accept="image/png,image/jpg,image/jpeg"
                             wire:model='store.photo'>
                         <x-input-error :messages="$errors->get('store.photo')" class="mt-2" />
+
+                        <p wire:loading wire:target="store.photo" class="mt-2 text-green-300">يتم رفع الصوره الان</p>
                     </div>
 
                     <div class="mt-6 flex justify-end">
@@ -144,7 +148,7 @@
                         </x-secondary-button>
                         <x-button wire:click.prevent="save" wire:loading.attr="disabled"
                             class="ms-3 bg-brown-lite hover:bg-brown-max active:bg-brown-max focus:ring-brown-max">
-                            <x-loader wire:loading />
+                            <x-loader wire:loading wire:target="save" />
                             أضافه
                         </x-button>
                     </div>
@@ -199,6 +203,8 @@
                         <input type="file" id="update-photo" class="hidden"
                             accept="image/png,image/jpg,image/jpeg" wire:model='update.photo'>
                         <x-input-error :messages="$errors->get('update.photo')" class="mt-2" />
+
+                        <p wire:loading wire:target="update.photo" class="mt-2 text-green-300">يتم رفع الصوره الان</p>
                     </div>
 
                     <div class="mt-6 flex justify-end">
@@ -208,7 +214,7 @@
 
                         <x-button type="submit" wire:loading.attr="disabled" x-text="'تحديث'"
                             class="ms-3 bg-brown-lite hover:bg-brown-max active:bg-brown-max focus:ring-brown-max">
-                            <x-loader wire:loading />
+                            <x-loader wire:loading wire:target="updatePost" />
                         </x-button>
                     </div>
                 </form>

@@ -13,7 +13,7 @@
                 <div class="absolute inset-y-0 right-2 flex items-center justify-center z-10">
                     <i class="fa-solid fa-magnifying-glass text-brown-max"></i>
                 </div>
-                <input type="text" wire:model='search' wire:keydown.enter="submit"
+                <input name="search-page" type="text" wire:model='search' wire:keydown.enter="submit"
                     placeholder="أكتب هنا اسم الكتاب، المؤلف، الناشر، الموضوعات، القسم، الرف، كود الكتاب..."
                     class="py-4 px-8 border-none outline-none rounded-xl w-full focus:ring-brown-max">
                 <div class="absolute inset-y-0 left-2 flex items-center justify-center  z-10">
@@ -26,8 +26,9 @@
             </div>
         </div>
         <div x-show="showFilter" x-transition:enter=" ease-out duration-300" x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200"
-            x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+            x-on:click.away="showFilter = !showFilter" x-transition:enter-end="opacity-100"
+            x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
             class="absolute inset-y-0 left-0 md:left-4
             z-10 flex items-center justify-center w-full md:w-fit">
             <div class="w-full md:w-fit bg-white h-fit shadow-lg px-4 py-4 rounded-lg">
@@ -39,14 +40,22 @@
                     </button>
                 </div>
                 <div class="flex flex-col gap-2">
-                    <x-toggle wire:model.change='filters.code' label='كود الكتاب' currentStatus='false' />
-                    <x-toggle wire:model.change='filters.book' label='اسم الكتاب' currentStatus='true' />
-                    <x-toggle wire:model.change='filters.publisher' label='اسم الناشر' currentStatus='true' />
-                    <x-toggle wire:model.change='filters.author' label='اسم المؤلف' currentStatus='true' />
-                    <x-toggle wire:model.change='filters.section' label='اسم القسم' currentStatus='true' />
-                    <x-toggle wire:model.change='filters.shelf' label='اسم الرف' currentStatus='true' />
-                    <x-toggle wire:model.change='filters.subjects' label='الموضوعات' currentStatus='false' />
-                    <x-toggle wire:model.change='filters.series' label='السلسلة' currentStatus='false' />
+                    <x-toggle id="filters-code" wire:model.change='filters.code' label='كود الكتاب'
+                        currentStatus='false' />
+                    <x-toggle id="filters-book" wire:model.change='filters.book' label='اسم الكتاب'
+                        currentStatus='true' />
+                    <x-toggle id="filters-publisher" wire:model.change='filters.publisher' label='اسم الناشر'
+                        currentStatus='true' />
+                    <x-toggle id="filters-author" wire:model.change='filters.author' label='اسم المؤلف'
+                        currentStatus='true' />
+                    <x-toggle id="filters-section" wire:model.change='filters.section' label='اسم القسم'
+                        currentStatus='true' />
+                    <x-toggle id="filters-shelf" wire:model.change='filters.shelf' label='اسم الرف'
+                        currentStatus='true' />
+                    <x-toggle id="filters-subjects" wire:model.change='filters.subjects' label='الموضوعات'
+                        currentStatus='false' />
+                    <x-toggle id="filters-series" wire:model.change='filters.series' label='السلسلة'
+                        currentStatus='false' />
                 </div>
                 <x-select id="orderBy" wire:model.change='orderBy' class="mt-4 cursor-pointer">
                     <option value="new">أحدث الكتب أولًا</option>

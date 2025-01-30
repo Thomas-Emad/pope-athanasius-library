@@ -67,7 +67,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="py-2 text-center  italic text-gray-600">
+                                <td colspan="5" class="py-2 text-center  italic text-gray-600">
                                     يبدوا انه ليس لدينا هنا اي دور!!
                                 </td>
                             </tr>
@@ -106,8 +106,8 @@
                     <div class="mt-6">
                         @foreach ($permissions as $per)
                             <div class="inline-block mx-4">
-                                <x-toggle wire:model="store.permissions" value="{{ $per->id }}"
-                                    label="{{ $per->name }}" />
+                                <x-toggle id="permission-{{ $per->id }}" wire:model="store.permissions"
+                                    value="{{ $per->id }}" label="{{ $per->name }}" />
                             </div>
                         @endforeach
                         <x-input-error :messages="$errors->get('store.permissions')" class="mt-2" />
@@ -150,8 +150,8 @@
                     <div class="mt-6">
                         @foreach ($permissions as $per)
                             <div class="inline-block mx-4">
-                                <x-toggle wire:model="update.permissions" value="{{ $per->id }}"
-                                    label="{{ $per->name }}" />
+                                <x-toggle id="update-permission-{{ $per->id }}" wire:model="update.permissions"
+                                    value="{{ $per->id }}" label="{{ $per->name }}" />
                             </div>
                         @endforeach
                         <x-input-error :messages="$errors->get('update.permissions')" class="mt-2" />
@@ -185,7 +185,7 @@
                 </div>
                 <form wire:submit.prevent='delete' class="mt-4">
                     <div class="my-4">
-                        <x-text-input wire:model="update.name" disabled="true" class="w-full" />
+                        <x-text-input wire:model="update.name" name="delete-role" disabled="true" class="w-full" />
                     </div>
                     <div class="mt-6 flex justify-end">
                         <x-secondary-button x-on:click="$dispatch('close')">
