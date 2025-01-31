@@ -24,7 +24,7 @@
 
                 <x-button wire:loading.attr="disabled"
                     class="ms-3 bg-brown-lite hover:bg-brown-max active:bg-brown-max focus:ring-brown-max">
-                    <x-loader wire:loading />
+                    <x-loader wire:loading wire:target="saveAuthor" />
                     {{ __('أضافه') }}
                 </x-button>
             </div>
@@ -44,7 +44,7 @@
 
                 <x-button wire:loading.attr="disabled"
                     class="ms-3 bg-brown-lite hover:bg-brown-max active:bg-brown-max focus:ring-brown-max">
-                    <x-loader wire:loading />
+                    <x-loader wire:loading wire:target="updateAuthor" />
                     {{ __('تحديث') }}
                 </x-button>
             </div>

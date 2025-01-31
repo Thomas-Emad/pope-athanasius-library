@@ -14,7 +14,7 @@
 ])
 <div class="w-full" :key="$id" x-data="dropdown({
     options: @js($options),
-    selectedId: @entangle($property).live,
+    selectedId: @entangle($property),
     nameProperty: '{{ $nameProperty }}',
     placeholder: '{{ $placeholder }}',
     nameEvent: '{{ $nameEvent }}',
@@ -91,22 +91,16 @@
                 this.open = false;
                 this.selectedId = id;
                 this.search = '';
-                @this.set(config.property, id);
             },
             init() {
+                this.$watch('options', (newOptions) => {
+                    this.options = Array.isArray(newOptions) ? newOptions : [];
+                });
+
                 if (config.nameEvent) {
-                    Livewire.on(config.nameEvent, (option) => {
-                        this.options = option[0];
-                        config.options = option[0];
-
-                        this.search = '';
-                        this.filteredOptions;
-
-                        // إعادة تهيئة Alpine بعد تحديث الخيارات
-                        this.$nextTick(() => {
-                            Alpine.initTree(this.$el); // إعادة تهيئة Alpine في العنصر الحالي
-                        });
-
+                    Livewire.on(config.nameEvent, (options) => {
+                        this.options = options[0];
+                        console.log(options[0])
                     });
                 }
             }

@@ -75,7 +75,24 @@ class Books extends Component
       ])
         ->when($this->search, function ($query) {
           $query->where('title', 'like', "%{$this->search}%")
-            ->orWhere('code', 'like', "%{$this->search}%");
+
+            ->orWhere('code', 'like', "%{$this->search}%")
+
+            ->orWhereHas('author', fn($subQuery) =>
+            $subQuery->where('name', 'like', "%{$this->search}%"))
+
+            ->orWhereHas('publisher', fn($subQuery) =>
+            $subQuery->where('name', 'like', "%{$this->search}%"))
+
+            ->orWhere('series', 'like', "%{$this->search}%")
+
+            ->orWhereHas('section', fn($subQuery) =>
+            $subQuery->where('title', 'like', "%{$this->search}%")
+              ->orWhere('number', $this->search))
+
+            ->orWhereHas('shelf', fn($subQuery) =>
+            $subQuery->where('title', 'like', "%{$this->search}%")
+              ->orWhere('number', $this->search));
         })
         ->when($this->getMarkUpBooks, function ($query) {
           $query->where('markup', true);

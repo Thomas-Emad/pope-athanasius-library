@@ -7,7 +7,7 @@ use App\Models\Section;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class AddSection extends Component
+class SectionShelf extends Component
 {
   public SectionForm $section;
   public ShelfForm $shelf;
@@ -35,7 +35,7 @@ class AddSection extends Component
   public function render()
   {
     return view(
-      'livewire.dashboard.modals.add-section',
+      'livewire.dashboard.modals.section-shelf',
       [
         'sections' => Section::get()
       ]

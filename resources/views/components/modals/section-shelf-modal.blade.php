@@ -48,7 +48,7 @@
                             </x-secondary-button>
                             <x-button type="submit" wire:loading.attr="disabled" x-text="'أضافه'"
                                 class="ms-3 bg-brown-lite hover:bg-brown-max active:bg-brown-max focus:ring-brown-max">
-                                <x-loader wire:loading />
+                                <x-loader wire:loading wire:target="saveSection" />
                             </x-button>
                         </div>
                     </form>
@@ -86,7 +86,7 @@
 
                             <x-button type="submit" wire:loading.attr="disabled" x-text="'أضافه'"
                                 class="ms-3 bg-brown-lite hover:bg-brown-max active:bg-brown-max focus:ring-brown-max">
-                                <x-loader wire:loading />
+                                <x-loader wire:loading wire:target="saveShelf" />
                             </x-button>
                         </div>
                     </form>

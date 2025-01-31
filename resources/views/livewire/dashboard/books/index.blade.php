@@ -20,7 +20,8 @@
         <div class="relative  sm:rounded-lg">
             <div
                 class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
-                <x-search-dashboard wire:model.live.debounce.500ms='search' placeholder="ابحث عن اسم الكتاب.." />
+                <x-search-dashboard wire:model.live.debounce.500ms='search'
+                    placeholder="أكتب هنا اسم الكتاب، المؤلف، الناشر، الموضوعات، القسم، الرف، كود الكتاب..." />
                 <div>
                     <x-toggle id="getMarkUpBooks" wire:model.live='getMarkUpBooks' label='الكتب المميزه' />
                 </div>
@@ -42,12 +43,6 @@
                                 اسم الكتاب
                             </th>
                             <th scope="col" class="px-6 py-3  whitespace-nowrap">
-                                PDF
-                            </th>
-                            <th scope="col" class="px-6 py-3  whitespace-nowrap">
-                                المشاهدات
-                            </th>
-                            <th scope="col" class="px-6 py-3  whitespace-nowrap">
                                 القسم
                             </th>
                             <th scope="col" class="px-6 py-3  whitespace-nowrap">
@@ -58,6 +53,12 @@
                             </th>
                             <th scope="col" class="px-6 py-3  whitespace-nowrap">
                                 المؤلف
+                            </th>
+                            <th scope="col" class="px-6 py-3  whitespace-nowrap">
+                                المشاهدات
+                            </th>
+                            <th scope="col" class="px-6 py-3  whitespace-nowrap">
+                                PDF
                             </th>
                             <th scope="col" class="px-6 py-3  whitespace-nowrap">
                                 متزامن؟
@@ -88,14 +89,6 @@
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     {{ str($item->title)->limit(20) }}
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <x-status-yes-no status="{{ $item->pdf }}"
-                                        labelTrue="هذا الكتاب يحتوي علي ملف PDF"
-                                        labelFalse="هذا الكتاب لا يحتوي علي اي ملف" />
-                                </td>
-                                <td class="px-6 py-4  whitespace-nowrap">
-                                    {{ $item->views }}
-                                </td>
                                 <td class="px-6 py-4  whitespace-nowrap">
                                     {{ $item->section->title }}
                                 </td>
@@ -107,6 +100,14 @@
                                 </td>
                                 <td class="px-6 py-4  whitespace-nowrap">
                                     {{ $item->author->name }}
+                                </td>
+                                <td class="px-6 py-4  whitespace-nowrap">
+                                    {{ $item->views }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <x-status-yes-no status="{{ $item->pdf }}"
+                                        labelTrue="هذا الكتاب يحتوي علي ملف PDF"
+                                        labelFalse="هذا الكتاب لا يحتوي علي اي ملف" />
                                 </td>
                                 <td class="px-6 py-4  whitespace-nowrap">
                                     <x-status-yes-no status="{{ $item->is_synced }}"

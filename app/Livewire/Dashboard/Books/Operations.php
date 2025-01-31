@@ -92,6 +92,7 @@ class Operations extends Component
     $this->addEntityToCollection(Section::class, $id, 'sections');
     $this->book->section = $id;
     $this->shelfs = collect();
+    $this->dispatch('add-modal-selected-section', $id);
   }
 
   #[On('added-shelf')]

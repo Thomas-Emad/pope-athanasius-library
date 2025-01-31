@@ -239,7 +239,7 @@
     <div>
         <livewire:dashboard.modals.add-author />
         <livewire:dashboard.modals.add-publisher />
-        <livewire:dashboard.modals.add-section />
+        <livewire:dashboard.modals.section-shelf />
         @if ($type !== 'store')
             @can(App\Enums\PermissionEnum::DELETE_BOOK->value)
                 <x-modal name="delete-book">
