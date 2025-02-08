@@ -23,7 +23,7 @@
                     <button type="button" x-on:click="openSection = false"
                         :class="!openSection ? 'bg-amber-800' : 'bg-amber-600'"
                         class=" hover:bg-amber-800 duration-200 py-2 px-4 text-white w-full rounded-xl text-center">
-                        أضافه راف
+                        أضافه رف
                     </button>
                 </div>
                 <div>

@@ -54,8 +54,8 @@ class BooksImport implements ToModel, WithSkipDuplicates, WithChunkReading, With
       'current_unit_number' => $row[10],
       'row' => $row[11],
       'position_book' => $row[12],
-      'content' => $row[13],
-      'subjects' => $row[14],
+      'subjects' => $row[13],
+      'content' => $row[14],
     ]);
   }
 
