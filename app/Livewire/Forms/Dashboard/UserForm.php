@@ -7,7 +7,7 @@ use Livewire\Form;
 
 class UserForm extends Form
 {
-  public $id, $username, $email, $role, $phone, $created_at;
+  public $id, $username, $email, $role, $phone, $created_at, $photo;
 
   public function get($id)
   {
@@ -30,6 +30,7 @@ class UserForm extends Form
     $this->role = $user->getRoleNames()->first();
     $this->phone = $user->phone;
     $this->created_at = $user->created_at->format("Y-m-d");
+    $this->photo = $user->photo;
   }
 
   private function resetAttributes()

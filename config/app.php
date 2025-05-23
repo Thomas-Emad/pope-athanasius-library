@@ -126,6 +126,5 @@ return [
   'sync_database' => [
     'password' => env('API_EXTERNAL_APP_SYNC_PASSWORD'),
     'external_api' => env('API_EXTERNAL_APP_SYNC'),
-    'internal_api' => env('API_EXTERNAL_APP_SYNC'),
   ]
 ];

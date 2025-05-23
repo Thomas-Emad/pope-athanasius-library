@@ -17,9 +17,9 @@ class UserSeeder extends Seeder
   {
     // Create owner User
     $owner =   UserModel::factory()->create([
-      'name' => 'Thomas Emad',
+      'name' => 'Owner',
       'email' => 'owner@gmail.com',
-      'password' => Hash::make('123456')
+      'password' => Hash::make('1234560')
     ]);
     $owner->assignRole([1]); // default role is owner also it first one created in db his id is 1
   }

@@ -3,11 +3,12 @@
 namespace App\Livewire\Dashboard\Books;
 
 use Livewire\Component;
+use Livewire\Attributes\On;
+use App\Enums\PermissionEnum;
+use Livewire\WithFileUploads;
+use App\Traits\RemoveTempFilesTrait;
 use App\Livewire\Forms\Dashboard\BookForm;
 use App\Models\{Author, Book, Publisher, Section, SectionShelf};
-use App\Traits\RemoveTempFilesTrait;
-use Livewire\Attributes\On;
-use Livewire\WithFileUploads;
 
 class Operations extends Component
 {
@@ -30,6 +31,10 @@ class Operations extends Component
   private function initializeBook($id)
   {
     $book = Book::findOrFail($id);
+    if (auth()->user()->id != $book->user_id && !auth()->user()->hasPermissionTo(PermissionEnum::USERS)) {
+      return abort(403);
+    }
+
     $this->updatedBooksection($book->section_id);
     $this->book->setAllAttribute($book);
   }

@@ -97,8 +97,16 @@
                                 <span>{{ $book->position_book }}</span>
                             </p>
                         </li>
+                        @can(App\Enums\PermissionEnum::USERS->value)
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-user text-teal-500"></i>
+                                <p>
+                                    <span class="font-bold">مضيف الكتاب:</span>
+                                    <span>{{ $book->user->name }}</span>
+                                </p>
+                            </li>
+                        @endcan
                     </ul>
-
                     <div class="mt-4">
                         @if (!is_null($book->pdf))
                             <button wire:click="downloadPdfBook()"
@@ -106,12 +114,14 @@
                                 تحميل الكتاب بصيغة PDF
                             </button>
                         @endif
-                        @can(App\Enums\PermissionEnum::BOOK->value)
-                            <a href="{{ route('dashboard.books.edit', $book->id) }}" wire:navigate
-                                class="inline-block py-2 px-4 bg-amber-800 hover:bg-amber-600 duration-200 text-white font-bold rounded-lg mt-4">
-                                التعديل على الكتاب
-                            </a>
-                        @endcan
+                        @if (auth()->user()->id == $book->user_id || auth()->user()->hasPermissionTo(App\Enums\PermissionEnum::USERS))
+                            @can(App\Enums\PermissionEnum::BOOK->value)
+                                <a href="{{ route('dashboard.books.edit', $book->id) }}" wire:navigate
+                                    class="inline-block py-2 px-4 bg-amber-800 hover:bg-amber-600 duration-200 text-white font-bold rounded-lg mt-4">
+                                    التعديل على الكتاب
+                                </a>
+                            @endcan
+                        @endif
                     </div>
                 </div>
                 <div class="w-64 h-80 rounded-lg border border-gray-200 bg-white flex items-center justify-center">

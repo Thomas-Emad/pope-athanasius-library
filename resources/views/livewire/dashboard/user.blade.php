@@ -46,41 +46,41 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($users as $user)
-                            <tr wire:key='word-{{ $user->id }}'
+                        @forelse ($users as $user_value)
+                            <tr wire:key='word-{{ $user_value->id }}'
                                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <img src="{{ $user->photo ? Storage::url($user->photo) : asset('assets/images/logo.png') }}"
+                                    <img src="{{ $user_value->photo ? Storage::url($user_value->photo) : asset('assets/images/logo.png') }}"
                                         class="w-8 h-8 rounded-full" alt="صورة المستخدم"
                                         onerror="this.onerror=null; this.src='{{ asset('assets/images/logo.png') }}';">
                                 </td>
                                 <th scope="row"
                                     class=" px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    {{ str($user->name)->limit(20) }}
+                                    {{ str($user_value->name)->limit(20) }}
                                 </th>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    {{ $user->getRoleNames()->first() }}
+                                    {{ $user_value->getRoleNames()->first() }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    {{ $user->phone ?? 'N/A' }}
+                                    {{ $user_value->phone ?? 'N/A' }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    {{ str($user->email)->limit(30) }}
+                                    {{ str($user_value->email)->limit(30) }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    {{ $user->brith_day ? round($user->brith_day->diffInYears(now())) : 'N/A' }}
+                                    {{ $user_value->brith_day ? round($user_value->brith_day->diffInYears(now())) : 'N/A' }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    {{ $user->created_at->format('Y-m-d') }}
+                                    {{ $user_value->created_at->format('Y-m-d') }}
                                 </td>
                                 <td class="px-6 py-4 flex gap-2 whitespace-nowrap">
-                                    <button wire:key="show-{{ $user->id }}"
-                                        wire:click="showUser({{ $user->id }})"
+                                    <button wire:key="show-{{ $user_value->id }}"
+                                        wire:click="showUser({{ $user_value->id }})"
                                         class="me-2 text-xl hover:text-blue-600 duration-150">
                                         <i class="fa-solid fa-user"></i>
                                     </button>
-                                    <button wire:key="role-{{ $user->id }}"
-                                        wire:click="changeRoleUser({{ $user->id }})"
+                                    <button wire:key="role-{{ $user_value->id }}"
+                                        wire:click="changeRoleUser({{ $user_value->id }})"
                                         class="me-2 text-xl hover:text-red-600 duration-150">
                                         <i class="fa-solid fa-users-gear"></i>
                                     </button>
@@ -208,10 +208,14 @@
                                 placeholder="{{ __('هنا يسجل تاريخ انشاء الحساب') }}" disabled="false" />
                         </div>
                     </div>
-                    <div class="mt-6 flex justify-end">
+                    <div class="mt-6 flex justify-end gap-2">
                         <x-secondary-button class="w-full" x-on:click="$dispatch('close')">
                             {{ __('الغاء') }}
                         </x-secondary-button>
+                        <a class="whitespace-nowrap inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150"
+                            href="{{ route('profile', ['id' => $user->id]) }}" wire:navigate>
+                            عرض المزيد
+                        </a>
                     </div>
                 </form>
             </div>

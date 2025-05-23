@@ -61,6 +61,9 @@
                                 PDF
                             </th>
                             <th scope="col" class="px-6 py-3  whitespace-nowrap">
+                                المضيف
+                            </th>
+                            <th scope="col" class="px-6 py-3  whitespace-nowrap">
                                 متزامن؟
                             </th>
                             <th scope="col" class="px-6 py-3  whitespace-nowrap">
@@ -110,15 +113,21 @@
                                         labelFalse="هذا الكتاب لا يحتوي علي اي ملف" />
                                 </td>
                                 <td class="px-6 py-4  whitespace-nowrap">
+                                    {{ $item->user->name }}
+                                </td>
+                                <td class="px-6 py-4  whitespace-nowrap">
                                     <x-status-yes-no status="{{ $item->is_synced }}"
                                         labelTrue="هذا الكتاب غير متزامن مع السيرفر الخارجي"
                                         labelFalse="هذا الكتاب متزامن مع السيرفر الخارجي" />
                                 </td>
                                 <td class="px-6 py-4 flex gap-2">
-                                    <button wire:key="{{ $item->id }}" wire:click='editBook({{ $item->id }})'
-                                        class="me-2 text-xl hover:text-amber-600 duration-150">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                    </button>
+                                    @if (auth()->user()->id == $item->user_id || auth()->user()->hasPermissionTo(App\Enums\PermissionEnum::USERS))
+                                        <button wire:key="{{ $item->id }}"
+                                            wire:click='editBook({{ $item->id }})'
+                                            class="me-2 text-xl hover:text-amber-600 duration-150">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </button>
+                                    @endif
                                     <a href="{{ route('book.show', $item->code) }}" wire:navigate
                                         class="me-2 text-xl hover:text-blue-600 duration-150">
                                         <i class="fa-solid fa-eye"></i>
@@ -176,18 +185,20 @@
                                 {{ __('استيراد') }}
                             </x-button>
                         </div>
-                        <hr class="my-4 block w-[95%] mx-auto">
-                        <div class="flex items-center justify-between flex-col md:flex-row mt-4">
-                            <p class="font-bold flex items-center gap-2">
-                                <i class="fa-solid fa-rotate text-gray-600"></i>
-                                <span> هل تريد مزامنة الكتب مع الموقع الخارجي؟ (يلزم توفر اتصال بالإنترنت)</span>
-                            </p>
-                            <x-button wire:loading.attr="disabled" wire:click="sync"
-                                class="w-full md:w-fit mt-1 inline-block text-sm bg-red-700/40 hover:bg-red-600 active:bg-red-600 focus:bg-red-600">
-                                <x-loader wire:loading wire:target="sync" />
-                                {{ __('مزامنه') }}
-                            </x-button>
-                        </div>
+                        @can(App\Enums\PermissionEnum::USERS)
+                            <hr class="my-4 block w-[95%] mx-auto">
+                            <div class="flex items-center justify-between flex-col md:flex-row mt-4">
+                                <p class="font-bold flex items-center gap-2">
+                                    <i class="fa-solid fa-rotate text-gray-600"></i>
+                                    <span> هل تريد مزامنة الكتب مع الموقع الخارجي؟ (يلزم توفر اتصال بالإنترنت)</span>
+                                </p>
+                                <x-button wire:loading.attr="disabled" wire:click="sync"
+                                    class="w-full md:w-fit mt-1 inline-block text-sm bg-red-700/40 hover:bg-red-600 active:bg-red-600 focus:bg-red-600">
+                                    <x-loader wire:loading wire:target="sync" />
+                                    {{ __('مزامنه') }}
+                                </x-button>
+                            </div>
+                        @endcan
                     </div>
                     <div>
                         <x-secondary-button x-on:click="$dispatch('close')" class="w-full">

@@ -17,7 +17,7 @@ class BookPage extends Component
       'shelf:id,title',
       'author:id,name',
       'publisher:id,name',
-
+      'user:id,name',
     ]);
     $this->addNewView();
   }

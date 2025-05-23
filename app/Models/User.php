@@ -4,8 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use App\Enums\RoleUserEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -50,17 +50,11 @@ class User extends Authenticatable
       'email_verified_at' => 'datetime',
       'brith_day' => 'date',
       'password' => 'hashed',
-      'role' => RoleUserEnum::class
     ];
   }
 
-  // public function canAccess()
-  // {
-  //   return  in_array(auth()->user()->role->value, ['owner', 'admin']);
-  // }
-
-  // public function isOwner()
-  // {
-  //   return  auth()->user()->role->value == 'owner';
-  // }
+  public function books(): HasMany
+  {
+    return $this->hasMany(Book::class);
+  }
 }

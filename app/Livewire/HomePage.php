@@ -47,7 +47,8 @@ class HomePage extends Component
         ->limit(10)
         ->get(),
       'counter' => $this->getCounter(),
-      'wordToday' => $this->getWordToday()
+      'wordToday' => $this->getWordToday(),
+      'suggestionsBooks' => Book::pluck('title')
     ]);
   }
 }

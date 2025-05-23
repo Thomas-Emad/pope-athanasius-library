@@ -1,18 +1,16 @@
 <?php
 
-use App\Livewire\HomePage;
 use App\Livewire\BookPage;
-use App\Livewire\SectionsPage;
-use Illuminate\Support\Facades\Route;
-use App\Livewire\Dashboard\{Index, Sections, Authors, Post, Publishers, Roles, User, WordDaily};
-use App\Livewire\Dashboard\Books\{Books, Operations};
+use App\Livewire\HomePage;
 use App\Livewire\PostPage;
 use App\Livewire\SearchPage;
+use App\Livewire\SectionsPage;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Livewire\Dashboard\Books\{Books, Operations};
+use App\Livewire\Dashboard\{Index, Sections, Authors, Post, Publishers, Roles, User, WordDaily};
 
-
-Route::view('profile/{id?}', 'profile')
-  ->middleware(['auth'])
-  ->name('profile');
+Route::get('/profile/{id?}', ProfileController::class)->middleware(['auth'])->name('profile');
 
 Route::get('/', HomePage::class)->name('home');
 Route::get('/sections', SectionsPage::class)->name('sections');
