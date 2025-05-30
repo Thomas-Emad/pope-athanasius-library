@@ -71,7 +71,8 @@ class Books extends Component
         'user:id,name',
         'author:id,name',
         'publisher:id,name',
-        'section:id,title'
+        'section:id,title',
+        'shelf:id,title',
       ])
         ->when($this->search, function ($query) {
           $query->where('title', 'like', "%{$this->search}%")

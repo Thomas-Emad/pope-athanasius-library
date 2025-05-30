@@ -43,33 +43,34 @@ class SearchPage extends Component
   private function queryBooks()
   {
     return Book::query()
-      ->when($this->filters['book'], fn($query) =>
+      ->with('author:id,name')
+      ->when($this->filters['book'], fn ($query) =>
       $query->orWhere('title', 'like', "%{$this->search}%"))
 
-      ->when($this->filters['code'], fn($query) =>
+      ->when($this->filters['code'], fn ($query) =>
       $query->orWhere('code', $this->search))
 
-      ->when($this->filters['author'], fn($query) =>
-      $query->orWhereHas('author', fn($subQuery) =>
+      ->when($this->filters['author'], fn ($query) =>
+      $query->orWhereHas('author', fn ($subQuery) =>
       $subQuery->where('name', 'like', "%{$this->search}%")))
 
-      ->when($this->filters['subjects'], fn($query) =>
+      ->when($this->filters['subjects'], fn ($query) =>
       $query->orWhere('subjects', 'like', "%{$this->search}%"))
 
-      ->when($this->filters['series'], fn($query) =>
+      ->when($this->filters['series'], fn ($query) =>
       $query->orWhere('series', 'like', "%{$this->search}%"))
 
-      ->when($this->filters['publisher'], fn($query) =>
-      $query->orWhereHas('publisher', fn($subQuery) =>
+      ->when($this->filters['publisher'], fn ($query) =>
+      $query->orWhereHas('publisher', fn ($subQuery) =>
       $subQuery->where('name', 'like', "%{$this->search}%")))
 
-      ->when($this->filters['section'], fn($query) =>
-      $query->orWhereHas('section', fn($subQuery) =>
+      ->when($this->filters['section'], fn ($query) =>
+      $query->orWhereHas('section', fn ($subQuery) =>
       $subQuery->where('title', 'like', "%{$this->search}%")
         ->orWhere('number', $this->search)))
 
-      ->when($this->filters['shelf'], fn($query) =>
-      $query->orWhereHas('shelf', fn($subQuery) =>
+      ->when($this->filters['shelf'], fn ($query) =>
+      $query->orWhereHas('shelf', fn ($subQuery) =>
       $subQuery->where('title', 'like', "%{$this->search}%")
         ->orWhere('number', $this->search)))
 
