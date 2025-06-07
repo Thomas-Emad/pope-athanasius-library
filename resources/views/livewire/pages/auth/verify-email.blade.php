@@ -5,13 +5,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
-use
 
 new #[Layout('layouts.guest')] class extends Component {
-    #[Title('تأكيد الحساب أولاً')]
     /**
      * Send an email verification notification to the user.
      */
+    #[Title('تأكيد الحساب أولاً')]
     public function sendVerification(): void
     {
         if (Auth::user()->hasVerifiedEmail()) {
@@ -35,8 +34,6 @@ new #[Layout('layouts.guest')] class extends Component {
         $this->redirect('/', navigate: true);
     }
 }; ?>
-
-
 
 <div class="w-[95%] md:w-1/2 mt-6 px-6 py-6 bg-white shadow-md rounded-lg mx-auto">
 

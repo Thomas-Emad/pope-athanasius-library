@@ -33,6 +33,7 @@ class RoleSeeder extends Seeder
           PermissionEnum::POSTS->value,
           PermissionEnum::USERS->value,
           PermissionEnum::WORD_TODAY->value,
+          PermissionEnum::UPDATE_PASSWORD->value,
         ],
         'خادم' => [
           PermissionEnum::CONTROLR_DASHBOARD->value,

@@ -8,7 +8,10 @@
                 </div>
             </div>
             @if (Auth::check())
-                @if ((request()->route('id') && Auth::user()->id == request()->route('id')) || !request()->route('id'))
+                @if (
+                    (request()->route('id') && Auth::user()->id == request()->route('id')) ||
+                        !request()->route('id') ||
+                        Auth::user()->hasPermissionTo(App\Enums\PermissionEnum::UPDATE_PASSWORD->value))
                     <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                         <div class="w-full">
                             <livewire:profile.update-password-form />

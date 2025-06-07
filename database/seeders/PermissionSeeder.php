@@ -18,6 +18,7 @@ class PermissionSeeder extends Seeder
     PermissionEnum::PUBLISHERS->value,
     PermissionEnum::AUTHORS->value,
     PermissionEnum::WORD_TODAY->value,
+    PermissionEnum::UPDATE_PASSWORD->value,
   ];
   /**
    * Run the database seeds.

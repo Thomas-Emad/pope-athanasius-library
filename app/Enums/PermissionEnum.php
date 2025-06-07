@@ -13,6 +13,7 @@ enum PermissionEnum: string
   case PUBLISHERS   = 'publishers';
   case AUTHORS   = 'authors';
   case WORD_TODAY   = 'word_today';
+  case UPDATE_PASSWORD   = 'update_password';
 
 
   public function label(): string
@@ -28,6 +29,7 @@ enum PermissionEnum: string
       static::PUBLISHERS =>     'الناشرين',
       static::AUTHORS =>     'المؤلفين',
       static::WORD_TODAY =>     'كلمة اليوم',
+      static::UPDATE_PASSWORD =>     'تغيير كلمة المرور',
     };
   }
 }
