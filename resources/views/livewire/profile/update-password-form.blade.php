@@ -6,12 +6,14 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 use Livewire\Volt\Component;
 use Illuminate\Validation\Rule;
+use App\Models\User;
 
 new class extends Component {
     public bool $requiredCurrentPassword = true;
     public string $current_password = '';
     public string $password = '';
     public string $password_confirmation = '';
+    public $userId;
 
     public function rules(): array
     {
@@ -47,7 +49,7 @@ new class extends Component {
             throw $e;
         }
 
-        Auth::user()->update([
+        User::where('id', $this->userId)->update([
             'password' => Hash::make($validated['password']),
         ]);
 
@@ -59,6 +61,11 @@ new class extends Component {
     public function mount(): void
     {
         $this->requiredCurrentPassword = Auth::check() && (!request()->route('id') || request()->route('id') == Auth::user()->id);
+        if (Auth::check() && request()->route('id')) {
+            $this->userId = request()->route('id');
+        } elseif (Auth::check()) {
+            $this->userId = Auth::user()->id;
+        }
     }
 }; ?>
 
