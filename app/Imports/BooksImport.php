@@ -23,7 +23,8 @@ class BooksImport implements ToModel, WithSkipDuplicates, WithChunkReading, With
   public function model(array $row)
   {
     // Skip rows with missing critical data or empty rows
-    if (!$this->isValidRow($row) || $this->uniqueCode($row[0])) {
+    $code = $this->checkRow($row[9]) . $this->checkRow($row[10]) . $this->checkRow($row[11]);
+    if (!$this->isValidRow($row) || !isset($row[9]) || !isset($row[10]) || !isset($row[11])  || $this->uniqueCode($code)) {
       return null;
     }
 
@@ -40,23 +41,32 @@ class BooksImport implements ToModel, WithSkipDuplicates, WithChunkReading, With
 
     // Return the Book creation model
     return Book::create([
-      'user_id' => $user,
-      'code' => $row[0],
-      'title' => $row[1],
-      'author_id' => $this->getAuthorId($row[2], $authors),
-      'series' => $row[3],
-      'publisher_id' => $this->getPublisherId($row[4], $publishers),
-      'copies' => $row[5],
-      'papers' => $row[6],
-      'part_number' => $row[7],
-      'section_id' => $section,
-      'shelf_id' => $this->getShelfId($row[9], $section, $shelves),
-      'current_unit_number' => $row[10],
-      'row' => $row[11],
-      'position_book' => $row[12],
-      'subjects' => $row[13],
-      'content' => $row[14],
+      'user_id'             => $user,
+      'code'                => $code,
+      'title'               => $this->checkRow($row[0]),
+      'author_id'           => $this->getAuthorId($row[1], $authors),
+      'series'              => $this->checkRow($row[2]),
+      'publisher_id'        => $this->getPublisherId($this->checkRow($row[3]), $publishers),
+      'copies'              => $this->checkRow($row[4]),
+      'papers'              => $this->checkRow($row[5]),
+      'part_number'         => $this->checkRow($row[6]),
+      'section_id'          => $section,
+      'shelf_id'            => $this->getShelfId($this->checkRow($row[8]), $section, $shelves),
+      'current_unit_number' => $this->checkRow($row[9]),
+      'row'                 => $this->checkRow($row[10]),
+      'position_book'       => $this->checkRow($row[11]),
+      'subjects'            => $this->checkRow($row[12]),
+      'content'             => $this->checkRow($row[13]),
     ]);
+  }
+
+
+  private function checkRow($row)
+  {
+    if (isset($row)) {
+      return $row;
+    }
+    return null;
   }
 
   /**

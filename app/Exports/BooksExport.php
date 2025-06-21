@@ -17,7 +17,6 @@ class BooksExport implements FromCollection, WithHeadings, WithMapping
   public function headings(): array
   {
     return [
-      'كود الكتاب',
       "أسم الكتاب",
       "المؤلف",
       "أسم السلسلة",
@@ -38,7 +37,6 @@ class BooksExport implements FromCollection, WithHeadings, WithMapping
   public function map($book): array
   {
     return [
-      $book->code,
       $book->title,
       $book->author?->name,
       $book->series,
