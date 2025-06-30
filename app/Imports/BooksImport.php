@@ -8,12 +8,11 @@ use App\Models\Publisher;
 use App\Models\Section;
 use App\Models\SectionShelf;
 use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\WithSkipDuplicates;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 
-class BooksImport implements ToModel, WithSkipDuplicates, WithChunkReading, WithStartRow
+class BooksImport implements ToModel, WithChunkReading, WithStartRow
 {
   /**
    * @param array $row
@@ -24,7 +23,7 @@ class BooksImport implements ToModel, WithSkipDuplicates, WithChunkReading, With
   {
     // Skip rows with missing critical data or empty rows
     $code = $this->checkRow($row[9]) . $this->checkRow($row[10]) . $this->checkRow($row[11]);
-    if (!$this->isValidRow($row) || !isset($row[9]) || !isset($row[10]) || !isset($row[11])  || $this->uniqueCode($code)) {
+    if ($this->isNotValidRow($row) || $this->uniqueCode($code)) {
       return null;
     }
 
@@ -37,7 +36,7 @@ class BooksImport implements ToModel, WithSkipDuplicates, WithChunkReading, With
     $shelves = SectionShelf::pluck('id', 'title')->toArray();
 
     // Handle section creation or lookup
-    $section = $this->getSection($row[8], $sections);
+    $section = $this->getSection($row[7], $sections);
 
     // Return the Book creation model
     return Book::create([
@@ -47,9 +46,9 @@ class BooksImport implements ToModel, WithSkipDuplicates, WithChunkReading, With
       'author_id'           => $this->getAuthorId($row[1], $authors),
       'series'              => $this->checkRow($row[2]),
       'publisher_id'        => $this->getPublisherId($this->checkRow($row[3]), $publishers),
-      'copies'              => $this->checkRow($row[4]),
-      'papers'              => $this->checkRow($row[5]),
-      'part_number'         => $this->checkRow($row[6]),
+      'copies'              => $this->checkRow($row[4]) ?? 1,
+      'papers'              => $this->checkRow($row[5]) ?? 1,
+      'part_number'         => $this->checkRow($row[6]) ?? 1,
       'section_id'          => $section,
       'shelf_id'            => $this->getShelfId($this->checkRow($row[8]), $section, $shelves),
       'current_unit_number' => $this->checkRow($row[9]),
@@ -72,9 +71,9 @@ class BooksImport implements ToModel, WithSkipDuplicates, WithChunkReading, With
   /**
    * Check if the row contains valid data.
    */
-  protected function isValidRow(array $row)
+  protected function isNotValidRow(array $row)
   {
-    return !empty($row[0]) && !empty($row[1]);
+    return !isset($row[0]) || !isset($row[9]) || !isset($row[10]) || !isset($row[11]);
   }
 
   protected function uniqueCode($code)
@@ -85,34 +84,71 @@ class BooksImport implements ToModel, WithSkipDuplicates, WithChunkReading, With
   /**
    * Get the author ID, create if not exists.
    */
-  protected function getAuthorId($authorName, $authors)
+  protected function getAuthorId($authorName, &$authors)
   {
-    return $authors[$authorName] ?? Author::firstOrCreate(['name' => $authorName])->id;
+    if (isset($authorName)) {
+      if (!isset($authors[$authorName])) {
+        $author = Author::firstOrCreate(['name' => $authorName]);
+        $authors[$authorName] = $author->id;
+      }
+
+      return $authors[$authorName];
+    }
+    return null;
   }
 
   /**
    * Get the publisher ID, create if not exists.
    */
-  protected function getPublisherId($publisherName, $publishers)
+  protected function getPublisherId($publisherName, &$publishers)
   {
-    return $publishers[$publisherName] ?? Publisher::firstOrCreate(['name' => $publisherName])->id;
+    if (isset($publisherName)) {
+      if (!isset($publishers[$publisherName])) {
+        $publisher = Publisher::firstOrCreate(['name' => $publisherName]);
+        $publishers[$publisherName] = $publisher->id;
+      }
+
+      return $publishers[$publisherName];
+    }
+    return null;
   }
 
   /**
    * Get the section ID or create a new one.
    */
-  protected function getSection($sectionTitle, $sections)
+  protected function getSection($sectionTitle, &$sections)
   {
-    return $sections[$sectionTitle] ?? Section::firstOrCreate(['title' => $sectionTitle])->id;
+    if (isset($sectionTitle)) {
+      if (!isset($sections[$sectionTitle])) {
+        $section = Section::firstOrCreate(['title' => $sectionTitle]);
+        $sections[$sectionTitle] = $section->id;
+      }
+
+      return $sections[$sectionTitle];
+    }
+    return null;
   }
+
 
   /**
    * Get the shelf ID, create if not exists.
    */
-  protected function getShelfId($shelfTitle, $sectionId, $shelves)
+  protected function getShelfId($shelfTitle, $sectionId, &$shelves)
   {
-    return $shelves[$shelfTitle] ?? SectionShelf::firstOrCreate(['title' => $shelfTitle, 'section_id' => $sectionId])->id;
+    if (isset($shelfTitle)) {
+      if (!isset($shelves[$shelfTitle])) {
+        $shelf = SectionShelf::firstOrCreate([
+          'title'      => $shelfTitle,
+          'section_id' => $sectionId
+        ]);
+        $shelves[$shelfTitle] = $shelf->id;
+      }
+
+      return $shelves[$shelfTitle];
+    }
+    return null;
   }
+
 
   /**
    * The number of rows per chunk
@@ -120,14 +156,6 @@ class BooksImport implements ToModel, WithSkipDuplicates, WithChunkReading, With
   public function chunkSize(): int
   {
     return 1000;
-  }
-
-  /**
-   * Specify which column should be used to identify duplicates.
-   */
-  public function uniqueBy()
-  {
-    return 'code';
   }
 
   /**

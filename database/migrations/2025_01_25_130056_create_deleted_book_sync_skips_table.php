@@ -13,7 +13,7 @@ return new class extends Migration
   {
     Schema::create('deleted_book_sync_skips', function (Blueprint $table) {
       $table->id();
-      $table->string('uuid');
+      $table->string('uuid')->nullable();
       $table->timestamps();
     });
   }

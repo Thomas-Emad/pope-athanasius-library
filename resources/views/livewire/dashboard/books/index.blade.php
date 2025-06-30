@@ -93,19 +93,19 @@
                                     {{ str($item->title)->limit(20) }}
                                 </td>
                                 <td class="px-6 py-4  whitespace-nowrap">
-                                    {{ $item->section->title }}
+                                    {{ $item->section?->title ?? '-' }}
                                 </td>
                                 <td class="px-6 py-4  whitespace-nowrap">
-                                    {{ $item->shelf->title }}
+                                    {{ $item->shelf?->title ?? '-' }}
                                 </td>
                                 <td class="px-6 py-4  whitespace-nowrap">
-                                    {{ $item->publisher->name }}
+                                    {{ $item->publisher?->name ?? '-' }}
                                 </td>
                                 <td class="px-6 py-4  whitespace-nowrap">
-                                    {{ $item->author->name }}
+                                    {{ $item->author?->name ?? '-' }}
                                 </td>
                                 <td class="px-6 py-4  whitespace-nowrap">
-                                    {{ $item->views }}
+                                    {{ $item->views ?? 0 }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <x-status-yes-no status="{{ $item->pdf }}"

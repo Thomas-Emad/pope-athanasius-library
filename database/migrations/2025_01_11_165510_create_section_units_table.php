@@ -13,7 +13,7 @@ return new class extends Migration
   {
     Schema::create('section_shelves', function (Blueprint $table) {
       $table->id();
-      $table->foreignId('section_id')->constrained('sections')->cascadeOnDelete();
+      $table->foreignId('section_id')->nullable()->constrained('sections')->cascadeOnDelete();
       $table->string('title')->nullable();
       $table->integer('number')->nullable();
       $table->timestamps();

@@ -16,19 +16,19 @@ return new class extends Migration
       $table->uuid('uuid')->unique();
       $table->integer('code')->unique();
 
-      $table->foreignId('user_id')->constrained('users')->noActionOnDelete();
-      $table->foreignId('author_id')->constrained('authors')->noActionOnDelete();
-      $table->foreignId('publisher_id')->constrained('publishers')->noActionOnDelete();
-      $table->foreignId('section_id')->constrained('sections')->noActionOnDelete();
-      $table->foreignId('shelf_id')->constrained('section_shelves')->noActionOnDelete();
+      $table->foreignId('user_id')->nullable()->constrained('users')->noActionOnDelete();
+      $table->foreignId('author_id')->nullable()->constrained('authors')->noActionOnDelete();
+      $table->foreignId('publisher_id')->nullable()->constrained('publishers')->noActionOnDelete();
+      $table->foreignId('section_id')->nullable()->constrained('sections')->noActionOnDelete();
+      $table->foreignId('shelf_id')->nullable()->constrained('section_shelves')->noActionOnDelete();
 
-      $table->string('title');
+      $table->string('title')->nullable();
       $table->text('content')->nullable();
       $table->text('subjects')->nullable();
 
       $table->string('series')->nullable();
-      $table->integer('copies')->default(1);
-      $table->integer('papers')->default(1);
+      $table->integer('copies')->nullable()->default(1);
+      $table->integer('papers')->nullable()->default(1);
       $table->integer('part_number')->default(1);
 
       $table->integer('current_unit_number')->default(1);

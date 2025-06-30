@@ -24,77 +24,77 @@
                             <i class="fa-solid fa-receipt text-green-500"></i>
                             <p>
                                 <span class="font-bold">القسم:</span>
-                                <span>{{ $book->section->title }}</span>
+                                <span>{{ $book->section?->title ?? '-' }}</span>
                             </p>
                         </li>
                         <li class="flex items-center gap-2">
                             <i class="fa-solid fa-layer-group text-red-500"></i>
                             <p>
                                 <span class="font-bold">الرف:</span>
-                                <span>{{ $book->shelf->title }}</span>
+                                <span>{{ $book->shelf?->title ?? '-' }}</span>
                             </p>
                         </li>
                         <li class="flex items-center gap-2">
                             <i class="fa-solid fa-book text-purple-500"></i>
                             <p>
                                 <span class="font-bold">السلسة:</span>
-                                <span>{{ $book->series }}</span>
+                                <span>{{ $book->series ?? '-' }}</span>
                             </p>
                         </li>
                         <li class="flex items-center gap-2">
                             <i class="fa-solid fa-hashtag text-orange-500"></i>
                             <p>
                                 <span class="font-bold">رقم الجزء:</span>
-                                <span>{{ $book->part_number }}</span>
+                                <span>{{ $book->part_number ?? '-' }}</span>
                             </p>
                         </li>
                         <li class="flex items-center gap-2">
                             <i class="fa-solid fa-user text-yellow-500"></i>
                             <p>
                                 <span class="font-bold">مؤلف:</span>
-                                <span>{{ $book->author->name }}</span>
+                                <span>{{ $book->author?->name ?? '-' }}</span>
                             </p>
                         </li>
                         <li class="flex items-center gap-2">
                             <i class="fa-solid fa-copy text-pink-500"></i>
                             <p>
                                 <span class="font-bold">عدد النسخ:</span>
-                                <span>{{ $book->copies }}</span>
+                                <span>{{ $book->copies ?? '-' }}</span>
                             </p>
                         </li>
                         <li class="flex items-center gap-2">
                             <i class="fa-solid fa-building text-brown-500"></i>
                             <p>
                                 <span class="font-bold">الناشر:</span>
-                                <span>{{ $book->publisher->name }}</span>
+                                <span>{{ $book->publisher?->name ?? '-' }}</span>
                             </p>
                         </li>
                         <li class="flex items-center gap-2">
                             <i class="fa-solid fa-file-lines text-gray-500"></i>
                             <p>
                                 <span class="font-bold">عدد الصفحات:</span>
-                                <span>{{ $book->papers }}</span>
+                                <span>{{ $book->papers ?? '-' }}</span>
                             </p>
                         </li>
                         <li class="flex items-center gap-2">
                             <i class="fa-solid fa-box text-indigo-500"></i>
                             <p>
                                 <span class="font-bold">رقم الوحدة:</span>
-                                <span>{{ $book->current_unit_number }}</span>
+                                <span>{{ $book->current_unit_number ?? '-' }}</span>
                             </p>
                         </li>
                         <li class="flex items-center gap-2">
                             <i class="fa-solid fa-arrow-up-1-9 text-orange-600"></i>
                             <p>
                                 <span class="font-bold">رقم الرف:</span>
-                                <span>{{ $book->row }}</span>
+                                <span>{{ $book->row ?? '-' }}</span>
                             </p>
                         </li>
                         <li class="flex items-center gap-2">
                             <i class="fa-solid fa-sort text-teal-500"></i>
                             <p>
                                 <span class="font-bold">ترتيب الكتاب:</span>
-                                <span>{{ $book->position_book }}</span>
+                                <span>{{ $book->position_book ?? '-' }}</span>
                             </p>
                         </li>
                         @can(App\Enums\PermissionEnum::USERS->value)
@@ -102,7 +102,7 @@
                                 <i class="fa-solid fa-user text-teal-500"></i>
                                 <p>
                                     <span class="font-bold">مضيف الكتاب:</span>
-                                    <span>{{ $book->user->name }}</span>
+                                    <span>{{ $book->user?->name ?? '-' }}</span>
                                 </p>
                             </li>
                         @endcan
@@ -131,29 +131,31 @@
                 </div>
             </div>
         </div>
-        <div class="bg-white p-4 mt-4 rounded-lg bvorder border-gray-100 shadow text-gray-800">
-            <h1 class="flex items-center gap-2 font-bold text-2xl pb-2 border-b-4 mb-2 border-b-brown-max w-fit">
+        @if (isset($book->subjects))
+            <div class="bg-white p-4 mt-4 rounded-lg bvorder border-gray-100 shadow text-gray-800">
+                <h1 class="flex items-center gap-2 font-bold text-2xl pb-2 border-b-4 mb-2 border-b-brown-max w-fit">
+                    <div>
+                        <i class="fa-solid fa-clipboard-list"></i>
+                        <span>مواضيع الكتاب</span>
+                    </div>
+                </h1>
                 <div>
-                    <i class="fa-solid fa-clipboard-list"></i>
-                    <span>مواضيع الكتاب</span>
+                    @php
+                        $subjects = explode('-', $book->subjects);
+                    @endphp
+                    <ul class="ps-8">
+                        @foreach ($subjects as $item)
+                            @if (strlen(trim($item)) > 0)
+                                <li class="list-disc">{{ $item }}</li>
+                            @endif
+                        @endforeach
+                    </ul>
+                    @if (empty($subjects))
+                        <p class="text-gray-600 italic text-center">لا يوجد هنا اي موضوع مسجل لهذا الكتب..</p>
+                    @endif
                 </div>
-            </h1>
-            <div>
-                @php
-                    $subjects = explode(',', $book->subjects);
-                @endphp
-                <ul class="ps-8">
-                    @foreach ($subjects as $item)
-                        @if (strlen(trim($item)) > 0)
-                            <li class="list-disc">{{ $item }}</li>
-                        @endif
-                    @endforeach
-                </ul>
-                @if (empty($subjects))
-                    <p class="text-gray-600 italic text-center">لا يوجد هنا اي موضوع مسجل لهذا الكتب..</p>
-                @endif
             </div>
-        </div>
+        @endif
         @if ($book->content)
             <div class="bg-white p-4 mt-4 rounded-lg bvorder border-gray-100 shadow text-gray-800">
                 <h1 class="flex items-center gap-2 font-bold text-2xl pb-2 border-b-4 mb-2 border-b-brown-max w-fit">

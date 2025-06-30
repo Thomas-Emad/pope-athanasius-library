@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('said')->nullable();
             $table->text('content')->nullable();
-            $table->integer('number_show')->unique();
+            $table->integer('number_show')->nullable()->unique();
             $table->boolean('is_today')->default(false);
 
             $table->timestamps();

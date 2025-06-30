@@ -35,7 +35,8 @@
                                 @foreach ($sections as $section)
                                     <option value="{{ $section->id }}" @selected($section->id == $book->section)
                                         wire:key="section-book-{{ $section->id }}">
-                                        {{ $section->title }} - {{ $section->number }}
+                                        {{ $section->title }}
+                                        {{ isset($section->number) ? '-' . $section->number : '' }}
                                     </option>
                                 @endforeach
                             </x-select>
