@@ -1,0 +1,6 @@
+/vendor
+/node_modules
+/library.zip
+/library.rar
+/storage/framework/views
+.env

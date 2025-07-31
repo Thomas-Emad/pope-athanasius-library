@@ -1,0 +1,29 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-CF81DCMR.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/fonts/Amiri/Amiri-Bold.ttf": {
+    "file": "assets/Amiri-Bold-qgZqBFZt.ttf",
+    "src": "resources/fonts/Amiri/Amiri-Bold.ttf"
+  },
+  "resources/fonts/Amiri/Amiri-BoldItalic.ttf": {
+    "file": "assets/Amiri-BoldItalic-CGzLeCQU.ttf",
+    "src": "resources/fonts/Amiri/Amiri-BoldItalic.ttf"
+  },
+  "resources/fonts/Amiri/Amiri-Italic.ttf": {
+    "file": "assets/Amiri-Italic-BBf2ZF0Z.ttf",
+    "src": "resources/fonts/Amiri/Amiri-Italic.ttf"
+  },
+  "resources/fonts/Amiri/Amiri-Regular.ttf": {
+    "file": "assets/Amiri-Regular-BefDosR4.ttf",
+    "src": "resources/fonts/Amiri/Amiri-Regular.ttf"
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-s7Tv5rlc.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  }
+}
