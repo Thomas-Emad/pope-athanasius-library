@@ -27,7 +27,7 @@ return new class extends Migration
       $table->text('subjects')->nullable();
 
       $table->string('series')->nullable();
-      $table->integer('copies')->nullable()->default(1);
+      $table->integer('copies')->nullable()->defaulpt(1);
       $table->integer('papers')->nullable()->default(1);
       $table->integer('part_number')->default(1);
 

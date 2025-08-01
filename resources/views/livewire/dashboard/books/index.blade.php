@@ -85,7 +85,7 @@
                                         labelFalse="هذا الكتاب لا يظهر في الصفحه الرئيسيه" />
                                 </td>
                                 <td class="px-6 py-4">
-                                    <img src="{{ $item->photo && Storage::exists($item->photo) ? Storage::url($item->photo) : asset('assets/images/logo.png') }}"
+                                    <img src="{{ $item->photo ? Storage::url($item->photo) : asset('assets/images/logo.png') }}"
                                         class="shadow w-8 h-8 rounded-xl" alt="Photo Book"
                                         onerror="this.onerror=null;this.src='{{ asset('assets/images/logo.png') }}';">
                                 </td>
