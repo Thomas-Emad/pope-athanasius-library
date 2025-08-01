@@ -1,6 +1,7 @@
-/vendor
-/node_modules
+/vendor/
+/node_modules/
+/.env
 /library.zip
 /library.rar
-/storage/framework/views
-.env
+/storage/framework/views/*
+!/storage/framework/views/.gitignore
