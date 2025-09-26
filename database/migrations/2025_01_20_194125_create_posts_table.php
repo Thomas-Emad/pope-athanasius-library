@@ -17,7 +17,7 @@ return new class extends Migration
       $table->string('title')->nullable();
       $table->text('content')->nullable();
       $table->text('photo')->nullable();
-      $table->boolean('markup')->default(false);
+      $table->boolean('markup')->nullable()->default(false);
       $table->timestamps();
     });
   }

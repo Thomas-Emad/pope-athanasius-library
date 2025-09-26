@@ -29,7 +29,7 @@ new #[Layout('layouts.guest')] class extends Component {
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form wire:submit.prevent="login" method="POST">
+    <form wire:submit="login">
         <a href="/" class="block" wire:navigate>
             <img src="{{ asset('assets/images/logo.png') }}" class="mx-auto w-24" alt="logo">
         </a>

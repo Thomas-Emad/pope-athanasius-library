@@ -36,7 +36,7 @@
                         <h3 class="font-bold">{{ str($book->title)->limit(20) }}</h3>
                         <p>
                             <span>المؤلف:</span>
-                            {{ str($book->author->name)->limit(20) }}
+                            {{ str($book->author?->name ?? '-')->limit(20) }}
                         </p>
                         <p>
                             <span>عدد المشاهدات:</span>

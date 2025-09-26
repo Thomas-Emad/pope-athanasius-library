@@ -138,20 +138,20 @@ class SyncDatabaseService
         'code' => $book->code,
         'title' => $book->title,
         'author_id' => $book->author_id,
-        'author_name' => $book->author->name,
+        'author_name' => $book->author?->name ?? null,
         'series' => $book->series,
         'publisher_id' => $book->publisher_id,
-        'publisher_name' => $book->publisher->name,
+        'publisher_name' => $book->publisher?->name ?? null,
         'copies' => $book->copies,
         'papers' => $book->papers,
         'part_number' => $book->part_number,
         'section_id' => $book->section_id,
-        'section_title' => $book->section->title,
-        'section_number' => $book->section->number,
+        'section_title' => $book->section?->title ?? null,
+        'section_number' => $book->section?->number ?? null,
         'shelf_id' => $book->shelf_id,
-        'shelf_title' => $book->shelf->title,
-        'shelf_number' => $book->shelf->number,
-        'shelf_section_id' => $book->shelf->section_id,
+        'shelf_title' => $book->shelf?->title ?? null,
+        'shelf_number' => $book->shelf?->number ?? null,
+        'shelf_section_id' => $book->shelf?->section_id ?? null,
         'current_unit_number' => $book->current_unit_number,
         'row' => $book->row,
         'position_book' => $book->position_book,
@@ -204,12 +204,12 @@ class SyncDatabaseService
   private function createBook(int $userId, array $bookData, array $entity): void
   {
     Book::create(array_merge($bookData, [
-      'uuid' => $bookData['uuid'],
+      'uuid' => $bookData['uuid'] ?? null,
       'user_id' => $userId,
-      'author_id' => $entity['authorId'],
-      'publisher_id' => $entity['publisherId'],
-      'section_id' => $entity['sectionId'],
-      'shelf_id' => $entity['shelfId'],
+      'author_id' => $entity['authorId'] ?? null,
+      'publisher_id' => $entity['publisherId'] ?? null,
+      'section_id' => $entity['sectionId'] ?? null,
+      'shelf_id' => $entity['shelfId'] ?? null,
       'is_synced' => true
     ]));
   }
@@ -218,22 +218,22 @@ class SyncDatabaseService
   {
     $currentBook->update(array_merge($bookData, [
       'user_id' => $userId,
-      'author_id' => $entity['authorId'],
-      'publisher_id' => $entity['publisherId'],
-      'section_id' => $entity['sectionId'],
-      'shelf_id' => $entity['shelfId']
+      'author_id' => $entity['authorId'] ?? null,
+      'publisher_id' => $entity['publisherId'] ?? null,
+      'section_id' => $entity['sectionId'] ?? null,
+      'shelf_id' => $entity['shelfId'] ?? null
     ]));
   }
 
   private function resolveEntityIds(array $bookData): array
   {
     return [
-      'authorId' => $this->syncEntity(Author::class, $bookData['author_name'], 'name'),
-      'publisherId' => $this->syncEntity(Publisher::class, $bookData['publisher_name'], 'name'),
-      'sectionId' => $this->syncEntity(Section::class, $bookData['section_title'], 'title'),
-      'shelfId' => $this->syncEntity(SectionShelf::class, $bookData['shelf_title'], 'title', [
-        'number' => $bookData['shelf_number'],
-        'section_id' => $bookData['shelf_section_id'],
+      'authorId' => $this->syncEntity(Author::class, $bookData['author_name'] ?? null, 'name'),
+      'publisherId' => $this->syncEntity(Publisher::class, $bookData['publisher_name'] ?? null, 'name'),
+      'sectionId' => $this->syncEntity(Section::class, $bookData['section_title'] ?? null, 'title'),
+      'shelfId' => $this->syncEntity(SectionShelf::class, $bookData['shelf_title'] ?? null, 'title', [
+        'number' => $bookData['shelf_number'] ?? null,
+        'section_id' => $bookData['shelf_section_id'] ?? null,
       ]),
     ];
   }

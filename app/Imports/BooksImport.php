@@ -7,50 +7,55 @@ use App\Models\Book;
 use App\Models\Publisher;
 use App\Models\Section;
 use App\Models\SectionShelf;
-use Maatwebsite\Excel\Concerns\ToModel;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithStartRow;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
+use Illuminate\Support\Str;
 
-class BooksImport implements ToModel, WithChunkReading, WithStartRow
+class BooksImport implements ToModel, WithChunkReading, WithStartRow, WithBatchInserts
 {
-  /**
-   * @param array $row
-   *
-   * @return \Illuminate\Database\Eloquent\Model|null
-   */
+  protected $authors;
+  protected $publishers;
+  protected $sections;
+  protected $shelves;
+  protected $userId;
+
+  public function __construct()
+  {
+    // جلب البيانات مرة واحدة فقط
+    $this->authors    = Author::pluck('id', 'name')->toArray();
+    $this->publishers = Publisher::pluck('id', 'name')->toArray();
+    $this->sections   = Section::pluck('id', 'title')->toArray();
+    $this->shelves    = SectionShelf::pluck('id', 'title')->toArray();
+
+    $this->userId = Auth::id();
+  }
+
   public function model(array $row)
   {
-    // Skip rows with missing critical data or empty rows
     $code = $this->checkRow($row[9]) . $this->checkRow($row[10]) . $this->checkRow($row[11]);
+
     if ($this->isNotValidRow($row) || $this->uniqueCode($code)) {
       return null;
     }
 
-    $user = Auth::id();
+    $section = $this->getSection($row[7], $this->sections);
 
-    // Use pluck to minimize queries
-    $authors = Author::pluck('id', 'name')->toArray();
-    $publishers = Publisher::pluck('id', 'name')->toArray();
-    $sections = Section::pluck('id', 'title')->toArray();
-    $shelves = SectionShelf::pluck('id', 'title')->toArray();
-
-    // Handle section creation or lookup
-    $section = $this->getSection($row[7], $sections);
-
-    // Return the Book creation model
-    return Book::create([
-      'user_id'             => $user,
+    return new Book([
+      'uuid'                => Str::uuid(),
+      'user_id'             => $this->userId,
       'code'                => $code,
       'title'               => $this->checkRow($row[0]),
-      'author_id'           => $this->getAuthorId($row[1], $authors),
+      'author_id'           => $this->getAuthorId($row[1], $this->authors),
       'series'              => $this->checkRow($row[2]),
-      'publisher_id'        => $this->getPublisherId($this->checkRow($row[3]), $publishers),
+      'publisher_id'        => $this->getPublisherId($this->checkRow($row[3]), $this->publishers),
       'copies'              => $this->checkRow($row[4]) ?? 1,
       'papers'              => $this->checkRow($row[5]) ?? 1,
       'part_number'         => $this->checkRow($row[6]) ?? 1,
       'section_id'          => $section,
-      'shelf_id'            => $this->getShelfId($this->checkRow($row[8]), $section, $shelves),
+      'shelf_id'            => $this->getShelfId($this->checkRow($row[8]), $section, $this->shelves),
       'current_unit_number' => $this->checkRow($row[9]),
       'row'                 => $this->checkRow($row[10]),
       'position_book'       => $this->checkRow($row[11]),
@@ -59,18 +64,11 @@ class BooksImport implements ToModel, WithChunkReading, WithStartRow
     ]);
   }
 
-
   private function checkRow($row)
   {
-    if (isset($row)) {
-      return $row;
-    }
-    return null;
+    return isset($row) ? $row : null;
   }
 
-  /**
-   * Check if the row contains valid data.
-   */
   protected function isNotValidRow(array $row)
   {
     return !isset($row[0]) || !isset($row[9]) || !isset($row[10]) || !isset($row[11]);
@@ -81,86 +79,67 @@ class BooksImport implements ToModel, WithChunkReading, WithStartRow
     return Book::where('code', $code)->exists();
   }
 
-  /**
-   * Get the author ID, create if not exists.
-   */
   protected function getAuthorId($authorName, &$authors)
   {
-    if (isset($authorName)) {
+    if ($authorName) {
       if (!isset($authors[$authorName])) {
         $author = Author::firstOrCreate(['name' => $authorName]);
         $authors[$authorName] = $author->id;
       }
-
       return $authors[$authorName];
     }
     return null;
   }
 
-  /**
-   * Get the publisher ID, create if not exists.
-   */
   protected function getPublisherId($publisherName, &$publishers)
   {
-    if (isset($publisherName)) {
+    if ($publisherName) {
       if (!isset($publishers[$publisherName])) {
         $publisher = Publisher::firstOrCreate(['name' => $publisherName]);
         $publishers[$publisherName] = $publisher->id;
       }
-
       return $publishers[$publisherName];
     }
     return null;
   }
 
-  /**
-   * Get the section ID or create a new one.
-   */
   protected function getSection($sectionTitle, &$sections)
   {
-    if (isset($sectionTitle)) {
+    if ($sectionTitle) {
       if (!isset($sections[$sectionTitle])) {
         $section = Section::firstOrCreate(['title' => $sectionTitle]);
         $sections[$sectionTitle] = $section->id;
       }
-
       return $sections[$sectionTitle];
     }
     return null;
   }
 
-
-  /**
-   * Get the shelf ID, create if not exists.
-   */
   protected function getShelfId($shelfTitle, $sectionId, &$shelves)
   {
-    if (isset($shelfTitle)) {
+    if ($shelfTitle) {
       if (!isset($shelves[$shelfTitle])) {
         $shelf = SectionShelf::firstOrCreate([
           'title'      => $shelfTitle,
-          'section_id' => $sectionId
+          'section_id' => $sectionId,
         ]);
         $shelves[$shelfTitle] = $shelf->id;
       }
-
       return $shelves[$shelfTitle];
     }
     return null;
   }
 
-
-  /**
-   * The number of rows per chunk
-   */
   public function chunkSize(): int
   {
-    return 1000;
+    return 100; // أصغر وأكتر أمان
   }
 
-  /**
-   * Define the row where data starts
-   */
+  public function batchSize(): int
+  {
+    return 100; // يعمل insert جماعي
+  }
+
   public function startRow(): int
   {
     return 2;

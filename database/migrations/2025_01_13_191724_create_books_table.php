@@ -13,8 +13,8 @@ return new class extends Migration
   {
     Schema::create('books', function (Blueprint $table) {
       $table->id();
-      $table->uuid('uuid')->unique();
-      $table->integer('code')->unique();
+      $table->uuid('uuid')->nullable()->unique();
+      $table->integer('code')->nullable()->unique();
 
       $table->foreignId('user_id')->nullable()->constrained('users')->noActionOnDelete();
       $table->foreignId('author_id')->nullable()->constrained('authors')->noActionOnDelete();
@@ -27,21 +27,21 @@ return new class extends Migration
       $table->text('subjects')->nullable();
 
       $table->string('series')->nullable();
-      $table->integer('copies')->nullable()->defaulpt(1);
+      $table->integer('copies')->nullable()->default(1);
       $table->integer('papers')->nullable()->default(1);
       $table->integer('part_number')->default(1);
 
-      $table->integer('current_unit_number')->default(1);
-      $table->integer('row')->default(1);
-      $table->integer('position_book')->default(1);
+      $table->integer('current_unit_number')->nullable()->default(1);
+      $table->integer('row')->nullable()->default(1);
+      $table->integer('position_book')->nullable()->default(1);
 
       $table->string('photo')->nullable();
       $table->string('pdf')->nullable();
 
-      $table->integer('views')->default(0);
-      $table->boolean('markup')->default(false);
+      $table->integer('views')->nullable()->default(0);
+      $table->boolean('markup')->nullable()->default(false);
 
-      $table->boolean('is_synced')->default(false);
+      $table->boolean('is_synced')->nullable()->default(false);
       $table->timestamps();
     });
   }

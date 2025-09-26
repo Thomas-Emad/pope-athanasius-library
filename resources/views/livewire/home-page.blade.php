@@ -85,7 +85,7 @@
                             <!-- Book Details -->
                             <div class="text-center px-2 py-3">
                                 <h3 class="font-bold">{{ str($book->title)->limit(20) }}</h3>
-                                <span>{{ str($book->author->name)->limit(20) }}</span>
+                                <span>{{ str($book->author?->name)->limit(20) }}</span>
                             </div>
                         </a>
                     @endforeach

@@ -11,7 +11,7 @@ use App\Imports\BooksImport;
 
 class MoreFeaturesBookForm extends Form
 {
-  #[Validate('required|max:10240|file|mimes:xls,xlm,xla,xlc,xlt,xlw,xlam,xlsb,xlsm,xlsx', 'ملف الاكسيل')]
+  #[Validate('required|max:10240|file|mimes:xls,xlm,xla,xlc,xlt,xlw,xlam,xlsb,xlsm,xlsx,csv', 'ملف الاكسيل')]
   public $importExcel;
 
   public function export()

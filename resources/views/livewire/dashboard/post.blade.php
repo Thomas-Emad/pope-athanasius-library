@@ -57,8 +57,8 @@
                                 <td class="px-6 py-4 whitespace-nowrap" title="{{ $item->content }}">
                                     {{ str($item->content)->limit(20) }}
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap" title="{{ $item->user->name }}">
-                                    {{ str($item->user->name)->limit(20) }}
+                                <td class="px-6 py-4 whitespace-nowrap" title="{{ $item->user?->name }}">
+                                    {{ str($item->user?->name)->limit(20) }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <x-toggle id="setAsMarkup-{{ $item->id }}"
@@ -130,8 +130,8 @@
                             aria-label="Upload photo" title="Upload photo">
                             <span class="text-4xl">+</span>
                             <p class="text-xl">أضغط هنا لتحديد الصورة</p>
-                            @if ($this->store->photo)
-                                <img src="{{ $this->store->photo?->temporaryUrl() }}"
+                            @if ($this->store?->photo)
+                                <img src="{{ $this->store?->photo?->temporaryUrl() }}"
                                     class="block w-[95%] h-[80%] rounded-xl mt-4" alt="Uploaded photo preview">
                             @endif
                         </label>

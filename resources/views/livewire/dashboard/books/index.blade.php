@@ -85,7 +85,7 @@
                                         labelFalse="هذا الكتاب لا يظهر في الصفحه الرئيسيه" />
                                 </td>
                                 <td class="px-6 py-4">
-                                    <img src="{{ $item->photo ? Storage::url($item->photo) : asset('assets/images/logo.png') }}"
+                                    <img src="{{ $item->photo && Storage::exists($item->photo) ? Storage::url($item->photo) : asset('assets/images/logo.png') }}"
                                         class="shadow w-8 h-8 rounded-xl" alt="Photo Book"
                                         onerror="this.onerror=null;this.src='{{ asset('assets/images/logo.png') }}';">
                                 </td>
@@ -224,7 +224,7 @@
                             <input wire:model="features.importExcel"
                                 class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                                 aria-describedby="file_input_help" id="file_input" type="file"
-                                accept=".xls,.xlm,.xla,.xlc,.xlt,.xlw,.xlam,.xlsb,.xlsm,.xlsx">
+                                accept=".xls,.xlm,.xla,.xlc,.xlt,.xlw,.xlam,.xlsb,.xlsm,.xlsx,.csv">
                             <x-button type="submit" class="bg-green-700 hover:bg-green-600 duration-150">
                                 {{ __('استيراد') }}
                             </x-button>
