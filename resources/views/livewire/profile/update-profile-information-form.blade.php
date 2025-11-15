@@ -127,7 +127,8 @@ new class extends Component {
         <div class="flex justify-around">
             <div>
                 <input type="file" id="photo" wire:model="photo" accept="image/png,image/jpg,image/jpeg"
-                    :disabled="{{ !$allowEdit }}" hidden>
+                    :disabled="@js(!$allowEdit)" hidden>
+
                 <label for="photo"
                     class="flex items-center justify-center w-24 h-24 rounded-full bg-gray-100 border-2 border-gray-700/20 border-dashed cursor-pointer hover:opacity-50 duration-150">
                     @if ($photo && !is_string($photo))

@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Traits\BookScopes;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Book extends Model
 {
-  use HasFactory;
+  use HasFactory, BookScopes;
+
   protected $fillable = [
     'uuid',
     'code',
@@ -34,41 +36,6 @@ class Book extends Model
     'is_synced'
   ];
 
-  public function user()
-  {
-    return $this->belongsTo(User::class);
-  }
-  public function section()
-  {
-    return $this->belongsTo(Section::class);
-  }
-  public function shelf()
-  {
-    return $this->belongsTo(SectionShelf::class);
-  }
-  public function author()
-  {
-    return $this->belongsTo(Author::class);
-  }
-  public function publisher()
-  {
-    return $this->belongsTo(Publisher::class);
-  }
-
-  public function scopeOrderBooksBy($query, $orderBy)
-  {
-    return match ($orderBy) {
-      'new' => $query->latest(),
-      'old' => $query->oldest(),
-      'top_views' => $query->orderBy('views', 'desc'),
-    };
-  }
-
-  public function scopeGetTopViews($query)
-  {
-    return $query->orWhereRaw("1=1")->orderBy('views', 'desc');
-  }
-
   public static function boot()
   {
     parent::boot();
@@ -78,5 +45,55 @@ class Book extends Model
         $model->uuid = (string) Str::uuid();
       }
     });
+  }
+
+  /**
+   * Get the user that the book belongs to.
+   *
+   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+   */
+  public function user()
+  {
+    return $this->belongsTo(User::class);
+  }
+
+  /**
+   * Get the section that the book belongs to.
+   *
+   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+   */
+  public function section()
+  {
+    return $this->belongsTo(Section::class);
+  }
+
+  /**
+   * Get the shelf that the book belongs to.
+   *
+   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+   */
+  public function shelf()
+  {
+    return $this->belongsTo(SectionShelf::class);
+  }
+
+  /**
+   * Get the author that owns the Book.
+   *
+   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+   */
+  public function author()
+  {
+    return $this->belongsTo(Author::class);
+  }
+
+  /**
+   * Get the publisher that owns the Book.
+   *
+   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+   */
+  public function publisher()
+  {
+    return $this->belongsTo(Publisher::class);
   }
 }

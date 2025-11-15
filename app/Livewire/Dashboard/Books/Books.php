@@ -2,15 +2,17 @@
 
 namespace App\Livewire\Dashboard\Books;
 
-use App\Livewire\Forms\Dashboard\MoreFeaturesBookForm;
 use App\Models\Book;
-use App\Services\SyncWebsite\SyncDatabaseService;
 use Livewire\Component;
-use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
-use Livewire\Attributes\Title;
-use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use Livewire\WithFileUploads;
+use Livewire\Attributes\Title;
+use Livewire\Attributes\Layout;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
+use App\Services\SyncWebsite\SyncDatabaseService;
+use App\Livewire\Forms\Dashboard\MoreFeaturesBookForm;
 
 #[Title('الكتب')]
 #[Layout('layouts.dashboard')]
@@ -34,14 +36,43 @@ class Books extends Component
 
   public function export()
   {
-    return $this->features->export();
+    try {
+      return $this->features->export();
+    } catch (\Throwable $th) {
+      Log::error('error when export excel', ['error' => $th->getMessage()]);
+      $this->dispatch("open-modal", 'fail-modal');
+    }
+  }
+
+  public function exportCodesPDF()
+  {
+    try {
+      $pdf = $this->features->exportCodesAsPdf();
+
+      $this->dispatch("close-modal", 'export-code-pdf');
+      $this->dispatch("open-modal", 'success-export');
+
+      return $pdf;
+    } catch (ValidationException $ve) {
+      throw $ve;
+    } catch (\Throwable $th) {
+      Log::error('error when export codes pdf', ['error' => $th->getMessage()]);
+      $this->dispatch("close-modal", 'export-code-pdf');
+      $this->dispatch("open-modal", 'fail-modal');
+    }
   }
 
   public function import()
   {
-    $this->features->import();
-    $this->dispatch("close-modal", 'import-excel');
-    $this->dispatch("open-modal", 'success-excel');
+    try {
+      $this->features->import();
+      $this->dispatch("close-modal", 'import-excel');
+      $this->dispatch("open-modal", 'success-excel');
+    } catch (\Throwable $th) {
+      Log::error('error when import excel', ['error' => $th->getMessage()]);
+      $this->dispatch("close-modal", 'import-excel');
+      $this->dispatch("open-modal", 'fail-modal');
+    }
   }
 
   public function sync()
@@ -63,7 +94,6 @@ class Books extends Component
     }
   }
 
-
   public function render()
   {
     return view('livewire.dashboard.books.index', [
@@ -74,26 +104,8 @@ class Books extends Component
         'section:id,title',
         'shelf:id,title',
       ])
-        ->when($this->search, function ($query) {
-          $query->where('title', 'like', "%{$this->search}%")
-
-            ->orWhere('code', 'like', "%{$this->search}%")
-
-            ->orWhereHas('author', fn($subQuery) =>
-            $subQuery->where('name', 'like', "%{$this->search}%"))
-
-            ->orWhereHas('publisher', fn($subQuery) =>
-            $subQuery->where('name', 'like', "%{$this->search}%"))
-
-            ->orWhere('series', 'like', "%{$this->search}%")
-
-            ->orWhereHas('section', fn($subQuery) =>
-            $subQuery->where('title', 'like', "%{$this->search}%")
-              ->orWhere('number', $this->search))
-
-            ->orWhereHas('shelf', fn($subQuery) =>
-            $subQuery->where('title', 'like', "%{$this->search}%")
-              ->orWhere('number', $this->search));
+        ->where(function ($query) {
+          $query->filterSearch(null, $this->search);
         })
         ->when($this->getMarkUpBooks, function ($query) {
           $query->where('markup', true);

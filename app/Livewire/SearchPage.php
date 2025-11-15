@@ -2,11 +2,11 @@
 
 namespace App\Livewire;
 
-use Livewire\Attributes\Title;
-use Livewire\Component;
 use App\Models\Book;
-use Livewire\WithPagination;
+use Livewire\Component;
 use Livewire\Attributes\Url;
+use Livewire\WithPagination;
+use Livewire\Attributes\Title;
 
 #[Title('صفحة البحث')]
 class SearchPage extends Component
@@ -28,8 +28,6 @@ class SearchPage extends Component
     'series' => false,
   ];
 
-
-
   public function updatedFilters()
   {
     $this->resetPage();
@@ -40,47 +38,21 @@ class SearchPage extends Component
     $this->resetPage();
   }
 
-  private function queryBooks()
+  public function getBooksProperty()
   {
     return Book::query()
       ->with('author:id,name')
-      ->when($this->filters['book'], fn ($query) =>
-      $query->orWhere('title', 'like', "%{$this->search}%"))
-
-      ->when($this->filters['code'], fn ($query) =>
-      $query->orWhere('code', $this->search))
-
-      ->when($this->filters['author'], fn ($query) =>
-      $query->orWhereHas('author', fn ($subQuery) =>
-      $subQuery->where('name', 'like', "%{$this->search}%")))
-
-      ->when($this->filters['subjects'], fn ($query) =>
-      $query->orWhere('subjects', 'like', "%{$this->search}%"))
-
-      ->when($this->filters['series'], fn ($query) =>
-      $query->orWhere('series', 'like', "%{$this->search}%"))
-
-      ->when($this->filters['publisher'], fn ($query) =>
-      $query->orWhereHas('publisher', fn ($subQuery) =>
-      $subQuery->where('name', 'like', "%{$this->search}%")))
-
-      ->when($this->filters['section'], fn ($query) =>
-      $query->orWhereHas('section', fn ($subQuery) =>
-      $subQuery->where('title', 'like', "%{$this->search}%")
-        ->orWhere('number', $this->search)))
-
-      ->when($this->filters['shelf'], fn ($query) =>
-      $query->orWhereHas('shelf', fn ($subQuery) =>
-      $subQuery->where('title', 'like', "%{$this->search}%")
-        ->orWhere('number', $this->search)))
-
-      ->orderBooksBy($this->orderBy);
+      ->where(function ($query) {
+        $query->filterSearch($this->filters, $this->search);
+      })
+      ->orderBooksBy($this->orderBy)
+      ->paginate(10);
   }
 
   public function render()
   {
     return view('livewire.search-page', [
-      'books' => $this->queryBooks()->paginate(10),
+      'books' => $this->books,
     ]);
   }
 }

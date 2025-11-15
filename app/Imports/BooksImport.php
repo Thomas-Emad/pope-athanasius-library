@@ -2,142 +2,192 @@
 
 namespace App\Imports;
 
-use App\Models\Author;
 use App\Models\Book;
-use App\Models\Publisher;
+use App\Models\Author;
 use App\Models\Section;
+use App\Models\Publisher;
+use Illuminate\Support\Str;
 use App\Models\SectionShelf;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
-use Illuminate\Support\Str;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 
-class BooksImport implements ToModel, WithChunkReading, WithStartRow, WithBatchInserts
+class BooksImport implements ToCollection, WithChunkReading, WithStartRow, WithBatchInserts
 {
-  protected $authors;
-  protected $publishers;
-  protected $sections;
-  protected $shelves;
+  protected $authors = [];
+  protected $publishers = [];
+  protected $sections = [];
+  protected $shelves = [];
+  protected $existingCodes = [];
   protected $userId;
 
   public function __construct()
   {
-    // جلب البيانات مرة واحدة فقط
-    $this->authors    = Author::pluck('id', 'name')->toArray();
-    $this->publishers = Publisher::pluck('id', 'name')->toArray();
-    $this->sections   = Section::pluck('id', 'title')->toArray();
-    $this->shelves    = SectionShelf::pluck('id', 'title')->toArray();
-
     $this->userId = Auth::id();
+
+    $this->authors = Author::all()
+      ->pluck('id', 'name')
+      ->mapWithKeys(fn($id, $name) => [$this->normalize($name) => $id])
+      ->toArray();
+
+    $this->publishers = Publisher::all()
+      ->pluck('id', 'name')
+      ->mapWithKeys(fn($id, $name) => [$this->normalize($name) => $id])
+      ->toArray();
+
+    $this->sections = Section::all()
+      ->pluck('id', 'title')
+      ->mapWithKeys(fn($id, $title) => [$this->normalize($title) => $id])
+      ->toArray();
+
+    $this->shelves = SectionShelf::all()
+      ->mapWithKeys(fn($shelf) => [
+        $this->normalize($shelf->section_id . '_' . $shelf->title) => $shelf->id
+      ])
+      ->toArray();
+
+    $this->existingCodes = Book::pluck('code')->flip()->toArray();
   }
 
-  public function model(array $row)
+  public function collection(Collection $rows)
   {
-    $code = $this->checkRow($row[9]) . $this->checkRow($row[10]) . $this->checkRow($row[11]);
+    $insertData = [];
 
-    if ($this->isNotValidRow($row) || $this->uniqueCode($code)) {
-      return null;
+    foreach ($rows as $row) {
+      if ($this->isNotValidRow($row)) {
+        continue;
+      }
+
+      $code = $this->checkRow($row[9]) . $this->checkRow($row[10]) . $this->checkRow($row[11]);
+
+      if (isset($this->existingCodes[$code])) {
+        continue;
+      }
+
+      $this->existingCodes[$code] = true;
+
+      $sectionId = $this->getSectionId($row[7]);
+      $shelfId   = $this->getShelfId($row[8], $sectionId);
+
+      $insertData[] = [
+        'uuid'                => Str::uuid(),
+        'user_id'             => $this->userId,
+        'code'                => $code,
+        'title'               => $this->checkRow($row[0]),
+        'author_id'           => $this->getAuthorId($row[1]),
+        'series'              => $this->checkRow($row[2]),
+        'publisher_id'        => $this->getPublisherId($row[3]),
+        'copies'              => $this->checkRow($row[4]) ?? 1,
+        'papers'              => $this->checkRow($row[5]) ?? 1,
+        'part_number'         => $this->checkRow($row[6]) ?? 1,
+        'section_id'          => $sectionId,
+        'shelf_id'            => $shelfId,
+        'current_unit_number' => $this->checkRow($row[9]),
+        'row'                 => $this->checkRow($row[10]),
+        'position_book'       => $this->checkRow($row[11]),
+        'subjects'            => $this->checkRow($row[12]),
+        'content'             => $this->checkRow($row[13]),
+      ];
+
+      if (count($insertData) >= $this->batchSize()) {
+        DB::table('books')->insert($insertData);
+        $insertData = [];
+      }
     }
 
-    $section = $this->getSection($row[7], $this->sections);
+    if (!empty($insertData)) {
+      DB::table('books')->insert($insertData);
+    }
+  }
 
-    return new Book([
-      'uuid'                => Str::uuid(),
-      'user_id'             => $this->userId,
-      'code'                => $code,
-      'title'               => $this->checkRow($row[0]),
-      'author_id'           => $this->getAuthorId($row[1], $this->authors),
-      'series'              => $this->checkRow($row[2]),
-      'publisher_id'        => $this->getPublisherId($this->checkRow($row[3]), $this->publishers),
-      'copies'              => $this->checkRow($row[4]) ?? 1,
-      'papers'              => $this->checkRow($row[5]) ?? 1,
-      'part_number'         => $this->checkRow($row[6]) ?? 1,
-      'section_id'          => $section,
-      'shelf_id'            => $this->getShelfId($this->checkRow($row[8]), $section, $this->shelves),
-      'current_unit_number' => $this->checkRow($row[9]),
-      'row'                 => $this->checkRow($row[10]),
-      'position_book'       => $this->checkRow($row[11]),
-      'subjects'            => $this->checkRow($row[12]),
-      'content'             => $this->checkRow($row[13]),
-    ]);
+
+  private function normalize($value)
+  {
+    return mb_strtolower(trim($value ?? ''));
   }
 
   private function checkRow($row)
   {
-    return isset($row) ? $row : null;
+    return isset($row) && trim($row) !== '' ? trim($row) : null;
   }
 
-  protected function isNotValidRow(array $row)
+  protected function isNotValidRow($row)
   {
-    return !isset($row[0]) || !isset($row[9]) || !isset($row[10]) || !isset($row[11]);
+    return empty($row[0]) || empty($row[9]) || empty($row[10]) || empty($row[11]);
   }
 
-  protected function uniqueCode($code)
+  protected function getAuthorId($name)
   {
-    return Book::where('code', $code)->exists();
-  }
+    $key = $this->normalize($name);
 
-  protected function getAuthorId($authorName, &$authors)
-  {
-    if ($authorName) {
-      if (!isset($authors[$authorName])) {
-        $author = Author::firstOrCreate(['name' => $authorName]);
-        $authors[$authorName] = $author->id;
-      }
-      return $authors[$authorName];
+    if (!$key) return null;
+
+    if (!isset($this->authors[$key])) {
+      $author = Author::firstOrCreate(['name' => trim($name)]);
+      $this->authors[$key] = $author->id;
     }
-    return null;
+
+    return $this->authors[$key];
   }
 
-  protected function getPublisherId($publisherName, &$publishers)
+  protected function getPublisherId($name)
   {
-    if ($publisherName) {
-      if (!isset($publishers[$publisherName])) {
-        $publisher = Publisher::firstOrCreate(['name' => $publisherName]);
-        $publishers[$publisherName] = $publisher->id;
-      }
-      return $publishers[$publisherName];
+    $key = $this->normalize($name);
+
+    if (!$key) return null;
+
+    if (!isset($this->publishers[$key])) {
+      $publisher = Publisher::firstOrCreate(['name' => trim($name)]);
+      $this->publishers[$key] = $publisher->id;
     }
-    return null;
+
+    return $this->publishers[$key];
   }
 
-  protected function getSection($sectionTitle, &$sections)
+  protected function getSectionId($title)
   {
-    if ($sectionTitle) {
-      if (!isset($sections[$sectionTitle])) {
-        $section = Section::firstOrCreate(['title' => $sectionTitle]);
-        $sections[$sectionTitle] = $section->id;
-      }
-      return $sections[$sectionTitle];
+    $key = $this->normalize($title);
+
+    if (!$key) return null;
+
+    if (!isset($this->sections[$key])) {
+      $section = Section::firstOrCreate(['title' => trim($title)]);
+      $this->sections[$key] = $section->id;
     }
-    return null;
+
+    return $this->sections[$key];
   }
 
-  protected function getShelfId($shelfTitle, $sectionId, &$shelves)
+  protected function getShelfId($title, $sectionId)
   {
-    if ($shelfTitle) {
-      if (!isset($shelves[$shelfTitle])) {
-        $shelf = SectionShelf::firstOrCreate([
-          'title'      => $shelfTitle,
-          'section_id' => $sectionId,
-        ]);
-        $shelves[$shelfTitle] = $shelf->id;
-      }
-      return $shelves[$shelfTitle];
+    if (!$title || !$sectionId) return null;
+
+    $key = $this->normalize($sectionId . '_' . $title);
+
+    if (!isset($this->shelves[$key])) {
+      $shelf = SectionShelf::firstOrCreate([
+        'title'      => trim($title),
+        'section_id' => $sectionId,
+      ]);
+
+      $this->shelves[$key] = $shelf->id;
     }
-    return null;
+
+    return $this->shelves[$key];
   }
 
   public function chunkSize(): int
   {
-    return 100; // أصغر وأكتر أمان
+    return 500;
   }
 
   public function batchSize(): int
   {
-    return 100; // يعمل insert جماعي
+    return 500;
   }
 
   public function startRow(): int
