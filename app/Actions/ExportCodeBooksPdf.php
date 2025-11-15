@@ -30,12 +30,12 @@ class ExportCodeBooksPdf
     {
         $codes = Book::when(!$isSelectAll, function ($query) use ($start_from, $end_to) {
             return $query->whereBetween('code', [$start_from, $end_to]);
-        })->pluck('code');
+        })->get(['current_unit_number', 'row', 'position_book']);
 
         $this->configTCPDF();
 
         $this->printCodes($codes);
-        $pdfName = 'books_codes_' . $codes->first() . '_' . $codes->last()  . '.pdf';
+        $pdfName = 'books_codes_' . $this->convertFormatCode($codes->first(), '') . '_' . $this->convertFormatCode($codes->last(), '')  . '.pdf';
 
         return response()->streamDownload(function () use ($pdfName) {
             $this->pdf->Output($pdfName, 'I');
@@ -56,7 +56,7 @@ class ExportCodeBooksPdf
         $this->pdf->SetCreator('Library');
         $this->pdf->SetAuthor('Library');
         $this->pdf->SetTitle('أكواد الكتب');
-        $this->pdf->SetMargins(5, 5, 5);
+        $this->pdf->SetMargins(3, 3, 3);
         $this->pdf->AddPage();
         $this->pdf->SetFont('helvetica', '', 14);
     }
@@ -80,11 +80,11 @@ class ExportCodeBooksPdf
         $cellH = 10;
         $radius = 3;
 
-        $startX = 5;
-        $startY = 10;
+        $startX = 3;
+        $startY = 3;
 
-        $x = 5;
-        $y = 10;
+        $x = 3;
+        $y = 3;
         $col = 0;
 
         foreach ($codes as $code) {
@@ -103,7 +103,7 @@ class ExportCodeBooksPdf
             $this->pdf->Cell(
                 $cellW,
                 6,
-                "#" . $code,
+                $this->convertFormatCode($code),
                 0,
                 0,
                 'C'
@@ -123,5 +123,18 @@ class ExportCodeBooksPdf
                 }
             }
         }
+    }
+
+    /**
+     * Converts a Book object to a string in the format:
+     * current_unit_number / row row / the position_book
+     *
+     * @param Book $code The Book object to be converted
+     * @param string $separator The separator to use between the components of the string
+     * @return string The string representation of the Book object
+     */
+    private function convertFormatCode($code, string $separator = '/')
+    {
+        return $code->current_unit_number . $separator . $code->row . $separator . $code->position_book;
     }
 }
