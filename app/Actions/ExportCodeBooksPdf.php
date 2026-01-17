@@ -30,7 +30,9 @@ class ExportCodeBooksPdf
     {
         $codes = Book::when(!$isSelectAll, function ($query) use ($start_from, $end_to) {
             return $query->whereBetween('code', [$start_from, $end_to]);
-        })->get(['current_unit_number', 'row', 'position_book', 'copies']);
+        })
+            ->orderBy('code')
+            ->get(['current_unit_number', 'row', 'position_book', 'copies']);
 
         $this->configTCPDF();
 
@@ -136,6 +138,6 @@ class ExportCodeBooksPdf
      */
     private function convertFormatCode($code, string $separator = '/')
     {
-        return $code->current_unit_number . $separator . $code->row . $separator . $code->position_book;
+        return "#" .  $code->current_unit_number . $separator . $code->row . $separator . $code->position_book;
     }
 }

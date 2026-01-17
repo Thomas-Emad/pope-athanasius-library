@@ -3,50 +3,74 @@
 namespace App\Livewire\Forms\Dashboard;
 
 use Livewire\Form;
-use App\Models\Book;
 use App\Exports\BooksExport;
 use App\Imports\BooksImport;
-use Livewire\Attributes\Validate;
 use App\Actions\ExportCodeBooksPdf;
 use Maatwebsite\Excel\Facades\Excel;
 
 class MoreFeaturesBookForm extends Form
 {
-  #[Validate('required|max:10240|file|mimes:xls,xlm,xla,xlc,xlt,xlw,xlam,xlsb,xlsm,xlsx,csv', 'ملف الاكسيل')]
-  public $importExcel;
-  public $selectAllCodes = false, $from_code, $to_code;
+  /**
+   * Multiple Excel files
+   */
+  public array $importExcel = [];
 
+  public bool $selectAllCodes = false;
+  public $from_code;
+  public $to_code;
+
+  /**
+   * Validation rules (CORRECT way for arrays)
+   */
+  public function rules(): array
+  {
+    return [
+      'importExcel' => ['required', 'array'],
+      'importExcel.*' => [
+        'file',
+        'max:10240',
+        'mimes:xls,xlm,xla,xlc,xlt,xlw,xlam,xlsb,xlsm,xlsx,csv',
+      ],
+    ];
+  }
+
+  /**
+   * Custom attribute names (Arabic)
+   */
+  protected function validationAttributes(): array
+  {
+    return [
+      'importExcel' => 'ملفات الاكسيل',
+      'importExcel.*' => 'ملف الاكسيل',
+    ];
+  }
+
+  /**
+   * Export books to Excel
+   */
   public function export()
   {
     return Excel::download(new BooksExport, 'books.xlsx');
   }
 
   /**
-   * Validate the import excel file and import the books to the database.
-   *
-   * After validating the file, it will be stored in the 'imports' directory
-   * and then imported to the database using the BooksImport class.
-   *
-   * After importing, the importExcel property will be reset.
+   * Import books from multiple Excel files
    */
   public function import()
   {
     $this->validate();
-    $path = $this->importExcel->store('imports');
 
-    Excel::import(new BooksImport, $path);
+    foreach ($this->importExcel as $file) {
+      $path = $file->store('imports');
 
-    $this->reset(['importExcel']);
+      Excel::import(new BooksImport, $path);
+    }
+
+    $this->reset('importExcel');
   }
 
   /**
-   * Export books codes to PDF.
-   *
-   * @return \Symfony\Component\HttpFoundation\StreamedResponse
-   *
-   * @param bool $isSelectAll Whether to select all codes or not.
-   * @param int|null $start_from The start of the range.
-   * @param int|null $end_to The end of the range.
+   * Export book codes as PDF
    */
   public function exportCodesAsPdf()
   {
@@ -60,10 +84,14 @@ class MoreFeaturesBookForm extends Form
         if (!$this->selectAllCodes && !$value) {
           $fail('نهاية النطاق مطلوب عندما يكون تحديد الكل غير مفعل.');
         }
-      }
+      },
     ]);
 
-    $pdf = (new ExportCodeBooksPdf)->handle($this->selectAllCodes, $this->from_code, $this->to_code);
+    $pdf = (new ExportCodeBooksPdf)->handle(
+      $this->selectAllCodes,
+      $this->from_code,
+      $this->to_code
+    );
 
     $this->reset('from_code', 'to_code');
     $this->resetErrorBag('from_code', 'to_code', 'selectAllCodes');
