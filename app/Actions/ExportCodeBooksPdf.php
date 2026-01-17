@@ -30,7 +30,7 @@ class ExportCodeBooksPdf
     {
         $codes = Book::when(!$isSelectAll, function ($query) use ($start_from, $end_to) {
             return $query->whereBetween('code', [$start_from, $end_to]);
-        })->get(['current_unit_number', 'row', 'position_book']);
+        })->get(['current_unit_number', 'row', 'position_book', 'copies']);
 
         $this->configTCPDF();
 
@@ -88,38 +88,39 @@ class ExportCodeBooksPdf
         $col = 0;
 
         foreach ($codes as $code) {
+            for ($i = 0; $i < $code->copies; $i++) {
+                $this->pdf->RoundedRect(
+                    $x,
+                    $y,
+                    $cellW,
+                    $cellH,
+                    $radius,
+                    '1111',
+                    'S'
+                );
 
-            $this->pdf->RoundedRect(
-                $x,
-                $y,
-                $cellW,
-                $cellH,
-                $radius,
-                '1111',
-                'S'
-            );
+                $this->pdf->SetXY($x, $y + 2);
+                $this->pdf->Cell(
+                    $cellW,
+                    6,
+                    $this->convertFormatCode($code),
+                    0,
+                    0,
+                    'C'
+                );
 
-            $this->pdf->SetXY($x, $y + 2);
-            $this->pdf->Cell(
-                $cellW,
-                6,
-                $this->convertFormatCode($code),
-                0,
-                0,
-                'C'
-            );
+                $col++;
+                $x += $cellW + $gap;
 
-            $col++;
-            $x += $cellW + $gap;
+                if ($col == $perRow) {
+                    $col = 0;
+                    $x = $startX;
+                    $y += $cellH + $gap;
 
-            if ($col == $perRow) {
-                $col = 0;
-                $x = $startX;
-                $y += $cellH + $gap;
-
-                if ($y + $cellH > 280) {
-                    $this->pdf->AddPage();
-                    $y = $startY;
+                    if ($y + $cellH > 280) {
+                        $this->pdf->AddPage();
+                        $y = $startY;
+                    }
                 }
             }
         }
