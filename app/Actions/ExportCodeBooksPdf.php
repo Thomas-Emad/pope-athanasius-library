@@ -77,20 +77,36 @@ class ExportCodeBooksPdf
     private function printCodes($codes)
     {
         $perRow = 5;
-        $gap   = 2;
+        $gap   = 3;
         $cellW = (($this->pdf->getPageWidth() - ($this->pdf->getMargins()['left'] + $this->pdf->getMargins()['right']) - ($perRow - 1) * $gap) / 5);
         $cellH = 10;
         $radius = 3;
 
-        $startX = 3;
-        $startY = 3;
+        $startX = 2;
+        $startY = 2;
 
-        $x = 3;
-        $y = 3;
+        $x = 2;
+        $y = 2;
         $col = 0;
+
+        // Set font
+        $this->pdf->SetFont('helvetica', '', 14);
 
         foreach ($codes as $code) {
             for ($i = 0; $i < $code->copies; $i++) {
+                $pageHeight = $this->pdf->getPageHeight();
+                $bottomMargin = $this->pdf->getMargins()['bottom'];
+                $availableSpace = $pageHeight - $bottomMargin - $y;
+
+                if ($availableSpace < $cellH) {
+                    $this->pdf->AddPage();
+                    $y = $startY;
+                    $x = $startX;
+                    $col = 0;
+                }
+
+                $this->pdf->SetLineWidth(0.3);
+
                 $this->pdf->RoundedRect(
                     $x,
                     $y,
@@ -118,15 +134,11 @@ class ExportCodeBooksPdf
                     $col = 0;
                     $x = $startX;
                     $y += $cellH + $gap;
-
-                    if ($y + $cellH > 280) {
-                        $this->pdf->AddPage();
-                        $y = $startY;
-                    }
                 }
             }
         }
     }
+
 
     /**
      * Converts a Book object to a string in the format:
@@ -138,6 +150,6 @@ class ExportCodeBooksPdf
      */
     private function convertFormatCode($code, string $separator = '/')
     {
-        return "#" .  $code->current_unit_number . $separator . $code->row . $separator . $code->position_book;
+        return   $code->current_unit_number . $separator . $code->row . $separator . $code->position_book;
     }
 }
