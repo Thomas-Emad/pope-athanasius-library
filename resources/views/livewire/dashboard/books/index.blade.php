@@ -121,7 +121,7 @@
                                         labelFalse="هذا الكتاب متزامن مع السيرفر الخارجي" />
                                 </td>
                                 <td class="px-6 py-4 flex gap-2">
-                                    @if (auth()->user()->id == $item->user_id || auth()->user()->hasPermissionTo(App\Enums\PermissionEnum::USERS))
+                                    @if (auth()?->user()?->id == $item->user_id || auth()?->user()?->hasPermissionTo(App\Enums\PermissionEnum::USERS))
                                         <button wire:key="{{ $item->id }}"
                                             wire:click='editBook({{ $item->id }})'
                                             class="me-2 text-xl hover:text-amber-600 duration-150">

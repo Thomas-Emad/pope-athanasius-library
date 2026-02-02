@@ -64,14 +64,14 @@ new class extends Component {
                         class="md:hidden py-1 px-4 border border-gray-600/50 text-2xl rounded-lg text-yellow-900 focus:ring-4 focus:ring-gray-900/50  duration-200">
                         <i class="fa-solid fa-bars"></i>
                     </button>
-                    @if (auth()->user())
+                    @if (auth()?->user())
                         <!-- Settings Dropdown -->
                         <div>
                             <x-dropdown align="right" width="48">
                                 <x-slot name="trigger">
                                     <button
                                         class="border-2 border-transparent rounded-full overflow-hidden hover:border-white focus-within:border-white duration-150">
-                                        <img src="{{ auth()->user()->photo ? Storage::url(auth()->user()->photo) : asset('assets/images/logo.png') }}"
+                                        <img src="{{ auth()?->user()->photo ? Storage::url(auth()?->user()?->photo) : asset('assets/images/logo.png') }}"
                                             class="w-12 h-12 rounded-full bg-gray-200" alt="صورة الملف الشخصي"
                                             onerror="this.onerror=null; this.src='{{ asset('assets/images/logo.png') }}';">
                                     </button>

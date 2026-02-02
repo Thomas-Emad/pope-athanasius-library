@@ -31,7 +31,7 @@ class Operations extends Component
   private function initializeBook($id)
   {
     $book = Book::findOrFail($id);
-    if (auth()->user()->id != $book->user_id && !auth()->user()->hasPermissionTo(PermissionEnum::USERS)) {
+    if (auth()?->user()?->id != $book->user_id && !auth()?->user()?->hasPermissionTo(PermissionEnum::USERS)) {
       return abort(403);
     }
 

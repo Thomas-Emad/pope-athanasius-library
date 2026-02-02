@@ -6,7 +6,7 @@
                 <span>الكتب</span>
             </h1>
             @can(App\Enums\PermissionEnum::BOOK->value)
-                @if (auth()->user()->id == $id)
+                @if (auth()?->user()?->id == $id)
                     <div class="flex items-center gap-2">
                         <a href="{{ route('dashboard.books.create') }}" wire:navigate
                             class="text-white font-bold bg-brown-max py-2 px-4 rounded-lg hover:bg-brown-lite duration-200">

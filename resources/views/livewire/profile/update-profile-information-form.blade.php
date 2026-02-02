@@ -154,7 +154,7 @@ new class extends Component {
                     required autocomplete="username" disabled="{{ !$allowEdit }}" />
                 <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
-                @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !auth()->user()->hasVerifiedEmail())
+                @if (auth()?->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !auth()?->user()?->hasVerifiedEmail())
                     <div>
                         <p class="text-sm mt-2 text-gray-800">
                             {{ __('يجب تفعيل البريد الإلكتروني الحالي أولاً...') }}

@@ -114,7 +114,7 @@
                                 تحميل الكتاب بصيغة PDF
                             </button>
                         @endif
-                        @if (auth()->user()->id == $book->user_id || auth()->user()->hasPermissionTo(App\Enums\PermissionEnum::USERS))
+                        @if (auth()?->user()?->id == $book->user_id || auth()?->user()?->hasPermissionTo(App\Enums\PermissionEnum::USERS))
                             @can(App\Enums\PermissionEnum::BOOK->value)
                                 <a href="{{ route('dashboard.books.edit', $book->id) }}" wire:navigate
                                     class="inline-block py-2 px-4 bg-amber-800 hover:bg-amber-600 duration-200 text-white font-bold rounded-lg mt-4">
